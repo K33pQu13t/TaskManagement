@@ -24,15 +24,6 @@ namespace TaskManagement.Services
             Parent = _parent;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns>true если узел не является наследником</returns>
-        public bool IsTerminal()
-        {
-            return Parent == null;
-        }
-
         public abstract bool Remove(Node node);
         public abstract void Add(Node node);
 
