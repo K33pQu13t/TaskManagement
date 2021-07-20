@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace TaskManagement.Services
 {
+    [Serializable]
     abstract public class Node
     {
         /// <summary>

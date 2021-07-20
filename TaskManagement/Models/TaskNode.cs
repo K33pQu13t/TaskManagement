@@ -7,6 +7,7 @@ using TaskManagement.Services;
 
 namespace TaskManagement.Models
 {
+    [Serializable]
     public class TaskNode : Node
     {
         public TaskNode(string _title, string _description, 
@@ -24,11 +25,11 @@ namespace TaskManagement.Models
             RegisterDate = DateTime.Now;
 
             //запускет обновление фактического времени
-            actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
+            //_actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
         }
 
-        private Task actualTimeUpdater;
-        private int minutesPassedFromLastHour;
+        //private Task _actualTimeUpdater;
+        //private int _minutesPassedFromLastHour;
 
         /// <summary>
         /// описание задачи
@@ -59,7 +60,7 @@ namespace TaskManagement.Models
                     List<TaskNode> _childrenList = CastListNodeToListTaskNode(ChildrenList);
                     if (TaskState == State.Executing && !_childrenList.Any(node => node.TaskState != State.Executing))
                     {
-                        actualTimeUpdater.Dispose();
+                        //_actualTimeUpdater.Dispose();
                         _taskState = value;
                     }
                 }
@@ -68,7 +69,7 @@ namespace TaskManagement.Models
                         value != State.Suspend && 
                         value != State.Complete)
                 {
-                    actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
+                    //_actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
                     _taskState = value;
                 }
                 else if (value == State.Complete)
@@ -78,17 +79,15 @@ namespace TaskManagement.Models
                     //если этот объект имеет статус Executing и все его дочерние тоже
                     if (TaskState == State.Executing && !_childrenList.Any(node => node.TaskState != State.Executing))
                     {
-                        actualTimeUpdater.Dispose();
+                        //_actualTimeUpdater.Dispose();
                         //также завершаем все дочерние задачи
-                        foreach (TaskNode node in ChildrenList)
+                        foreach (TaskNode taskNode in ChildrenList)
                         {
-                            node.TaskState = State.Complete;
+                            taskNode.TaskState = State.Complete;
                         }
                         _taskState = value;
                     }   
                 }
-                //todo: мне кажется, этот else никогда не сработает, потому что верхние условия описывают все сценарии,
-                //но пусть будет пока
                 else
                 {
                     _taskState = value;
@@ -109,19 +108,19 @@ namespace TaskManagement.Models
             get 
             {
                 //сумма запланированного времени всех элементов
-                int sum = executionTimePlanned;
-                foreach (TaskNode node in ChildrenList)
+                int sum = _executionTimePlanned;
+                foreach (TaskNode taskNode in ChildrenList)
                 {
-                    sum += node.ExecutionTimePlanned;
+                    sum += taskNode.ExecutionTimePlanned;
                 }
                 return sum;
             }
             private set
             {
-                executionTimePlanned = value;
+                _executionTimePlanned = value;
             }
         }
-        private int executionTimePlanned;
+        private int _executionTimePlanned;
         /// <summary>
         /// фактическое время выполнения в часах
         /// </summary>
@@ -130,58 +129,79 @@ namespace TaskManagement.Models
             get
             {
                 //сумма фактического времени всех элементов
-                int sum = executionTimeActual;
-                foreach (TaskNode node in ChildrenList)
+                int sum = _executionTimeActual;
+                foreach (TaskNode taskNode in ChildrenList)
                 {
-                    sum += node.ExecutionTimeActual;
+                    sum += taskNode.ExecutionTimeActual;
                 }
                 return sum;
             }
             private set
             {
-                executionTimeActual = value;
+                _executionTimeActual = value;
             }
         }
-        private int executionTimeActual;
+        private int _executionTimeActual;
         /// <summary>
         /// дата завершения задачи
         /// </summary>
-        public DateTime CompleteDate { get; set; }
+        public DateTime CompleteDate { get; private set; }
 
-        
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns>true если задача успешно удалена</returns>
         public override bool Remove(Node node)
         {
-            if (node == this && this.TaskState == State.Complete)
+            if (ChildrenList.Contains(node) &&
+                ((TaskNode)node).TaskState == State.Complete)
             {
-                //todo: добавить логику удаления из бд
+                //зануляем дочерние задачи
+                for (int i = 0; i < node.ChildrenList.Count; i++)
+                {
+                    node.ChildrenList[i] = null;
+                }
+                node.ChildrenList = new List<Node>();
+
+                //удаляем саму задачу
+                ChildrenList.Remove((TaskNode)node);
+
                 return true;
             }
-            return false;
+            else return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns>возвращает добавляемый элемент с изменённым родителем</returns>
         public override void Add(Node node)
         {
-            node.Parent = this;
-            ChildrenList.Add(node);
-        }
-
-        private async void ActualTimeUpdater()
-        {
-            while (true)
+            if (this != ((TaskNode)node))
             {
-                //ждём 60 минут и 5 мс (для гарантии)
-                Thread.Sleep(60000);
-
-                minutesPassedFromLastHour++;
-
-                if (minutesPassedFromLastHour >= 60)
-                {
-                    executionTimeActual++;
-                    minutesPassedFromLastHour = 0;
-                }
+                node.Parent = this;
+                ChildrenList.Add(node);
             }
         }
+
+        //private async void ActualTimeUpdater()
+        //{
+        //    while (true)
+        //    {
+        //        //ждём 60 минут и 5 мс (для гарантии)
+        //        Thread.Sleep(60000);
+
+        //        _minutesPassedFromLastHour++;
+
+        //        if (_minutesPassedFromLastHour >= 60)
+        //        {
+        //            _executionTimeActual++;
+        //            _minutesPassedFromLastHour = 0;
+        //        }
+        //    }
+        //}
 
         public enum State
         {
@@ -225,6 +245,7 @@ namespace TaskManagement.Models
         public void Complete()
         {
             TaskState = State.Complete;
+            CompleteDate = DateTime.Now;
         }
 
         //todo: мб можно как-то красивее привести список объектов типа Node к списку объектов типа TaskNode
