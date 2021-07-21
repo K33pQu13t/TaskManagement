@@ -8,28 +8,18 @@ using TaskManagement.Services;
 namespace TaskManagement.Models
 {
     [Serializable]
-    public class TaskNode : Node
+    public class TaskNode /*: Node*/
     {
-        public TaskNode(string _title, string _description, 
-            List<string> _executorList, 
-            int _executionTimePlanned,
-            List<Node> _childrenList = null,
-            Node _parent = null) 
-                :base(_title, _childrenList, _parent)
-        {
-            Description = _description;
-            ExecutorList = _executorList;
-            ExecutionTimePlanned = _executionTimePlanned;
-
-            TaskState = State.Assigned;
-            RegisterDate = DateTime.Now;
-
-            //запускет обновление фактического времени
-            //_actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
-        }
-
         //private Task _actualTimeUpdater;
         //private int _minutesPassedFromLastHour;
+        public string Title { get; set; }
+
+        public TaskNode Parent { get; set; }
+        public ICollection<TaskNode> ChildrenList { get; set; }
+        /// <summary>
+        /// уникальный идентификатор задачи
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// описание задачи
@@ -39,7 +29,7 @@ namespace TaskManagement.Models
         /// <summary>
         /// список исполнителей
         /// </summary>
-        public List<string> ExecutorList { get; set; }
+        public string Executors { get; set; }
 
         /// <summary>
         /// статус задачи
@@ -57,12 +47,12 @@ namespace TaskManagement.Models
                     return;
                 else if (value == State.Suspend)
                 {
-                    List<TaskNode> _childrenList = CastListNodeToListTaskNode(ChildrenList);
-                    if (TaskState == State.Executing && !_childrenList.Any(node => node.TaskState != State.Executing))
+                    if (TaskState == State.Executing && !ChildrenList.Any(node => ((TaskNode)node).TaskState != State.Executing))
                     {
                         //_actualTimeUpdater.Dispose();
                         _taskState = value;
                     }
+                    //todo: else exception
                 }
                 //если задача стояла на паузе, но пазу сняли, то запускаем таймер обратно
                 else if (_taskState == State.Suspend && 
@@ -74,10 +64,8 @@ namespace TaskManagement.Models
                 }
                 else if (value == State.Complete)
                 {
-                    List<TaskNode> _childrenList = CastListNodeToListTaskNode(ChildrenList);
-
                     //если этот объект имеет статус Executing и все его дочерние тоже
-                    if (TaskState == State.Executing && !_childrenList.Any(node => node.TaskState != State.Executing))
+                    if (TaskState == State.Executing && !ChildrenList.Any(node => ((TaskNode)node).TaskState != State.Executing))
                     {
                         //_actualTimeUpdater.Dispose();
                         //также завершаем все дочерние задачи
@@ -86,7 +74,8 @@ namespace TaskManagement.Models
                             taskNode.TaskState = State.Complete;
                         }
                         _taskState = value;
-                    }   
+                    }
+                    //todo: else exception
                 }
                 else
                 {
@@ -147,25 +136,48 @@ namespace TaskManagement.Models
         /// </summary>
         public DateTime CompleteDate { get; private set; }
 
+        private TaskNode() { }
+
+        public TaskNode(string _title, string _description,
+            string _executors,
+            int _executionTimePlanned
+            //,List<TaskNode> _childrenList = null,
+            //TaskNode _parent = null
+            )
+        {
+            Title = _title;
+            Description = _description;
+            Executors = _executors;
+            ExecutionTimePlanned = _executionTimePlanned;
+
+            TaskState = State.Assigned;
+            RegisterDate = DateTime.Now;
+
+            ChildrenList = new List<TaskNode>();
+
+            //запускет обновление фактического времени
+            //_actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="node"></param>
         /// <returns>true если задача успешно удалена</returns>
-        public override bool Remove(Node node)
+        public bool Remove(TaskNode node)
         {
             if (ChildrenList.Contains(node) &&
-                ((TaskNode)node).TaskState == State.Complete)
+                (node).TaskState == State.Complete)
             {
                 //зануляем дочерние задачи
                 for (int i = 0; i < node.ChildrenList.Count; i++)
                 {
-                    node.ChildrenList[i] = null;
+                    ((List<TaskNode>)node.ChildrenList)[i] = null;
                 }
-                node.ChildrenList = new List<Node>();
+                node.ChildrenList = new List<TaskNode>();
 
                 //удаляем саму задачу
-                ChildrenList.Remove((TaskNode)node);
+                ChildrenList.Remove(node);
 
                 return true;
             }
@@ -173,13 +185,13 @@ namespace TaskManagement.Models
         }
 
         /// <summary>
-        /// 
+        /// добавляет подзадачу к задаче
         /// </summary>
         /// <param name="node"></param>
-        /// <returns>возвращает добавляемый элемент с изменённым родителем</returns>
-        public override void Add(Node node)
+        /// <returns></returns>
+        public void AddSubtask(TaskNode node)
         {
-            if (this != ((TaskNode)node))
+            if (this != node)
             {
                 node.Parent = this;
                 ChildrenList.Add(node);
@@ -203,25 +215,7 @@ namespace TaskManagement.Models
         //    }
         //}
 
-        public enum State
-        {
-            /// <summary>
-            /// задача назначена
-            /// </summary>
-            Assigned,
-            /// <summary>
-            /// задача выполняется
-            /// </summary>
-            Executing,
-            /// <summary>
-            /// задача приостановлена
-            /// </summary>
-            Suspend,
-            /// <summary>
-            /// задача завершена
-            /// </summary>
-            Complete
-        }
+       
 
         /// <summary>
         /// перевести задачу в статус "выполняется"
@@ -248,20 +242,24 @@ namespace TaskManagement.Models
             CompleteDate = DateTime.Now;
         }
 
-        //todo: мб можно как-то красивее привести список объектов типа Node к списку объектов типа TaskNode
-        /// <summary>
-        /// преобразует List<Node> в List<TaskNode>
-        /// </summary>
-        /// <param name="nodeList"></param>
-        /// <returns></returns>
-        private List<TaskNode> CastListNodeToListTaskNode(List<Node> nodeList)
+        public enum State
         {
-            List<TaskNode> taskNodeList = new List<TaskNode>();
-            foreach (TaskNode taskNode in nodeList)
-            {
-                taskNodeList.Add(taskNode);
-            }
-            return taskNodeList;
+            /// <summary>
+            /// задача назначена
+            /// </summary>
+            Assigned,
+            /// <summary>
+            /// задача выполняется
+            /// </summary>
+            Executing,
+            /// <summary>
+            /// задача приостановлена
+            /// </summary>
+            Suspend,
+            /// <summary>
+            /// задача завершена
+            /// </summary>
+            Complete
         }
     }
 }

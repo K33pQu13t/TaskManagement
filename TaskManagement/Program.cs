@@ -15,13 +15,13 @@ namespace TaskManagement
     {
         public static void Main(string[] args)
         {
-            //MockTaskRepository repository = new MockTaskRepository(@"C:\Users\sisurity\Desktop");
-            //TaskNode taskNode = new TaskNode("задача1", "описание", new List<string> { "Вася", "Петя" }, 2);
-            //repository.AddTask(taskNode);
-
-            //TaskNode taskNode2 = new TaskNode("подзадача1", "описание", new List<string> { "Вася", "Петя" }, 1);
-            //taskNode.Add(taskNode2);
-            //repository.AddTask(taskNode2);
+            //TaskNodeRepository repository = new TaskNodeRepository();
+            //TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
+            //TaskNode taskNode2 = new TaskNode("подзадача1", "описание", "Вася, Петя", 1);
+            //taskNode.AddSubtask(taskNode2);
+            //repository.AddTaskAsync(taskNode);
+            //repository.AddTaskAsync(taskNode2);
+            //List<TaskNode> taskNodes = repository.Load();
 
             CreateHostBuilder(args).Build().Run();
         }

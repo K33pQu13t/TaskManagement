@@ -10,11 +10,11 @@ namespace TaskManagementTests
         [TestMethod]
         public void CompleteTestUnsuccess()
         {
-            TaskNode taskNode = new TaskNode("задача1", "описание", new List<string> { "Вася", "Петя" }, 2);
-            TaskNode taskNode2 = new TaskNode("подзадача1", "описание", new List<string> { "Вася", "Петя" }, 1);
-            taskNode.Add(taskNode2);
-            TaskNode taskNode3 = new TaskNode("подзадача2", "описание", new List<string> { "Вася", "Петя" }, 1);
-            taskNode.Add(taskNode3);
+            TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
+            TaskNode taskNode2 = new TaskNode("подзадача1", "описание", "Вася, Петя", 1);
+            taskNode.AddSubtask(taskNode2);
+            TaskNode taskNode3 = new TaskNode("подзадача2", "описание", "Вася, Петя", 1);
+            taskNode.AddSubtask(taskNode3);
 
             taskNode.Execute();
             taskNode2.Execute();
@@ -32,11 +32,11 @@ namespace TaskManagementTests
         [TestMethod]
         public void CompleteTestSuccess()
         {
-            TaskNode taskNode = new TaskNode("задача1", "описание", new List<string> { "Вася", "Петя" }, 2);
-            TaskNode taskNode2 = new TaskNode("подзадача1", "описание", new List<string> { "Вася", "Петя" }, 1);
-            taskNode.Add(taskNode2);
-            TaskNode taskNode3 = new TaskNode("подзадача2", "описание", new List<string> { "Вася", "Петя" }, 1);
-            taskNode.Add(taskNode3);
+            TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
+            TaskNode taskNode2 = new TaskNode("подзадача1", "описание", "Вася, Петя", 1);
+            taskNode.AddSubtask(taskNode2);
+            TaskNode taskNode3 = new TaskNode("подзадача2", "описание", "Вася, Петя", 1);
+            taskNode.AddSubtask(taskNode3);
 
             taskNode.Execute();
             taskNode2.Execute();
@@ -53,7 +53,7 @@ namespace TaskManagementTests
         [TestMethod]
         public void SuspendTestUnsuccess()
         {
-            TaskNode taskNode = new TaskNode("задача1", "описание", new List<string> { "Вася", "Петя" }, 2);
+            TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
 
             taskNode.Suspend();
 
@@ -64,7 +64,7 @@ namespace TaskManagementTests
         [TestMethod]
         public void SuspendTestSuccess()
         {
-            TaskNode taskNode = new TaskNode("задача1", "описание", new List<string> { "Вася", "Петя" }, 2);
+            TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
 
             //сначала задачу перевели в Executing, значит в Suspend можем перейти без проблем
             taskNode.Execute();
