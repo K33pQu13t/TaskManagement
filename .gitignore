@@ -1,9 +1,0 @@
-# Ignore Everything
-/*
-
-# Except for these:
-!/.gitignore
-!/Assets
-!/ProjectSettings
-!/Assembly-CSharp.csproj
-!/SGJ2021.sln

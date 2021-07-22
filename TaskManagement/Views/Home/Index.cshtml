@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+
+    List<TaskManagement.Models.TaskNode> model = ViewBag.TaskNodeRecursive;
+}
+
+<div class="main-grid">
+    <div class="left-area">
+        <p>
+            @foreach (TaskNode taskNode in model)
+            {
+                @if (taskNode.Parent != null)
+                    continue;
+
+                <ul>
+                    @Html.Partial("TaskNodeRecursive", taskNode)
+                </ul>
+            }
+        </p>
+    </div>
+    <div class="right-area">
+        area
+    </div>
+</div>

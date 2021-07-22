@@ -8,23 +8,20 @@ using TaskManagement.Services;
 namespace TaskManagement.Models
 {
     [Serializable]
-    public class TaskNode /*: Node*/
+    public class TaskNode
     {
-        //private Task _actualTimeUpdater;
-        //private int _minutesPassedFromLastHour;
-        public string Title { get; set; }
-
-        public TaskNode Parent { get; set; }
-        public ICollection<TaskNode> ChildrenList { get; set; }
         /// <summary>
         /// уникальный идентификатор задачи
         /// </summary>
         public int Id { get; set; }
-
+        public string Title { get; set; }
         /// <summary>
         /// описание задачи
         /// </summary>
         public string Description { get; set; }
+
+        public TaskNode Parent { get; set; }
+        public ICollection<TaskNode> ChildrenList { get; set; }
 
         /// <summary>
         /// список исполнителей
@@ -131,12 +128,24 @@ namespace TaskManagement.Models
             }
         }
         private int _executionTimeActual;
+
         /// <summary>
         /// дата завершения задачи
         /// </summary>
         public DateTime CompleteDate { get; private set; }
 
-        private TaskNode() { }
+        //private Task _actualTimeUpdater;
+        //private int _minutesPassedFromLastHour;
+
+        //без пустого конструктора не хочет собираться бд EF Core,
+        //не до конца понимаю почему
+        private TaskNode() 
+        {
+            TaskState = State.Assigned;
+            RegisterDate = DateTime.Now;
+
+            ChildrenList = new List<TaskNode>();
+        }
 
         public TaskNode(string _title, string _description,
             string _executors,
