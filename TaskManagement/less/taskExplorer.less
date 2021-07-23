@@ -1,0 +1,77 @@
+﻿#task-explorer {
+    width: 240px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    border: 1px solid #212121;
+
+    .task {
+        display: block;
+        position: relative;
+        min-height: 30px;
+        width: auto;
+        border-radius: 5px;
+        margin-top: 10px;
+        padding-left: 5px;
+
+        .task-info {
+            display: inline-flex;
+            height: 30px;
+
+            > * {
+                flex: 0 0 auto;
+            }
+
+            .collapse-button {
+                visibility: hidden;
+                justify-content: center;
+                vertical-align: middle;
+                text-align: center;
+                background: #e0e0e0;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                margin: 5px;
+                margin-left: 0;
+                font-size: 12px;
+                transition: .2s;
+
+                &:hover {
+                    cursor: pointer;
+                    background: #c9c9c9;
+                }
+            }
+
+            .task-title {
+                cursor: pointer;
+                height: 30px;
+                line-height: 30px;
+
+                &:hover {
+                    border-bottom: 1px solid red;
+                }
+            }
+        }
+
+        &.subbed {
+            > .task-info {
+                > .collapse-button {
+                    visibility: visible;
+                }
+            }
+
+            .task > * {
+                margin-left: 15px;
+            }
+        }
+    }
+}
+
+
+
+.main-grid {
+    height: 70vh;
+}
+
+.right-area {
+    width: 100%;
+}

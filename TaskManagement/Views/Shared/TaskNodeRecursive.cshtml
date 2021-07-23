@@ -1,17 +1,27 @@
 ﻿@model TaskManagement.Models.TaskNode
 
-
-<li>
-    @Model.Title
-    @if (Model.ChildrenList != null && Model.ChildrenList.Count > 0)
-    { 
-        <ul>
-            @foreach (var item in @Model.ChildrenList)
-            {
-                @Html.Partial("TaskNodeRecursive", item);
-            }
-        </ul>
-    }
-     
-</li>
-    
+@* если у задачи нет подзадач *@
+@if (Model.ChildrenList == null || Model.ChildrenList.Count == 0)
+{
+    <div class="task">
+        <div class="task-info">
+            <span class="collapse-button">></span>
+            <span class="task-title">@Model.Title</span>
+        </div>
+    </div>
+}
+@* если у задачи есть подзадачи*@
+else
+{
+    <div class="task subbed">
+        <div class="task-info">
+            <span class="collapse-button">></span>
+            <span class="task-title">@Model.Title</span>
+        </div>
+        @* рекурсия *@
+        @foreach (var item in @Model.ChildrenList)
+        {
+            @Html.Partial("TaskNodeRecursive", item);
+        }
+    </div>
+}

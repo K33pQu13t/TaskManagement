@@ -34,6 +34,7 @@
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "3.1.15",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.8",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.8",
+          "gulp-uglify.TypeScript.DefinitelyTyped": "0.1.2",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "3.1.0.0",
@@ -309,6 +310,13 @@
         },
         "compile": {
           "TaskManagement.dll": {}
+        }
+      },
+      "gulp-uglify.TypeScript.DefinitelyTyped/0.1.2": {
+        "dependencies": {
+          "node.TypeScript.DefinitelyTyped": "0.0.1",
+          "source-map.TypeScript.DefinitelyTyped": "0.0.1",
+          "uglify-js.TypeScript.DefinitelyTyped": "0.0.1"
         }
       },
       "Humanizer.Core/2.8.26": {
@@ -941,12 +949,14 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
+      "node.TypeScript.DefinitelyTyped/0.0.1": {},
       "runtime.native.System/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
           "Microsoft.NETCore.Targets": "1.1.3"
         }
       },
+      "source-map.TypeScript.DefinitelyTyped/0.0.1": {},
       "System.Collections/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
@@ -1593,6 +1603,11 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XmlDocument": "4.3.0"
+        }
+      },
+      "uglify-js.TypeScript.DefinitelyTyped/0.0.1": {
+        "dependencies": {
+          "source-map.TypeScript.DefinitelyTyped": "0.0.1"
         }
       },
       "Microsoft.AspNetCore.Antiforgery/3.1.0.0": {
@@ -3217,6 +3232,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "gulp-uglify.TypeScript.DefinitelyTyped/0.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+WsrI5zQrAcb+ewVb4TGx2Jn4dh/yezmRoLFo4YqdrDqaZpubT64N57qKvvU93/Q0wv/y0SLmhg5f39pH0a1jw==",
+      "path": "gulp-uglify.typescript.definitelytyped/0.1.2",
+      "hashPath": "gulp-uglify.typescript.definitelytyped.0.1.2.nupkg.sha512"
+    },
     "Humanizer.Core/2.8.26": {
       "type": "package",
       "serviceable": true,
@@ -3490,12 +3512,26 @@
       "path": "newtonsoft.json/10.0.1",
       "hashPath": "newtonsoft.json.10.0.1.nupkg.sha512"
     },
+    "node.TypeScript.DefinitelyTyped/0.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zzFB7FobtLgbxZvwvepHxggqM3xuXFWiU+Jw+biIvMydr2gJcmcczXOq9svAoLSiXM14pbigUxope7tmzpLvaQ==",
+      "path": "node.typescript.definitelytyped/0.0.1",
+      "hashPath": "node.typescript.definitelytyped.0.0.1.nupkg.sha512"
+    },
     "runtime.native.System/4.3.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-c/qWt2LieNZIj1jGnVNsE2Kl23Ya2aSTBuXMD6V7k9KWr6l16Tqdwq+hJScEpWER9753NWC8h96PaVNY5Ld7Jw==",
       "path": "runtime.native.system/4.3.0",
       "hashPath": "runtime.native.system.4.3.0.nupkg.sha512"
+    },
+    "source-map.TypeScript.DefinitelyTyped/0.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YuVOX3kN/zqWZYUhKyAOFS8sD6vSrketzNuuQPLjvvazGpxAytoKO9QqZVxV1ieuIuB4PsCOOgzZJ4Y76lDx/Q==",
+      "path": "source-map.typescript.definitelytyped/0.0.1",
+      "hashPath": "source-map.typescript.definitelytyped.0.0.1.nupkg.sha512"
     },
     "System.Collections/4.3.0": {
       "type": "package",
@@ -3979,6 +4015,13 @@
       "sha512": "sha512-MYoTCP7EZ98RrANESW05J5ZwskKDoN0AuZ06ZflnowE50LTpbR5yRg3tHckTVm5j/m47stuGgCrCHWePyHS70Q==",
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    },
+    "uglify-js.TypeScript.DefinitelyTyped/0.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-35dWQDwATIxmxty8E2lbH5nvA7EcEdlluHpcJ5iOhPUYoNdpqMje2HUGqB7hvtaF2Q/MXXzbmU2oFH3wC5KO6w==",
+      "path": "uglify-js.typescript.definitelytyped/0.0.1",
+      "hashPath": "uglify-js.typescript.definitelytyped.0.0.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Antiforgery/3.1.0.0": {
       "type": "referenceassembly",

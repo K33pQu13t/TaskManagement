@@ -8,6 +8,14 @@
           "build/netstandard1.0/coverlet.collector.targets": {}
         }
       },
+      "gulp-uglify.TypeScript.DefinitelyTyped/0.1.2": {
+        "type": "package",
+        "dependencies": {
+          "node.TypeScript.DefinitelyTyped": "(, )",
+          "source-map.TypeScript.DefinitelyTyped": "(, )",
+          "uglify-js.TypeScript.DefinitelyTyped": "(, )"
+        }
+      },
       "Microsoft.AspNetCore.Mvc.Razor.Extensions/3.1.15": {
         "type": "package",
         "dependencies": {
@@ -985,6 +993,9 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
+      "node.TypeScript.DefinitelyTyped/0.0.1": {
+        "type": "package"
+      },
       "NuGet.Frameworks/5.0.0": {
         "type": "package",
         "compile": {
@@ -1164,6 +1175,9 @@
             "rid": "ubuntu.16.10-x64"
           }
         }
+      },
+      "source-map.TypeScript.DefinitelyTyped/0.0.1": {
+        "type": "package"
       },
       "System.AppContext/4.3.0": {
         "type": "package",
@@ -2654,12 +2668,19 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "uglify-js.TypeScript.DefinitelyTyped/0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "source-map.TypeScript.DefinitelyTyped": "(, )"
+        }
+      },
       "TaskManagement/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "3.1.15",
-          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.8"
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.8",
+          "gulp-uglify.TypeScript.DefinitelyTyped": "0.1.2"
         },
         "compile": {
           "bin/placeholder/TaskManagement.dll": {}
@@ -2723,6 +2744,18 @@
         "coverlet-icon.png",
         "coverlet.collector.3.0.2.nupkg.sha512",
         "coverlet.collector.nuspec"
+      ]
+    },
+    "gulp-uglify.TypeScript.DefinitelyTyped/0.1.2": {
+      "sha512": "+WsrI5zQrAcb+ewVb4TGx2Jn4dh/yezmRoLFo4YqdrDqaZpubT64N57qKvvU93/Q0wv/y0SLmhg5f39pH0a1jw==",
+      "type": "package",
+      "path": "gulp-uglify.typescript.definitelytyped/0.1.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/typings/gulp-uglify/gulp-uglify.d.ts",
+        "gulp-uglify.typescript.definitelytyped.0.1.2.nupkg.sha512",
+        "gulp-uglify.typescript.definitelytyped.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Mvc.Razor.Extensions/3.1.15": {
@@ -4414,6 +4447,18 @@
         "tools/install.ps1"
       ]
     },
+    "node.TypeScript.DefinitelyTyped/0.0.1": {
+      "sha512": "zzFB7FobtLgbxZvwvepHxggqM3xuXFWiU+Jw+biIvMydr2gJcmcczXOq9svAoLSiXM14pbigUxope7tmzpLvaQ==",
+      "type": "package",
+      "path": "node.typescript.definitelytyped/0.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/typings/node/node.d.ts",
+        "node.typescript.definitelytyped.0.0.1.nupkg.sha512",
+        "node.typescript.definitelytyped.nuspec"
+      ]
+    },
     "NuGet.Frameworks/5.0.0": {
       "sha512": "c5JVjuVAm4f7E9Vj+v09Z9s2ZsqFDjBpcsyS3M9xRo0bEdm/LVZSzLxxNvfvAwRiiE8nwe1h2G4OwiwlzFKXlA==",
       "type": "package",
@@ -4653,6 +4698,18 @@
         "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
         "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.nuspec",
         "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so"
+      ]
+    },
+    "source-map.TypeScript.DefinitelyTyped/0.0.1": {
+      "sha512": "YuVOX3kN/zqWZYUhKyAOFS8sD6vSrketzNuuQPLjvvazGpxAytoKO9QqZVxV1ieuIuB4PsCOOgzZJ4Y76lDx/Q==",
+      "type": "package",
+      "path": "source-map.typescript.definitelytyped/0.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/typings/source-map/source-map.d.ts",
+        "source-map.typescript.definitelytyped.0.0.1.nupkg.sha512",
+        "source-map.typescript.definitelytyped.nuspec"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -9000,6 +9057,18 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "uglify-js.TypeScript.DefinitelyTyped/0.0.1": {
+      "sha512": "35dWQDwATIxmxty8E2lbH5nvA7EcEdlluHpcJ5iOhPUYoNdpqMje2HUGqB7hvtaF2Q/MXXzbmU2oFH3wC5KO6w==",
+      "type": "package",
+      "path": "uglify-js.typescript.definitelytyped/0.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/typings/uglify-js/uglify-js.d.ts",
+        "uglify-js.typescript.definitelytyped.0.0.1.nupkg.sha512",
+        "uglify-js.typescript.definitelytyped.nuspec"
+      ]
+    },
     "TaskManagement/1.0.0": {
       "type": "project",
       "path": "../TaskManagement/TaskManagement.csproj",
@@ -9101,5 +9170,37 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1602",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "gulp-uglify.TypeScript.DefinitelyTyped 0.1.2 не задает включенную нижнюю границу для зависимости node.TypeScript.DefinitelyTyped. Использовано наилучшее приближенное соответствие node.TypeScript.DefinitelyTyped 0.0.1.",
+      "libraryId": "node.TypeScript.DefinitelyTyped",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1602",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "gulp-uglify.TypeScript.DefinitelyTyped 0.1.2 не задает включенную нижнюю границу для зависимости source-map.TypeScript.DefinitelyTyped. Использовано наилучшее приближенное соответствие source-map.TypeScript.DefinitelyTyped 0.0.1.",
+      "libraryId": "source-map.TypeScript.DefinitelyTyped",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1602",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "gulp-uglify.TypeScript.DefinitelyTyped 0.1.2 не задает включенную нижнюю границу для зависимости uglify-js.TypeScript.DefinitelyTyped. Использовано наилучшее приближенное соответствие uglify-js.TypeScript.DefinitelyTyped 0.0.1.",
+      "libraryId": "uglify-js.TypeScript.DefinitelyTyped",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

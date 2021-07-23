@@ -30,14 +30,9 @@ namespace TaskManagement.Controllers
         {
             List<TaskNode> taskNodeList = _taskNodeRepository.Load();
 
-            //List<TaskNodeViewModel> taskNodeViewModelList = taskNodeList.Where(taskNode => taskNode.Parent == null)
-            //        .Select(taskNode => new TaskNodeViewModel(taskNode)).ToList();
-
-            //return View(taskNodeViewModelList);
-
             ViewBag.TaskNodeRecursive = taskNodeList;
 
-            return View(/*new TaskNodeListViewModel(taskNodeList)*/);
+            return View();
         }
 
         public IActionResult Privacy()

@@ -141,6 +141,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.8, )"
+            },
+            "gulp-uglify.TypeScript.DefinitelyTyped": {
+              "target": "Package",
+              "version": "[0.1.2, )"
             }
           },
           "imports": [

@@ -382,3 +382,5 @@ C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcorea
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.csproj.AssemblyReference.cache
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\TaskNodeRecursive.cshtml.g.cs
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\package.json
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\package-lock.json

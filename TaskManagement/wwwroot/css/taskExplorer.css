@@ -1,0 +1,60 @@
+#task-explorer {
+  width: 240px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  border: 1px solid #212121;
+}
+#task-explorer .task {
+  display: block;
+  position: relative;
+  min-height: 30px;
+  width: auto;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding-left: 5px;
+}
+#task-explorer .task .task-info {
+  display: inline-flex;
+  height: 30px;
+}
+#task-explorer .task .task-info > * {
+  flex: 0 0 auto;
+}
+#task-explorer .task .task-info .collapse-button {
+  visibility: hidden;
+  justify-content: center;
+  vertical-align: middle;
+  text-align: center;
+  background: #e0e0e0;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  margin-left: 0;
+  font-size: 12px;
+  transition: 0.2s;
+}
+#task-explorer .task .task-info .collapse-button:hover {
+  cursor: pointer;
+  background: #c9c9c9;
+}
+#task-explorer .task .task-info .task-title {
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+}
+#task-explorer .task .task-info .task-title:hover {
+  border-bottom: 1px solid red;
+}
+#task-explorer .task.subbed > .task-info > .collapse-button {
+  visibility: visible;
+}
+#task-explorer .task.subbed .task > * {
+  margin-left: 15px;
+}
+.main-grid {
+  height: 70vh;
+}
+.right-area {
+  width: 100%;
+}

@@ -81,8 +81,7 @@ body {
 }
 .left-area {
     border: solid;
-    min-width: 200px;
-    max-width: 200px;
+    width: 200px;
     margin: 0 5px;
     overflow: scroll; /*auto*/
 }

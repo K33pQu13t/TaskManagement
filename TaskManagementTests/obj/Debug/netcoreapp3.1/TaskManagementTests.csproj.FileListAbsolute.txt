@@ -447,3 +447,5 @@ C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\net
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\netcoreapp3.1\package-lock.json
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\netcoreapp3.1\package.json
