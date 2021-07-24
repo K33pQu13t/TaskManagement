@@ -1,21 +1,71 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Localization
+@using System.Web.Optimization
+
+@{
     ViewData["Title"] = "Home Page";
 
-    List<TaskManagement.Models.TaskNode> model = ViewBag.TaskNodeRecursive; /*вот оно*/
+    List<TaskManagement.Models.TaskNode> model = ViewBag.TaskNodeRecursivePartial;
 }
 
+<a data-ajax="true" data-ajax-update="#result" asp-action="ShowTaskNodeDetails" asp-route-id="1" asp-controller="Home">Load</a>
+
 <div class="main-grid">
-    <div id="task-explorer" class="left-area">
+    <div id="task-explorer">
         @foreach (TaskNode taskNode in model)
         {
             @if (taskNode.Parent != null)
                 continue;
 
-            @Html.Partial("TaskNodeRecursive", taskNode)            
+            @Html.Partial("TaskNodeRecursivePartial", taskNode)
         }
     </div>
 
-    <div class="right-area">
-        area
+    <div id="task-viewer">
+        @*<div id="result"></div>*@
+
+        @*<span class="detail-title">Задача 1</span>
+        <p class="detail-description">
+            Описание этой задачи ыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыы
+        </p>
+        <span class="detail-date-register">Register: 23.07.2021 12:00</span>
+        <span class="detail-executors">Executors: Биба, Боба</span>
+        <span class="detail-state">State: Assigned</span>
+
+        <span class="detail-time-planned">Execution time planned: 2 hours</span>
+        <span class="detail-time-actual">Execution time actual: 0 hours</span>
+
+        <span class="detail-date-complete">Complete: 23.07.2021 14:00</span>*@
     </div>
 </div>
+
+@section scripts{
+    <script src="~/lib/jquery.unobtrusive-ajax.min.js"></script>
+}
+
+@*<script>
+    $.ajax({
+        url: "ShowTaskNodeDetails",
+        type: 'Get',
+        data: 1,
+        success: function (response) {
+            $("#result").html(response)
+        }
+    });
+</script>*@
+
+
+@*<div id="task-viewer">
+        <span class="detail-title">Задача 1</span>
+        <p class="detail-description">
+            Описание этой задачи ыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыы
+        </p>
+        <span class="detail-date-register">Register: 23.07.2021 12:00</span>
+        <span class="detail-executors">Executors: Биба, Боба</span>
+        <span class="detail-state">State: Assigned</span>
+
+        <span class="detail-time-planned">Execution time planned: 2 hours</span>
+        <span class="detail-time-actual">Execution time actual: 0 hours</span>
+
+        <span class="detail-date-complete">Complete: 23.07.2021 14:00</span>
+
+    </div>*@

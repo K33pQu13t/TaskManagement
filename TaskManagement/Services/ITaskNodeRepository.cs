@@ -14,5 +14,7 @@ namespace TaskManagement.Services
         List<TaskNode> Load();
 
         Task EditAsync(TaskNode newTaskNode);
+
+        TaskNode FindById(int id);
     }
 }

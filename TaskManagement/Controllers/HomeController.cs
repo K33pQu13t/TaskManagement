@@ -30,9 +30,63 @@ namespace TaskManagement.Controllers
         {
             List<TaskNode> taskNodeList = _taskNodeRepository.Load();
 
-            ViewBag.TaskNodeRecursive = taskNodeList;
+            ViewBag.TaskNodeRecursivePartial = taskNodeList;
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult ShowTaskNodeDetails(int id)
+        {
+            TaskNode taskNode = _taskNodeRepository.FindById(id);
+            if (taskNode == null)
+            {
+                //todo: надо бросить 404
+                return PartialView("TaskNodePartial", null);
+            }
+            return PartialView("TaskNodePartial", taskNode);
+        }
+
+        public async Task<ActionResult> ExecuteTask(int id)
+        {
+            TaskNode taskNode = _taskNodeRepository.FindById(id);
+            if (taskNode == null)
+            {
+                //todo: надо бросить 404
+                return PartialView("TaskNodePartial", null);
+            }
+            taskNode.Execute();
+            await _taskNodeRepository.SaveAsync();
+            //_taskNodeRepository.EditAsync(taskNode);
+            return PartialView("TaskNodePartial", taskNode);
+        }
+
+        public async Task<ActionResult> SuspendTask(int id)
+        {
+            TaskNode taskNode = _taskNodeRepository.FindById(id);
+            if (taskNode == null)
+            {
+                //todo: надо бросить 404
+                return PartialView("TaskNodePartial", null);
+            }
+            taskNode.Suspend();
+            await _taskNodeRepository.SaveAsync();
+            //_taskNodeRepository.EditAsync(taskNode);
+            return PartialView("TaskNodePartial", taskNode);
+        }
+
+        public async Task<ActionResult> CompleteTask(int id)
+        {
+            TaskNode taskNode = _taskNodeRepository.FindById(id);
+            if (taskNode == null)
+            {
+                //todo: надо бросить 404
+                return PartialView("TaskNodePartial", null);
+            }
+            taskNode.Complete();
+            await _taskNodeRepository.SaveAsync();
+            //_taskNodeRepository.EditAsync(taskNode);
+            return PartialView("TaskNodePartial", taskNode);
         }
 
         public IActionResult Privacy()

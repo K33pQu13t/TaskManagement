@@ -10,7 +10,7 @@
         min-height: 30px;
         width: auto;
         border-radius: 5px;
-        margin-top: 10px;
+        margin-top: 3px;
         padding-left: 5px;
 
         .task-info {
@@ -41,18 +41,26 @@
                 }
             }
 
+            .task-index {
+                display: none;
+            }
+
             .task-title {
                 cursor: pointer;
                 height: 30px;
                 line-height: 30px;
+                color: unset;
 
                 &:hover {
                     border-bottom: 1px solid red;
+                    text-decoration: none;
+                    color: unset;
                 }
             }
         }
 
         &.subbed {
+
             > .task-info {
                 > .collapse-button {
                     visibility: visible;
@@ -66,12 +74,66 @@
     }
 }
 
+#task-viewer {
+    width: calc(100% - 255px);
+    margin-left: 10px;
+    overflow-y: auto;
+    border: 1px solid #212121;
+    padding-left: 5px;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
 
+ /*   > *{
+        display: block
+    }*/
+
+    > *:nth-child(n+4) {
+        padding-left: 16px;
+        margin: 5px;
+    }
+
+    .detail-title {
+        font-size: 2.2em;
+        border-bottom: 1px solid;
+        margin: 5px;
+        line-height: 100%;
+    }
+
+    .detail-description {
+        font-size: 14px;
+        margin: 5px;
+    }
+
+    .detail-date-register {
+        color: #7d7d7d;
+        font-size: 14px;
+        margin: 0 5px 12px;
+    }
+
+    .detail-executors {
+    }
+
+    .detail-state {
+    }
+
+
+
+    .detail-time-planned {
+    }
+
+    .detail-time-actual {
+    }
+
+    .detail-date-complete {
+    }
+}
 
 .main-grid {
     height: 70vh;
+    display: flex;
 }
 
-.right-area {
+/*.right-area {
     width: 100%;
-}
+}*/

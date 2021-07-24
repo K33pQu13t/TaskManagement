@@ -8,11 +8,11 @@ namespace TaskManagement.ViewModels
 {
     public class TaskNodeListViewModel
     {
-        public List<TaskNode> TaskNodeList { get; set; }
+        public TaskNode TaskNode { get; set; }
 
-        public TaskNodeListViewModel(List<TaskNode> _taskNodeList)
+        public TaskNodeListViewModel(TaskNode _taskNode)
         {
-            TaskNodeList = _taskNodeList;
+            TaskNode = _taskNode;
         }
 
         //public int Id { get; set; }

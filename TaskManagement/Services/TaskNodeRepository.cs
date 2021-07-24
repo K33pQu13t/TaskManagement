@@ -73,7 +73,7 @@ namespace TaskManagement.Services
             await _db.SaveChangesAsync();
         }
 
-        private TaskNode FindById(int id)
+        public TaskNode FindById(int id)
         {
             return Load().FirstOrDefault(taskNode => taskNode.Id == id);
         }

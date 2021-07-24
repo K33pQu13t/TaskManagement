@@ -1,0 +1,39 @@
+﻿@model TaskNode
+
+@*@{
+    Layout = null;
+}*@
+
+    @if (Model != null)
+    {
+        <span class="detail-title">@Model.Title</span>
+        <p class="detail-description">
+            @Model.Description
+        </p>
+        <span class="detail-date-register">@Model.RegisterDate</span>
+
+        <span class="detail-executors">Executors: @Model.Executors</span>
+        <span class="detail-state">
+            State: @Model.TaskState
+            <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer"
+               asp-action="ExecuteTask" asp-route-id="@Model.Id" asp-controller="Home">
+                <input type="image" src="~/img/execute.png" />
+            </a>
+            <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer"
+               asp-action="SuspendTask" asp-route-id="@Model.Id" asp-controller="Home">
+                <input type="image" src="~/img/pause.png" />
+            </a>
+            <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer"
+               asp-action="CompleteTask" asp-route-id="@Model.Id" asp-controller="Home">
+                <input type="image" src="~/img/complete.png" />
+            </a>
+        </span>
+
+        <span class="detail-time-planned">Execution time planned: @Model.ExecutionTimePlanned hours</span>
+        <span class="detail-time-actual">Execution time actual: @Model.ExecutionTimeActual hours</span>
+
+        @if (Model.TaskState == TaskNode.State.Complete)
+        {
+            <span class="detail-date-complete">Complete: @Model.CompleteDate</span>
+        }
+    }

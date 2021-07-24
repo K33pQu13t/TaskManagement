@@ -69,25 +69,3 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
-
-
-
-.main-grid {
-    display: flex;
-    height: 70vh;
-    align-items: stretch;
-    align-content: stretch;
-    padding: 0 5px;
-}
-.left-area {
-    border: solid;
-    width: 200px;
-    margin: 0 5px;
-    overflow: scroll; /*auto*/
-}
-
-.right-area {
-    border: solid;
-    flex-grow: 5;
-    margin: 0 5px;
-}

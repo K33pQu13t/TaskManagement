@@ -1,0 +1,37 @@
+﻿@model TaskManagement.Models.TaskNode
+
+@* если у задачи нет подзадач *@
+@if (Model.ChildrenList == null || Model.ChildrenList.Count == 0)
+{
+    <div class="task">
+        <div class="task-info">
+            <span class="collapse-button">></span>
+            <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer" 
+                    asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
+                @Model.Title
+            </a>
+            @*<span class="task-title">@Model.Title</span>*@
+            @*<span class="task-index">@Model.Id</span>*@
+        </div>
+    </div>
+}
+@* если у задачи есть подзадачи*@
+else
+{
+    <div class="task subbed">
+        <div class="task-info">
+            <span class="collapse-button">></span>
+            <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer" 
+                    asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
+                @Model.Title
+            </a>
+            @*<span class="task-title">@Model.Title</span>*@
+            @*<span class="task-index">@Model.Id</span>*@
+        </div>
+        @* рекурсия *@
+        @foreach (var item in @Model.ChildrenList)
+        {
+            @Html.Partial("TaskNodeRecursivePartial", item);
+        }
+    </div>
+}
