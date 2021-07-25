@@ -44,7 +44,8 @@ namespace TaskManagement.Models
                     return;
                 else if (value == State.Suspend)
                 {
-                    if (TaskState == State.Executing && !ChildrenList.Any(node => ((TaskNode)node).TaskState != State.Executing))
+                    //если эта задача выполняется и нет ни одной задачи среди её дочерних, которая была бы не на паузе
+                    if (TaskState == State.Executing && !ChildrenList.Any(node => node.TaskState != State.Suspend))
                     {
                         //_actualTimeUpdater.Dispose();
                         _taskState = value;
@@ -101,7 +102,7 @@ namespace TaskManagement.Models
                 }
                 return sum;
             }
-            private set
+            set
             {
                 _executionTimePlanned = value;
             }
@@ -139,7 +140,7 @@ namespace TaskManagement.Models
 
         //без пустого конструктора не хочет собираться бд EF Core,
         //не до конца понимаю почему
-        private TaskNode() 
+        public TaskNode() 
         {
             TaskState = State.Assigned;
             RegisterDate = DateTime.Now;
@@ -175,18 +176,18 @@ namespace TaskManagement.Models
         /// <returns>true если задача успешно удалена</returns>
         public bool Remove(TaskNode node)
         {
-            if (ChildrenList.Contains(node) &&
-                (node).TaskState == State.Complete)
+            if (ChildrenList.Contains(node))
             {
                 //зануляем дочерние задачи
                 for (int i = 0; i < node.ChildrenList.Count; i++)
                 {
-                    ((List<TaskNode>)node.ChildrenList)[i] = null;
+                    //рекурсивно вызываем этот метод на каждом дочернем объекте
+                    node.Remove(((List<TaskNode>)node.ChildrenList)[i]);
+                    node = null;
                 }
                 node.ChildrenList = new List<TaskNode>();
 
-                //удаляем саму задачу
-                ChildrenList.Remove(node);
+                ((List<TaskNode>)ChildrenList).RemoveAll(node => node == null);
 
                 return true;
             }

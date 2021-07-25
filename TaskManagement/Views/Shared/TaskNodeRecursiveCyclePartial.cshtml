@@ -1,0 +1,9 @@
+﻿@model List<TaskManagement.Models.TaskNode> 
+
+@foreach (TaskNode taskNode in Model)
+{
+    @if (taskNode.Parent != null)
+        continue;
+
+    @Html.Partial("TaskNodeRecursivePartial", taskNode)
+}

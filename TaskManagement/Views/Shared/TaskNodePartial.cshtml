@@ -1,32 +1,93 @@
 ﻿@model TaskNode
 
-@*@{
-    Layout = null;
-}*@
 
-    @if (Model != null)
-    {
+@if (Model != null)
+{
         <span class="detail-title">@Model.Title</span>
         <p class="detail-description">
             @Model.Description
         </p>
-        <span class="detail-date-register">@Model.RegisterDate</span>
+
+
+        <span class="detail-date-register">
+            @Model.RegisterDate
+            <span>
+                @if (Model.TaskState != TaskNode.State.Complete)
+                {
+                    <a class="detail-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                       asp-action="AddTaskNodeShow" asp-route-parentId="@Model.Id" asp-controller="Home">
+                        <img src="~/img/addsub.png" />
+                    </a>
+                    <a class="detail-button detail-edit-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                       asp-action="EditTaskNodeDetailsShow" asp-route-id="@Model.Id" asp-controller="Home">
+                        <img src="~/img/edit.png" />
+                    </a>
+                }
+                else
+                {
+                    <img class="detail-button-unable" src="~/img/add.png" />
+                    <img class="detail-button-unable detail-edit-button" src="~/img/edit.png" />
+                }
+
+                @* удалить можно только терминальную задачу *@
+                @if (Model.Parent == null)
+                {
+                    <a class="detail-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                       data-ajax-complete="refresh"
+                       asp-action="RemoveTaskNode" asp-route-id="@Model.Id" asp-controller="Home">
+                        <img class="detail-remove-button" src="~/img/delete.png">
+                    </a>
+                }
+
+            </span>
+        </span>
 
         <span class="detail-executors">Executors: @Model.Executors</span>
         <span class="detail-state">
             State: @Model.TaskState
-            <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer"
-               asp-action="ExecuteTask" asp-route-id="@Model.Id" asp-controller="Home">
-                <input type="image" src="~/img/execute.png" />
-            </a>
-            <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer"
-               asp-action="SuspendTask" asp-route-id="@Model.Id" asp-controller="Home">
-                <input type="image" src="~/img/pause.png" />
-            </a>
-            <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer"
-               asp-action="CompleteTask" asp-route-id="@Model.Id" asp-controller="Home">
-                <input type="image" src="~/img/complete.png" />
-            </a>
+            @* условия перехода состояний могут запрещать нажимать некоторые кнопки *@
+            @* вообще, у TaskNode есть валидатор на сеттер состояния, это просто для визуала *@
+            @if (Model.TaskState == TaskNode.State.Executing ||
+               Model.TaskState == TaskNode.State.Complete)
+            {
+                <img class="detail-button-unable detail-execute-button" type="image" src="~/img/execute.png" />
+            }
+            else
+            {
+                <a class="detail-button detail-execute-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                   asp-action="ExecuteTask" asp-route-id="@Model.Id" asp-controller="Home">
+                    <img src="~/img/execute.png" />
+                </a>
+            }
+            @if (Model.TaskState == TaskNode.State.Suspend ||
+               Model.TaskState == TaskNode.State.Assigned ||
+               Model.ChildrenList.Any(node => node.TaskState != TaskNode.State.Suspend) ||
+               Model.TaskState == TaskNode.State.Complete)
+            {
+                <img class="detail-button-unable detail-suspend-button" type="image" src="~/img/pause.png" />
+            }
+            else
+            {
+                <a class="detail-button detail-suspend-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                   asp-action="SuspendTask" asp-route-id="@Model.Id" asp-controller="Home">
+                    <img type="image" src="~/img/pause.png" />
+                </a>
+            }
+            @if (Model.TaskState == TaskNode.State.Complete ||
+               Model.TaskState == TaskNode.State.Assigned ||
+               Model.TaskState == TaskNode.State.Suspend)
+            {
+                <img class="detail-button-unable detail-complete-button" type="image" src="~/img/complete.png" />
+            }
+            else
+            {
+                <a class="detail-button detail-complete-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                   asp-action="CompleteTask" asp-route-id="@Model.Id" asp-controller="Home">
+                    <img type="image" src="~/img/complete.png" />
+                </a>
+            }
+
+
         </span>
 
         <span class="detail-time-planned">Execution time planned: @Model.ExecutionTimePlanned hours</span>
@@ -36,4 +97,4 @@
         {
             <span class="detail-date-complete">Complete: @Model.CompleteDate</span>
         }
-    }
+}

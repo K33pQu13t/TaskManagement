@@ -1,0 +1,42 @@
+﻿@model TaskNode
+
+@if (Model != null)
+{
+    @if (Model.Parent != null)
+    {
+        <input class="detail-hide" style="display: none" type="text" name="parentId" , value="@Model.Parent.Id" />
+    }
+    <input class="detail-input" style="display: none" type="text" name="id" , value="@Model.Id" />
+    <span class="detail-title">
+        <input class="detail-input" type="text" name="title" value="@Model.Title" />
+    </span>
+    <span class="detail-description">
+        <input class="detail-input" type="text" name="description" value="@Model.Description" />
+    </span>
+    <span class="detail-date-register">@Model.RegisterDate</span>
+
+    <span class="detail-executors">
+        Executors: <input class="detail-input" type="text" name="executors" value="@Model.Executors" />
+    </span>
+    <span class="detail-state detail-unchanging">
+        State: @Model.TaskState
+        <img class="detail-button-unable detail-state-button-execute" type="image" src="~/img/execute.png" />
+        <img class="detail-button-unable" type="image" src="~/img/pause.png" />
+        <img class="detail-button-unable detail-state-button-complete" type="image" src="~/img/complete.png" />
+    </span>
+
+    <span class="detail-time-planned">
+        Execution time planned:
+        <input class="detail-input-small" type="text" name="timePlanned" value="@Model.ExecutionTimePlanned" />
+        hours
+    </span>
+
+    <span class="detail-time-actual detail-unchanging">Execution time actual: @Model.ExecutionTimeActual hours</span>
+
+    @if (Model.TaskState == TaskNode.State.Complete)
+    {
+        <span class="detail-date-complete detail-unchanging">Complete: @Model.CompleteDate</span>
+    }
+
+    <input class="detail-save-button" type="submit" value="Save" />
+}

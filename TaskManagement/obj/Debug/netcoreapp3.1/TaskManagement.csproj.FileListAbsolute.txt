@@ -390,10 +390,13 @@ C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcorea
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.tasknode.ru-RU.resources
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\ru-RU\TaskManagement.resources.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\TaskNodeRecursivePartial.cshtml.g.cs
-C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.csproj.AssemblyReference.cache
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\TaskNodePartial.cshtml.g.cs
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Views\web.config
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\AspNetCore.Unobtrusive.Ajax.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Embedded.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\System.Web.Optimization.Less.dll
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\TaskNodeEditPartial.cshtml.g.cs
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\TaskNodeRecursiveCyclePartial.cshtml.g.cs
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\TaskNodeCreatePartial.cshtml.g.cs
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.csproj.AssemblyReference.cache

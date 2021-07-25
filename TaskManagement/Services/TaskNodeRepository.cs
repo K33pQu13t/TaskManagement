@@ -40,8 +40,8 @@ namespace TaskManagement.Services
 
         public async Task AddSubtaskAsync(int parentId, TaskNode taskNodeChild)
         {
-            TaskNode taskNodeParent = FindById(parentId);
-            if (taskNodeParent != null)
+            TaskNode taskNodeParent = await FindById(parentId);
+            if (taskNodeParent != null && taskNodeChild.Parent == null)
             {
                 taskNodeParent.AddSubtask(taskNodeChild);
                 await AddTaskAsync(taskNodeChild);
@@ -51,9 +51,7 @@ namespace TaskManagement.Services
 
         public async Task EditAsync(TaskNode newTaskNode)
         {
-            List<TaskNode> taskNodeList = Load();
-            TaskNode taskNode = taskNodeList.FirstOrDefault(taskNode => 
-                taskNode.Id == newTaskNode.Id);
+            TaskNode taskNode = await FindById(newTaskNode.Id);
 
             if (taskNode != null)
             {
@@ -73,9 +71,47 @@ namespace TaskManagement.Services
             await _db.SaveChangesAsync();
         }
 
-        public TaskNode FindById(int id)
+        public async Task<TaskNode> FindById(int id)
         {
-            return Load().FirstOrDefault(taskNode => taskNode.Id == id);
+            return await Task.Run(() => Load().FirstOrDefault(taskNode => taskNode.Id == id));
+        }
+
+        /// <summary>
+        /// удаляет задачу вместе со всеми её вложениями
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="taskNodeListToRemove"></param>
+        /// <returns>true если база данных содержала залачу и она была успешно удалена вместе со всеми подзадачами</returns>
+        public async Task<bool> Remove(int id, List<TaskNode> taskNodeListToRemove = null)
+        {
+            TaskNode taskNode = await FindById(id);
+            if (taskNode != null)
+            {
+                //если первый вызов (с вьюхи), то инициализируем список
+                if (taskNodeListToRemove == null)
+                {
+                    taskNodeListToRemove = new List<TaskNode>();
+                    //добавляем сразу задачу, id которой был передан методу
+                    taskNodeListToRemove.Add(taskNode);
+                }
+
+                foreach (TaskNode taskNodeChild in taskNode.ChildrenList)
+                {
+                    //рекурсивно добавляем ссылки на всё, что подлежит удалению
+                    taskNodeListToRemove.Add(taskNodeChild);
+                    await Remove(taskNodeChild.Id, taskNodeListToRemove);
+                }
+                
+                //чтобы не произошёл выход из метода на первой самой вложенной задаче
+                //сюда попадём только когда рекурсия вернётся к объекту, который её начал
+                if (taskNode.Parent == null)
+                {
+                    _db.RemoveRange(taskNodeListToRemove);
+                    await SaveAsync();
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

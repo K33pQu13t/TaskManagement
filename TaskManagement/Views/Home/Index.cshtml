@@ -7,65 +7,34 @@
     List<TaskManagement.Models.TaskNode> model = ViewBag.TaskNodeRecursivePartial;
 }
 
-<a data-ajax="true" data-ajax-update="#result" asp-action="ShowTaskNodeDetails" asp-route-id="1" asp-controller="Home">Load</a>
+<a class="detail-button add-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+   asp-action="AddTaskNodeShow" asp-controller="Home">
+    <img src="~/img/add.png" />
+</a>
+<a class="detail-button refresh-buttor" id="refresher"
+   data-ajax="true" data-ajax-update="#task-explorer" data-ajax-mode="replace"
+   asp-action="RefreshTaskExplorer" asp-controller="Home">
+    <img src="~/img/refresh.png" />
+</a>
 
 <div class="main-grid">
     <div id="task-explorer">
-        @foreach (TaskNode taskNode in model)
-        {
-            @if (taskNode.Parent != null)
-                continue;
-
-            @Html.Partial("TaskNodeRecursivePartial", taskNode)
-        }
+        @Html.Partial("TaskNodeRecursiveCyclePartial", model)
     </div>
 
-    <div id="task-viewer">
-        @*<div id="result"></div>*@
-
-        @*<span class="detail-title">Задача 1</span>
-        <p class="detail-description">
-            Описание этой задачи ыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыы
-        </p>
-        <span class="detail-date-register">Register: 23.07.2021 12:00</span>
-        <span class="detail-executors">Executors: Биба, Боба</span>
-        <span class="detail-state">State: Assigned</span>
-
-        <span class="detail-time-planned">Execution time planned: 2 hours</span>
-        <span class="detail-time-actual">Execution time actual: 0 hours</span>
-
-        <span class="detail-date-complete">Complete: 23.07.2021 14:00</span>*@
-    </div>
+    <form id="task-viewer" method="post"
+          data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+          data-ajax-complete="refresh"
+          asp-action="EditTaskNodeDetailsSave" asp-controller="Home">
+    </form>
 </div>
 
 @section scripts{
     <script src="~/lib/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script>
+        refresh = function () {
+            document.getElementById("refresher").click();
+        };
+    </script>
 }
-
-@*<script>
-    $.ajax({
-        url: "ShowTaskNodeDetails",
-        type: 'Get',
-        data: 1,
-        success: function (response) {
-            $("#result").html(response)
-        }
-    });
-</script>*@
-
-
-@*<div id="task-viewer">
-        <span class="detail-title">Задача 1</span>
-        <p class="detail-description">
-            Описание этой задачи ыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыы
-        </p>
-        <span class="detail-date-register">Register: 23.07.2021 12:00</span>
-        <span class="detail-executors">Executors: Биба, Боба</span>
-        <span class="detail-state">State: Assigned</span>
-
-        <span class="detail-time-planned">Execution time planned: 2 hours</span>
-        <span class="detail-time-actual">Execution time actual: 0 hours</span>
-
-        <span class="detail-date-complete">Complete: 23.07.2021 14:00</span>
-
-    </div>*@

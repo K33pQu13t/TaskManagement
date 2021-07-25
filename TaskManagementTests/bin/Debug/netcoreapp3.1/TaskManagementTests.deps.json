@@ -126,9 +126,7 @@
           "Microsoft.Extensions.Configuration.Xml": "3.1.0.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions": "3.1.0.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "3.1.0.0",
-          "Microsoft.Extensions.FileProviders.Abstractions": "3.1.0.0",
           "Microsoft.Extensions.FileProviders.Composite": "3.1.0.0",
-          "Microsoft.Extensions.FileProviders.Embedded": "3.1.0.0",
           "Microsoft.Extensions.FileProviders.Physical": "3.1.0.0",
           "Microsoft.Extensions.FileSystemGlobbing": "3.1.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "3.1.0.0",
@@ -313,12 +311,54 @@
           "TaskManagementTests.dll": {}
         }
       },
+      "Antlr/3.4.1.9004": {
+        "runtime": {
+          "lib/Antlr3.Runtime.dll": {
+            "assemblyVersion": "3.4.1.9004",
+            "fileVersion": "3.4.1.9004"
+          }
+        },
+        "compile": {
+          "lib/Antlr3.Runtime.dll": {}
+        }
+      },
+      "AspNetCore.Unobtrusive.Ajax/1.1.3": {
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Embedded": "5.0.4"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AspNetCore.Unobtrusive.Ajax.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.1/AspNetCore.Unobtrusive.Ajax.dll": {}
+        }
+      },
+      "BuildBundlerMinifier/3.2.449": {},
       "coverlet.collector/3.0.2": {},
       "gulp-uglify.TypeScript.DefinitelyTyped/0.1.2": {
         "dependencies": {
           "node.TypeScript.DefinitelyTyped": "0.0.1",
           "source-map.TypeScript.DefinitelyTyped": "0.0.1",
           "uglify-js.TypeScript.DefinitelyTyped": "0.0.1"
+        }
+      },
+      "jQuery/3.6.0": {},
+      "Microsoft.AspNet.Web.Optimization/1.1.3": {
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0",
+          "WebGrease": "1.5.2"
+        },
+        "runtime": {
+          "lib/net40/System.Web.Optimization.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.40211.0"
+          }
+        },
+        "compile": {
+          "lib/net40/System.Web.Optimization.dll": {}
         }
       },
       "Microsoft.AspNetCore.Mvc.Razor.Extensions/3.1.15": {
@@ -737,6 +777,34 @@
           "lib/netstandard2.0/Microsoft.Extensions.DependencyModel.dll": {}
         }
       },
+      "Microsoft.Extensions.FileProviders.Abstractions/5.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Embedded/5.0.4": {
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Embedded.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.421.11815"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Embedded.dll": {}
+        }
+      },
       "Microsoft.Extensions.Logging/5.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "5.0.2",
@@ -882,6 +950,11 @@
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {}
+        }
+      },
+      "Microsoft.jQuery.Unobtrusive.Ajax/3.2.6": {
+        "dependencies": {
+          "jQuery": "3.6.0"
         }
       },
       "Microsoft.NET.Test.Sdk/16.9.4": {
@@ -1152,6 +1225,17 @@
           "lib/netcoreapp2.1/Microsoft.VisualStudio.TestPlatform.Common.dll": {},
           "lib/netcoreapp2.1/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll": {},
           "lib/netcoreapp2.1/testhost.dll": {}
+        }
+      },
+      "Microsoft.Web.Infrastructure/1.0.0": {
+        "runtime": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.20105.407"
+          }
+        },
+        "compile": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
         }
       },
       "Microsoft.Win32.Primitives/4.3.0": {
@@ -2160,6 +2244,17 @@
           "System.Runtime": "4.3.0"
         }
       },
+      "System.Web.Optimization.Less/1.3.5": {
+        "runtime": {
+          "lib/net461/System.Web.Optimization.Less.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/net461/System.Web.Optimization.Less.dll": {}
+        }
+      },
       "System.Windows.Extensions/4.7.0": {
         "dependencies": {
           "System.Drawing.Common": "4.7.0"
@@ -2240,14 +2335,40 @@
           "source-map.TypeScript.DefinitelyTyped": "0.0.1"
         }
       },
+      "WebGrease/1.5.2": {
+        "dependencies": {
+          "Antlr": "3.4.1.9004",
+          "Newtonsoft.Json": "10.0.1"
+        },
+        "runtime": {
+          "lib/WebGrease.dll": {
+            "assemblyVersion": "1.5.2.14234",
+            "fileVersion": "1.5.2.14234"
+          }
+        },
+        "compile": {
+          "lib/WebGrease.dll": {}
+        }
+      },
       "TaskManagement/1.0.0": {
         "dependencies": {
+          "AspNetCore.Unobtrusive.Ajax": "1.1.3",
+          "BuildBundlerMinifier": "3.2.449",
+          "Microsoft.AspNet.Web.Optimization": "1.1.3",
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "3.1.15",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.8",
-          "gulp-uglify.TypeScript.DefinitelyTyped": "0.1.2"
+          "Microsoft.jQuery.Unobtrusive.Ajax": "3.2.6",
+          "System.Web.Optimization.Less": "1.3.5",
+          "gulp-uglify.TypeScript.DefinitelyTyped": "0.1.2",
+          "jQuery": "3.6.0"
         },
         "runtime": {
           "TaskManagement.dll": {}
+        },
+        "resources": {
+          "ru-RU/TaskManagement.resources.dll": {
+            "locale": "ru-RU"
+          }
         },
         "compile": {
           "TaskManagement.dll": {}
@@ -2793,21 +2914,9 @@
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.FileProviders.Abstractions/3.1.0.0": {
-        "compile": {
-          "Microsoft.Extensions.FileProviders.Abstractions.dll": {}
-        },
-        "compileOnly": true
-      },
       "Microsoft.Extensions.FileProviders.Composite/3.1.0.0": {
         "compile": {
           "Microsoft.Extensions.FileProviders.Composite.dll": {}
-        },
-        "compileOnly": true
-      },
-      "Microsoft.Extensions.FileProviders.Embedded/3.1.0.0": {
-        "compile": {
-          "Microsoft.Extensions.FileProviders.Embedded.dll": {}
         },
         "compileOnly": true
       },
@@ -3875,6 +3984,27 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Antlr/3.4.1.9004": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-c1S+HBE+KYA5EBxtn25LEK02hHPH/tDQ6RviUTTCJpZIPoputtn8ArsQJy9lVJWZOnw37ufByO2Fmf1M8wpr8Q==",
+      "path": "antlr/3.4.1.9004",
+      "hashPath": "antlr.3.4.1.9004.nupkg.sha512"
+    },
+    "AspNetCore.Unobtrusive.Ajax/1.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+37FtkXJAGE6TgbO972Mcx89etB/CaSwGevrP2OTdLKrA7Ju+hEKeyROUZKwMI/iZ9GQq9XB8p+/pQXi5O4rcg==",
+      "path": "aspnetcore.unobtrusive.ajax/1.1.3",
+      "hashPath": "aspnetcore.unobtrusive.ajax.1.1.3.nupkg.sha512"
+    },
+    "BuildBundlerMinifier/3.2.449": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uA9sYDy4VepL3xwzBTLcP2LyuVYMt0ZIT3gaSiXvGoX15Ob+rOP+hGydhevlSVd+rFo+Y+VQFEHDuWU8HBW+XA==",
+      "path": "buildbundlerminifier/3.2.449",
+      "hashPath": "buildbundlerminifier.3.2.449.nupkg.sha512"
+    },
     "coverlet.collector/3.0.2": {
       "type": "package",
       "serviceable": true,
@@ -3888,6 +4018,20 @@
       "sha512": "sha512-+WsrI5zQrAcb+ewVb4TGx2Jn4dh/yezmRoLFo4YqdrDqaZpubT64N57qKvvU93/Q0wv/y0SLmhg5f39pH0a1jw==",
       "path": "gulp-uglify.typescript.definitelytyped/0.1.2",
       "hashPath": "gulp-uglify.typescript.definitelytyped.0.1.2.nupkg.sha512"
+    },
+    "jQuery/3.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sSzCTDWn15waSMjDrP21jjgG1j1pwISLaKiVCClwU4XGAmuZt+FScLkdyRvh9ppoIxAW/tJtJBYei+3CAwFQ7g==",
+      "path": "jquery/3.6.0",
+      "hashPath": "jquery.3.6.0.nupkg.sha512"
+    },
+    "Microsoft.AspNet.Web.Optimization/1.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TWKKpTWEdB8jXp2Vl2TXNKW30GBQg6nnh0y8iZWmGY5c1XY4f649vfDslNHsCsvk9JZxc1Rkm/UGDdfq4gjWRQ==",
+      "path": "microsoft.aspnet.web.optimization/1.1.3",
+      "hashPath": "microsoft.aspnet.web.optimization.1.1.3.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Mvc.Razor.Extensions/3.1.15": {
       "type": "package",
@@ -4043,6 +4187,20 @@
       "path": "microsoft.extensions.dependencymodel/3.1.6",
       "hashPath": "microsoft.extensions.dependencymodel.3.1.6.nupkg.sha512"
     },
+    "Microsoft.Extensions.FileProviders.Abstractions/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iuZIiZ3mteEb+nsUqpGXKx2cGF+cv6gWPd5jqQI4hzqdiJ6I94ddLjKhQOuRW1lueHwocIw30xbSHGhQj0zjdQ==",
+      "path": "microsoft.extensions.fileproviders.abstractions/5.0.0",
+      "hashPath": "microsoft.extensions.fileproviders.abstractions.5.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.FileProviders.Embedded/5.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bT8gkdLr2ozXjjVpIrnbesmOyMRZ50kRRc2MqHqjjGTOB+uZEOoIWwnym2Er0ZsK+lGaNky8uXFTgvsJ0IYcuA==",
+      "path": "microsoft.extensions.fileproviders.embedded/5.0.4",
+      "hashPath": "microsoft.extensions.fileproviders.embedded.5.0.4.nupkg.sha512"
+    },
     "Microsoft.Extensions.Logging/5.0.0": {
       "type": "package",
       "serviceable": true,
@@ -4113,6 +4271,13 @@
       "path": "microsoft.identitymodel.tokens/5.6.0",
       "hashPath": "microsoft.identitymodel.tokens.5.6.0.nupkg.sha512"
     },
+    "Microsoft.jQuery.Unobtrusive.Ajax/3.2.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-udg7ZBszgqxloQ+ShJRONKQAzPnJIlUhKZB+AIvZdKh7CDc5Nms69T9X0hN5i+NqMmQE6njkzdCcEb16lPdJTw==",
+      "path": "microsoft.jquery.unobtrusive.ajax/3.2.6",
+      "hashPath": "microsoft.jquery.unobtrusive.ajax.3.2.6.nupkg.sha512"
+    },
     "Microsoft.NET.Test.Sdk/16.9.4": {
       "type": "package",
       "serviceable": true,
@@ -4147,6 +4312,13 @@
       "sha512": "sha512-3YuJ7OSb1YPk+OTZfpa8U7I+TUZRH/nCeOWcN+TERp1SUZrcGeG2IGBZvVZ9CbKuQ+7wLiwsfcIgKIu+kbvibg==",
       "path": "microsoft.testplatform.testhost/16.9.4",
       "hashPath": "microsoft.testplatform.testhost.16.9.4.nupkg.sha512"
+    },
+    "Microsoft.Web.Infrastructure/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FNmvLn5m2LTU/Rs2KWVo0SIIh9Ek+U0ojex7xeDaSHw/zgEP77A8vY5cVWgUtBGS8MJfDGNn8rpXJWEIQaPwTg==",
+      "path": "microsoft.web.infrastructure/1.0.0",
+      "hashPath": "microsoft.web.infrastructure.1.0.0.nupkg.sha512"
     },
     "Microsoft.Win32.Primitives/4.3.0": {
       "type": "package",
@@ -4897,6 +5069,13 @@
       "path": "system.threading.timer/4.3.0",
       "hashPath": "system.threading.timer.4.3.0.nupkg.sha512"
     },
+    "System.Web.Optimization.Less/1.3.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-H049Dz8KL3KdFVTNJZv/QcaxCSWtes0JCd9GzRV3c86KoefO8bgGSni1bedN+YH9j7P1+joI4EoH018+bCAHjw==",
+      "path": "system.web.optimization.less/1.3.5",
+      "hashPath": "system.web.optimization.less.1.3.5.nupkg.sha512"
+    },
     "System.Windows.Extensions/4.7.0": {
       "type": "package",
       "serviceable": true,
@@ -4938,6 +5117,13 @@
       "sha512": "sha512-35dWQDwATIxmxty8E2lbH5nvA7EcEdlluHpcJ5iOhPUYoNdpqMje2HUGqB7hvtaF2Q/MXXzbmU2oFH3wC5KO6w==",
       "path": "uglify-js.typescript.definitelytyped/0.0.1",
       "hashPath": "uglify-js.typescript.definitelytyped.0.0.1.nupkg.sha512"
+    },
+    "WebGrease/1.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VoyDSOOugLx3q5IyOgEcjeYZQOqV9VWZQT57UtN4szlYhAmOcEjVfKWXbtRqBuX43pgyL9E7nMSIPoryC8Cu1Q==",
+      "path": "webgrease/1.5.2",
+      "hashPath": "webgrease.1.5.2.nupkg.sha512"
     },
     "TaskManagement/1.0.0": {
       "type": "project",
@@ -5394,17 +5580,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.FileProviders.Abstractions/3.1.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
     "Microsoft.Extensions.FileProviders.Composite/3.1.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Microsoft.Extensions.FileProviders.Embedded/3.1.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

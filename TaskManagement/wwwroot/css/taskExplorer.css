@@ -1,7 +1,7 @@
 #task-explorer {
   width: 240px;
   overflow-x: scroll;
-  overflow-y: hidden;
+  overflow-y: auto;
   border: 1px solid #212121;
 }
 #task-explorer .task {
@@ -10,7 +10,7 @@
   min-height: 30px;
   width: auto;
   border-radius: 5px;
-  margin-top: 3px;
+  margin-top: 1px;
   padding-left: 5px;
 }
 #task-explorer .task .task-info {
@@ -58,6 +58,9 @@
 #task-explorer .task.subbed .task > * {
   margin-left: 15px;
 }
+#task-explorer .task-main {
+  margin-top: 10px;
+}
 #task-viewer {
   width: calc(100% - 255px);
   margin-left: 10px;
@@ -67,9 +70,45 @@
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
-  /*   > *{
-        display: block
-    }*/
+}
+#task-viewer .detail-unchanging {
+  color: #7d7d7d;
+}
+#task-viewer .detail-input {
+  width: 100%;
+}
+#task-viewer .detail-input-small {
+  width: 50px;
+}
+#task-viewer .detail-save-button {
+  align-self: center;
+  width: 80%;
+  margin: 14px;
+}
+#task-viewer .detail-execute-button {
+  padding-left: 14px;
+}
+#task-viewer .detail-suspend-button {
+  padding-left: 18px;
+}
+#task-viewer .detail-complete-button {
+  padding-left: 38px;
+}
+#task-viewer .detail-remove-button {
+  padding-left: 38px;
+}
+#task-viewer .detail-edit-button {
+  padding-left: 18px;
+}
+#task-viewer .detail-button-unable {
+  line-height: 30px;
+  display: inline-flex;
+  opacity: 0.4;
+  cursor: default;
+}
+#task-viewer .detail-button-unable:hover {
+  text-decoration: none;
+  color: unset;
 }
 #task-viewer > *:nth-child(n+4) {
   padding-left: 16px;
@@ -82,17 +121,47 @@
   line-height: 100%;
 }
 #task-viewer .detail-description {
-  font-size: 14px;
   margin: 5px;
 }
 #task-viewer .detail-date-register {
   color: #7d7d7d;
-  font-size: 14px;
-  margin: 0 5px 12px;
+  font-size: 11px;
+  margin: 0 5px 5px;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+#task-viewer .detail-state {
+  display: inline-flex;
+  align-items: center;
+}
+#task-viewer .detail-state .detail-state-button-execute {
+  padding-left: 6px;
+}
+#task-viewer .detail-state .detail-state-button-complete {
+  padding-left: 12px;
+}
+#task-viewer .detail-date-complete {
+  border-top: 1px solid red;
 }
 .main-grid {
   height: 70vh;
   display: flex;
+}
+.detail-button:hover {
+  text-decoration: none;
+  color: unset;
+  cursor: pointer;
+}
+.refresh-buttor {
+  padding-left: 18px;
+  padding-bottom: 5px;
+}
+.add-button {
+  padding-bottom: 5px;
+}
+.detail-hide {
+  display: none;
 }
 /*.right-area {
     width: 100%;
