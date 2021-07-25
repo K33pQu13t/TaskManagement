@@ -62,20 +62,6 @@ namespace TaskManagement.Controllers
             TaskNode taskNodeParent = await _taskNodeRepository.FindById(parentId);
             TaskNode taskNode = new TaskNode();
 
-            //если добавляем новую задачу
-       
-            //if (taskNodeParent == null)
-            //{
-            //    //await _taskNodeRepository.AddTaskAsync(taskNode);
-            //    return PartialView("TaskNodeCreatePartial", taskNode);
-            //}
-            ////если добавляем подзадачу
-            //else
-            //{
-            //    //taskNodeParent.AddSubtask(taskNode);
-            //    //await _taskNodeRepository.AddTaskAsync(taskNode);
-            //    return PartialView("TaskNodeEditPartial", taskNode);
-            //}
             if(taskNodeParent != null)
             {
                 taskNodeParent.AddSubtask(taskNode);

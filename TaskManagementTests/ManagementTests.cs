@@ -22,36 +22,62 @@ namespace TaskManagementTests
         }
 
         [TestMethod]
-        public void SubtaskRemovingUnsuccess()
+        public void CalculatePlannedTime()
         {
-            TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
-            TaskNode taskNode2 = new TaskNode("подзадача1", "описание", "Вася, Петя", 1);
+            TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 1);
+            TaskNode taskNode2 = new TaskNode("подзадача1", "описание", "Вася, Петя", 4);
             taskNode.AddSubtask(taskNode2);
-            TaskNode taskNode3 = new TaskNode("подзадача1 подзадачи 1", "описание", "Вася, Петя", 1);
+            TaskNode taskNode3 = new TaskNode("подзадача1 подзадачи1", "описание", "Вася, Петя", 3);
             taskNode2.AddSubtask(taskNode3);
+            TaskNode taskNode4 = new TaskNode("подзадача1 подзадачи2", "описание", "Вася, Петя", 2);
+            taskNode2.AddSubtask(taskNode4);
+            TaskNode taskNode5 = new TaskNode("подзадача1 подзадачи1 подзадачи2", "описание", "Вася, Петя", 5);
+            taskNode4.AddSubtask(taskNode5);
+            TaskNode taskNode6 = new TaskNode("подзадача2", "описание", "Вася, Петя", 3);
+            taskNode.AddSubtask(taskNode6);
+            //taskNode
+            //--taskNode2
+            //----taskNode3
+            //----taskNode4
+            //------taskNode5
+            //--taskNode6
 
-            //нельзя удалить незавёршенную задачу
-            taskNode.Remove(taskNode2);
+            int timePlanned = taskNode.ExecutionTimePlanned;
 
-            Assert.AreEqual(taskNode.ChildrenList.Contains(taskNode2), true);
+            Assert.AreEqual(18, timePlanned);
         }
 
-        [TestMethod]
-        public void SubtaskRemovingSuccess()
-        {
-            TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
-            TaskNode taskNode2 = new TaskNode("подзадача1", "описание", "Вася, Петя", 1);
-            taskNode.AddSubtask(taskNode2);
-            TaskNode taskNode3 = new TaskNode("подзадача1 подзадачи 1", "описание", "Вася, Петя", 1);
-            taskNode2.AddSubtask(taskNode3);
+        //[TestMethod]
+        //public void SubtaskRemovingUnsuccess()
+        //{
+        //    TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
+        //    TaskNode taskNode2 = new TaskNode("подзадача1", "описание", "Вася, Петя", 1);
+        //    taskNode.AddSubtask(taskNode2);
+        //    TaskNode taskNode3 = new TaskNode("подзадача1 подзадачи 1", "описание", "Вася, Петя", 1);
+        //    taskNode2.AddSubtask(taskNode3);
 
-            taskNode2.Execute();
-            taskNode3.Execute();
-            taskNode2.Complete();
+        //    //нельзя удалить незавёршенную задачу
+        //    taskNode.Remove(taskNode2);
 
-            taskNode.Remove(taskNode2);
+        //    Assert.AreEqual(taskNode.ChildrenList.Contains(taskNode2), true);
+        //}
 
-            Assert.AreEqual(taskNode.ChildrenList.Count, 0);
-        }
+        //[TestMethod]
+        //public void SubtaskRemovingSuccess()
+        //{
+        //    TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
+        //    TaskNode taskNode2 = new TaskNode("подзадача1", "описание", "Вася, Петя", 1);
+        //    taskNode.AddSubtask(taskNode2);
+        //    TaskNode taskNode3 = new TaskNode("подзадача1 подзадачи 1", "описание", "Вася, Петя", 1);
+        //    taskNode2.AddSubtask(taskNode3);
+
+        //    taskNode2.Execute();
+        //    taskNode3.Execute();
+        //    taskNode2.Complete();
+
+        //    taskNode.Remove(taskNode2);
+
+        //    Assert.AreEqual(taskNode.ChildrenList.Count, 0);
+        //}
     }
 }

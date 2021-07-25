@@ -10,7 +10,7 @@
 
 
         <span class="detail-date-register">
-            @Model.RegisterDate
+            @Model.RegisterDate.ToString("dd/MM/yyyy HH:mm")
             <span>
                 @if (Model.TaskState != TaskNode.State.Complete)
                 {
@@ -61,7 +61,6 @@
             }
             @if (Model.TaskState == TaskNode.State.Suspend ||
                Model.TaskState == TaskNode.State.Assigned ||
-               Model.ChildrenList.Any(node => node.TaskState != TaskNode.State.Suspend) ||
                Model.TaskState == TaskNode.State.Complete)
             {
                 <img class="detail-button-unable detail-suspend-button" type="image" src="~/img/pause.png" />
@@ -75,7 +74,8 @@
             }
             @if (Model.TaskState == TaskNode.State.Complete ||
                Model.TaskState == TaskNode.State.Assigned ||
-               Model.TaskState == TaskNode.State.Suspend)
+               Model.TaskState == TaskNode.State.Suspend ||
+               !TaskNode.CompleteIsPossible(Model))
             {
                 <img class="detail-button-unable detail-complete-button" type="image" src="~/img/complete.png" />
             }
@@ -95,6 +95,6 @@
 
         @if (Model.TaskState == TaskNode.State.Complete)
         {
-            <span class="detail-date-complete">Complete: @Model.CompleteDate</span>
+            <span class="detail-date-complete">Complete: @Model.CompleteDate.ToString("dd/MM/yyyy HH:mm")</span>
         }
 }

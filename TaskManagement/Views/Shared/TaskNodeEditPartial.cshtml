@@ -13,7 +13,7 @@
     <span class="detail-description">
         <input class="detail-input" type="text" name="description" value="@Model.Description" />
     </span>
-    <span class="detail-date-register">@Model.RegisterDate</span>
+    <span class="detail-date-register">@Model.RegisterDate.ToString("dd/MM/yyyy HH:mm")</span>
 
     <span class="detail-executors">
         Executors: <input class="detail-input" type="text" name="executors" value="@Model.Executors" />
@@ -27,11 +27,6 @@
 
     <span class="detail-time-planned detail-unchanging">Execution time planned: @Model.ExecutionTimePlanned hours</span>
     <span class="detail-time-actual detail-unchanging">Execution time actual: @Model.ExecutionTimeActual hours</span>
-
-    @if (Model.TaskState == TaskNode.State.Complete)
-    {
-        <span class="detail-date-complete detail-unchanging">Complete: @Model.CompleteDate</span>
-    }
 
     <input class="detail-save-button" type="submit" value="Save" />
 }

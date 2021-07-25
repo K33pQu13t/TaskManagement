@@ -52,28 +52,27 @@ namespace TaskManagement.Models
                     }
                     //todo: else exception
                 }
-                //если задача стояла на паузе, но пазу сняли, то запускаем таймер обратно
-                else if (_taskState == State.Suspend && 
-                        value != State.Suspend && 
-                        value != State.Complete)
+                //else if (_taskState == State.Suspend && 
+                //        value != State.Suspend)
+                //{
+                //    //_actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
+                //    _taskState = value;
+                //}
+                else if (value == State.Complete && CompleteIsPossible(this))
                 {
-                    //_actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
                     _taskState = value;
-                }
-                else if (value == State.Complete)
-                {
-                    //если этот объект имеет статус Executing и все его дочерние тоже
-                    if (TaskState == State.Executing && !ChildrenList.Any(node => ((TaskNode)node).TaskState != State.Executing))
-                    {
-                        //_actualTimeUpdater.Dispose();
-                        //также завершаем все дочерние задачи
-                        foreach (TaskNode taskNode in ChildrenList)
-                        {
-                            taskNode.TaskState = State.Complete;
-                        }
-                        _taskState = value;
-                    }
-                    //todo: else exception
+                    ////если этот объект имеет статус Executing и все его дочерние тоже
+                    //if (TaskState == State.Executing && !ChildrenList.Any(node => ((TaskNode)node).TaskState != State.Executing))
+                    //{
+                    //    //_actualTimeUpdater.Dispose();
+                    //    //также завершаем все дочерние задачи
+                    //    foreach (TaskNode taskNode in ChildrenList)
+                    //    {
+                    //        taskNode.TaskState = State.Complete;
+                    //    }
+                    //    _taskState = value;
+                    //}
+                    ////todo: else exception
                 }
                 else
                 {
@@ -94,9 +93,9 @@ namespace TaskManagement.Models
         {
             get 
             {
-                //сумма запланированного времени всех элементов
+                //сумма планового времени всех элементов
                 int sum = _executionTimePlanned;
-                foreach (TaskNode taskNode in ChildrenList)
+                foreach(TaskNode taskNode in this.ChildrenList)
                 {
                     sum += taskNode.ExecutionTimePlanned;
                 }
@@ -117,7 +116,7 @@ namespace TaskManagement.Models
             {
                 //сумма фактического времени всех элементов
                 int sum = _executionTimeActual;
-                foreach (TaskNode taskNode in ChildrenList)
+                foreach (TaskNode taskNode in this.ChildrenList)
                 {
                     sum += taskNode.ExecutionTimeActual;
                 }
@@ -174,25 +173,25 @@ namespace TaskManagement.Models
         /// </summary>
         /// <param name="node"></param>
         /// <returns>true если задача успешно удалена</returns>
-        public bool Remove(TaskNode node)
-        {
-            if (ChildrenList.Contains(node))
-            {
-                //зануляем дочерние задачи
-                for (int i = 0; i < node.ChildrenList.Count; i++)
-                {
-                    //рекурсивно вызываем этот метод на каждом дочернем объекте
-                    node.Remove(((List<TaskNode>)node.ChildrenList)[i]);
-                    node = null;
-                }
-                node.ChildrenList = new List<TaskNode>();
+        //public bool Remove(TaskNode node)
+        //{
+        //    if (ChildrenList.Contains(node))
+        //    {
+        //        //зануляем дочерние задачи
+        //        for (int i = 0; i < node.ChildrenList.Count; i++)
+        //        {
+        //            //рекурсивно вызываем этот метод на каждом дочернем объекте
+        //            node.Remove(((List<TaskNode>)node.ChildrenList)[i]);
+        //            node = null;
+        //        }
+        //        node.ChildrenList = new List<TaskNode>();
 
-                ((List<TaskNode>)ChildrenList).RemoveAll(node => node == null);
+        //        ((List<TaskNode>)ChildrenList).RemoveAll(node => node == null);
 
-                return true;
-            }
-            else return false;
-        }
+        //        return true;
+        //    }
+        //    else return false;
+        //}
 
         /// <summary>
         /// добавляет подзадачу к задаче
@@ -225,7 +224,66 @@ namespace TaskManagement.Models
         //    }
         //}
 
-       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskNode"></param>
+        /// <param name="children">список всех объектов которые должны перейти в Complete</param>
+        /// <param name="taskNodeCurrent"></param>
+        /// <param name="taskNodeCommonChildren"></param>
+        /// <returns>true если задачу можно перевести в состояние Complete (возможно только если все дочерние элементы в состоянии Executing)</returns>
+        static public bool CompleteIsPossible(TaskNode taskNode, TaskNode taskNodeStart = null, List<TaskNode> taskNodeCommonChildren = null)
+        {
+            if (taskNodeStart == null)
+                taskNodeStart = taskNode;
+
+            if (taskNodeCommonChildren == null)
+                taskNodeCommonChildren = new List<TaskNode>();
+
+
+            //если хотя бы один не Executing или Complete, то сразу ясно что не получится
+            if (taskNode.TaskState != State.Executing &&
+                taskNode.TaskState != State.Complete)
+                return false;
+
+            //тот объект который вызвали самым первым не добавляю, он сам после вызова в сеттере поменяет состояние
+            if (taskNode != taskNodeStart)
+                taskNodeCommonChildren.Add(taskNode);
+
+            foreach(TaskNode node in taskNode.ChildrenList)
+            {
+                if (!CompleteIsPossible(node, taskNodeStart, taskNodeCommonChildren))
+                    return false;
+            }
+
+            foreach(TaskNode node in taskNodeCommonChildren)
+            {
+                node.Complete();
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// считает трудоёмкость задачи, путём сложения трудоёмкости каждой подзадачи
+        /// </summary>
+        /// <param name="taskNode"></param>
+        /// <param name="time"></param>
+        /// <returns>предположительная трудоёмкость задачи</returns>
+        //private int CalculateTimePlanned(TaskNode taskNode, TaskNode taskNodeStart = null, int time = default)
+        //{
+        //    //todo: неверно считает
+        //    if (taskNodeStart == null)
+        //        taskNodeStart = taskNode;
+
+        //    time += taskNode._executionTimePlanned;
+        //    foreach(TaskNode node in taskNode.ChildrenList)
+        //    {
+        //        CalculateTimePlanned(node, taskNodeStart, time);
+        //    }
+
+        //    //if (taskNode == taskNodeStart)
+        //        return time;
+        //}
 
         /// <summary>
         /// перевести задачу в статус "выполняется"
