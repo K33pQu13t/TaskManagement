@@ -1,6 +1,6 @@
 #task-explorer {
   width: 240px;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: auto;
   border: 1px solid #212121;
 }
@@ -30,7 +30,6 @@
   width: 20px;
   height: 20px;
   margin: 5px;
-  margin-left: 0;
   font-size: 12px;
   transition: 0.2s;
 }
@@ -60,7 +59,7 @@
   margin-left: 15px;
 }
 #task-explorer .task-main {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 #task-viewer {
   width: calc(100% - 255px);

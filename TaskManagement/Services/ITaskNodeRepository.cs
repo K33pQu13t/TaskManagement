@@ -13,7 +13,7 @@ namespace TaskManagement.Services
         Task EditAsync(TaskNode newTaskNode);
 
         Task SaveAsync();
-        List<TaskNode> Load();
+        Task<List<TaskNode>> LoadAsync();
 
         Task<bool> Remove(int id, List<TaskNode> taskNodeListToRemove = null);
 

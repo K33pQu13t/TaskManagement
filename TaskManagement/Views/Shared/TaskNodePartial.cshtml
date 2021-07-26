@@ -30,6 +30,7 @@
 
 @if (Model != null)
 {
+    <span class="detail-hide" id="taskid">@Model.Id</span>
     <span class="detail-title">@Model.Title</span>
     <p class="detail-description">
         @Model.Description
@@ -78,7 +79,7 @@
         }
         else if (Model.TaskState == TaskNode.State.Executing)
         {
-            @Localizer["Assigned"]
+            @Localizer["Executing"]
         }
         else if (Model.TaskState == TaskNode.State.Suspend)
         {
@@ -117,9 +118,9 @@ Model.TaskState == TaskNode.State.Complete)
             </a>
         }
         @if (Model.TaskState == TaskNode.State.Complete ||
-  Model.TaskState == TaskNode.State.Assigned ||
-  Model.TaskState == TaskNode.State.Suspend ||
-  !TaskNode.CompleteIsPossible(Model))
+ Model.TaskState == TaskNode.State.Assigned ||
+ Model.TaskState == TaskNode.State.Suspend ||
+ !TaskNode.CompleteChildrenIfPossible(Model))
         {
             <img class="detail-button-unable detail-complete-button" type="image" src="~/img/complete.png" />
         }

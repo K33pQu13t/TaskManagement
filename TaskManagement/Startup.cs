@@ -14,6 +14,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskManagement.Models;
+using TaskManagement.Services;
 
 namespace TaskManagement
 {
@@ -29,6 +30,8 @@ namespace TaskManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ITaskNodeRepository, TaskNodeRepository>();
+
             services.AddMvc();//
             // получаем строку подключени€ из файла конфигурации
             string connection = Configuration.GetConnectionString("DefaultConnection");
@@ -37,12 +40,6 @@ namespace TaskManagement
                 options.UseSqlServer(connection));
             services.AddControllersWithViews();
 
-
-            //services.AddLocalization(options => options.ResourcesPath = "Resources");
-            //services.AddControllersWithViews()
-            //    .AddViewLocalization()
-            //    .AddDataAnnotationsLocalization()
-            //    .AddViewLocalization();// добавл€ем локализацию представлений;
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews()
                 .AddViewLocalization();// добавл€ем локализацию представлений;
@@ -64,17 +61,6 @@ namespace TaskManagement
                 app.UseHsts();
             }
 
-            //var supportedCultures = new[]
-            //{
-            //    new CultureInfo("en-us"),
-            //    new CultureInfo("ru-ru")
-            //};
-            //app.UseRequestLocalization(new RequestLocalizationOptions
-            //{
-            //    DefaultRequestCulture = new RequestCulture("en-en"),
-            //    SupportedCultures = supportedCultures,
-            //    SupportedUICultures = supportedCultures
-            //});
             var supportedCultures = new[]
             {
                 new CultureInfo("en"),

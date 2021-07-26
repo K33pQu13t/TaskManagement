@@ -45,34 +45,16 @@ namespace TaskManagement.Models
                 else if (value == State.Suspend)
                 {
                     //если эта задача выполняется и нет ни одной задачи среди её дочерних, которая была бы не на паузе
-                    if (TaskState == State.Executing && !ChildrenList.Any(node => node.TaskState != State.Suspend))
+                    if (TaskState == State.Executing)
                     {
                         //_actualTimeUpdater.Dispose();
                         _taskState = value;
                     }
                     //todo: else exception
                 }
-                //else if (_taskState == State.Suspend && 
-                //        value != State.Suspend)
-                //{
-                //    //_actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
-                //    _taskState = value;
-                //}
-                else if (value == State.Complete && CompleteIsPossible(this))
+                else if (value == State.Complete && CompleteChildrenIfPossible(this))
                 {
                     _taskState = value;
-                    ////если этот объект имеет статус Executing и все его дочерние тоже
-                    //if (TaskState == State.Executing && !ChildrenList.Any(node => ((TaskNode)node).TaskState != State.Executing))
-                    //{
-                    //    //_actualTimeUpdater.Dispose();
-                    //    //также завершаем все дочерние задачи
-                    //    foreach (TaskNode taskNode in ChildrenList)
-                    //    {
-                    //        taskNode.TaskState = State.Complete;
-                    //    }
-                    //    _taskState = value;
-                    //}
-                    ////todo: else exception
                 }
                 else
                 {
@@ -108,7 +90,7 @@ namespace TaskManagement.Models
         }
         private int _executionTimePlanned;
         /// <summary>
-        /// фактическое время выполнения в часах
+        /// фактическое трудоёмкость задачи в часах
         /// </summary>
         public int ExecutionTimeActual 
         {
@@ -137,8 +119,6 @@ namespace TaskManagement.Models
         //private Task _actualTimeUpdater;
         //private int _minutesPassedFromLastHour;
 
-        //без пустого конструктора не хочет собираться бд EF Core,
-        //не до конца понимаю почему
         public TaskNode() 
         {
             TaskState = State.Assigned;
@@ -222,14 +202,12 @@ namespace TaskManagement.Models
         //}
 
         /// <summary>
-        /// 
+        /// Переводит все дочерние объекты в статус Complete, если это возможно
         /// </summary>
         /// <param name="taskNode"></param>
-        /// <param name="children">список всех объектов которые должны перейти в Complete</param>
-        /// <param name="taskNodeCurrent"></param>
         /// <param name="taskNodeCommonChildren"></param>
-        /// <returns>true если задачу можно перевести в состояние Complete (возможно только если все дочерние элементы в состоянии Executing)</returns>
-        static public bool CompleteIsPossible(TaskNode taskNode, TaskNode taskNodeStart = null, List<TaskNode> taskNodeCommonChildren = null)
+        /// <returns>true если эту задачу можно перевести в состояние Complete (возможно только если все дочерние элементы в состоянии Executing)</returns>
+        static public bool CompleteChildrenIfPossible(TaskNode taskNode, TaskNode taskNodeStart = null, List<TaskNode> taskNodeCommonChildren = null)
         {
             if (taskNodeStart == null)
                 taskNodeStart = taskNode;
@@ -249,7 +227,7 @@ namespace TaskManagement.Models
 
             foreach(TaskNode node in taskNode.ChildrenList)
             {
-                if (!CompleteIsPossible(node, taskNodeStart, taskNodeCommonChildren))
+                if (!CompleteChildrenIfPossible(node, taskNodeStart, taskNodeCommonChildren))
                     return false;
             }
 
@@ -261,7 +239,7 @@ namespace TaskManagement.Models
         }
 
         /// <summary>
-        /// 
+        /// Получить плановую трудоёмкость конкретно этой задачи
         /// </summary>
         /// <returns>запланированное время на выполнения для этой задачи (без учёта подзадач)</returns>
         public int GetThisExecutionTimePlanned()
@@ -270,12 +248,17 @@ namespace TaskManagement.Models
         }
 
         /// <summary>
-        /// 
+        /// Получить фактическую трудоёмкость конкретно этой задачи
         /// </summary>
         /// <returns>фактическое время на выполнения для этой задачи (без учёта подзадач)</returns>
         public int GetThisExecutionTimeActual()
         {
             return _executionTimeActual;
+        }
+
+        public void AddExecutionTimeActual(int hours)
+        {
+            _executionTimeActual += hours;
         }
 
         /// <summary>
@@ -301,6 +284,29 @@ namespace TaskManagement.Models
         {
             TaskState = State.Complete;
             CompleteDate = DateTime.Now;
+        }
+
+        private async Task ActualTimeUpdater()
+        {
+            int oneMinute = 60000;
+            int oneHour = 3600000;
+            int seconds = 0;
+            while (true)
+            {
+                //await Task.Delay(oneMinute);
+                await Task.Delay(5000);  //для отладки чтоб быстрее смотреть как изменяется время
+
+                if (this.TaskState == TaskNode.State.Executing)
+                {
+                    //taskNodeExecution.Seconds += oneMinute;
+                    seconds += oneHour; //для отладки чтоб быстрее смотреть как изменяется время
+                }
+                if (seconds >= oneHour)
+                {
+                    seconds = 0;
+                    AddExecutionTimeActual(1);
+                }
+            }
         }
 
         public enum State

@@ -6,14 +6,11 @@ using TaskManagement.Models;
 
 namespace TaskManagement.ViewModels
 {
-    public class TaskNodeListViewModel
+    public class TaskNodeAddTaskViewModel
     {
         public TaskNode TaskNode { get; set; }
 
-        public TaskNodeListViewModel(TaskNode _taskNode)
-        {
-            TaskNode = _taskNode;
-        }
+        public int ParentId { get; set; }
 
         //public int Id { get; set; }
         //public string Title { get; set; }

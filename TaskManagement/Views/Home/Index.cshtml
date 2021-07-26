@@ -63,5 +63,22 @@
         refresh = function () {
             document.getElementById("refresher").click();
         };
+
+        //эта функция обновляет дерево каждые 5 секунд
+        $(document).ready(
+            setInterval(function () {
+                document.getElementById("refresher").click();
+            }, 5000)
+        );
+
+        //эта функция обновляет форму отображения задачи 5,005 секунд
+        $(document).ready(
+            setInterval(function () {
+                if (document.getElementById("taskid")) {
+                    var id = document.getElementById("taskid").innerHTML;
+                    document.getElementById("task"+id).click();
+                }
+            }, 5005)
+        );
     </script>
 }

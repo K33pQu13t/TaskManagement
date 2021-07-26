@@ -1,5 +1,32 @@
 ﻿@model TaskNode
 
+@inject IViewLocalizer Localizer
+
+@{
+    //возвращает строку hours или hour (часы и час(а) для русской локали) в зависимости от того сколько часов
+    string GetHoursString(int hours)
+    {
+        //var culture = CookieRequestCultureProvider.ParseCookieValue(".AspNetCore.Culture");
+        //todo: костыль, не могу из куков считать культуру почему-то
+        string culture = Localizer["Hours"].Value == "hours" ? "en" : "ru";
+
+        if (culture == "en")
+        {
+            if (hours == 1)
+                return Localizer["Hour"].Value.ToLower();
+            else
+                return Localizer["Hours"].Value.ToLower();
+        }
+        else
+        {
+            if (hours >= 1 && hours <= 4)
+                return Localizer["Hour"].Value.ToLower();
+            else
+                return Localizer["Hours"].Value.ToLower();
+        }
+    }
+}
+
 @if (Model != null)
 {
     @if (Model.Parent != null)
@@ -16,17 +43,44 @@
     <span class="detail-date-register">@Model.RegisterDate.ToString("dd/MM/yyyy HH:mm")</span>
 
     <span class="detail-executors">
-        Executors: <input class="detail-input" type="text" name="executors" value="@Model.Executors" />
+        @Localizer["Executors"]: <input class="detail-input" type="text" name="executors" value="@Model.Executors" />
     </span>
     <span class="detail-state detail-unchanging">
-        State: @Model.TaskState
+        @Localizer["State"]:
+        @if (Model.TaskState == TaskNode.State.Assigned)
+        {
+            @Localizer["Assigned"]
+        }
+        else if (Model.TaskState == TaskNode.State.Executing)
+        {
+            @Localizer["Executing"]
+        }
+        else if (Model.TaskState == TaskNode.State.Suspend)
+        {
+            @Localizer["Suspend"]
+        }
+        else if (Model.TaskState == TaskNode.State.Complete)
+        {
+            @Localizer["Complete"]
+        }
         <img class="detail-button-unable detail-state-button-execute" type="image" src="~/img/execute.png" />
         <img class="detail-button-unable" type="image" src="~/img/pause.png" />
         <img class="detail-button-unable detail-state-button-complete" type="image" src="~/img/complete.png" />
     </span>
 
-    <span class="detail-time-planned detail-unchanging">Execution time planned: @Model.ExecutionTimePlanned hours</span>
-    <span class="detail-time-actual detail-unchanging">Execution time actual: @Model.ExecutionTimeActual hours</span>
+
+    <span class="detail-time-planned detail-unchanging">
+        @Localizer["TimePlanned"]: @Model.ExecutionTimePlanned @GetHoursString(Model.ExecutionTimePlanned)
+    </span>
+    <span class="detail-time-planned detail-unchanging">
+        @Localizer["ThisTimePlanned"]: @Model.GetThisExecutionTimePlanned() @GetHoursString(Model.GetThisExecutionTimePlanned())
+    </span>
+    <span class="detail-time-actual detail-unchanging">
+        @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
+    </span>
+    <span class="detail-time-planned detail-unchanging">
+        @Localizer["ThisTimeActual"]: @Model.GetThisExecutionTimeActual() @GetHoursString(Model.GetThisExecutionTimeActual())
+    </span>
 
     <input class="detail-save-button" type="submit" value="Save" />
 }

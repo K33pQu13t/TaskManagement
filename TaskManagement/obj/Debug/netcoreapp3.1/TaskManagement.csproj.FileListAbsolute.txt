@@ -399,4 +399,8 @@ C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcorea
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Localization.AspNetCore.TagHelpers.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Views.Shared.TaskNodeEditPartial.en.resources
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Views.Shared.TaskNodeEditPartial.ru.resources
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Views.Shared.TaskNodeCreatePartial.en.resources
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Views.Shared.TaskNodeCreatePartial.ru.resources
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.csproj.AssemblyReference.cache

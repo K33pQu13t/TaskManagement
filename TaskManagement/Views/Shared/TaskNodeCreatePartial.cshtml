@@ -1,37 +1,56 @@
-﻿@model TaskNode
+﻿@model TaskManagement.ViewModels.TaskNodeAddTaskViewModel
+
+@inject IViewLocalizer Localizer
+
+@{
+    //возвращает строку hours или hour (часы и час(а) для русской локали) в зависимости от того сколько часов
+    string GetHoursString(int hours)
+    {
+        //var culture = CookieRequestCultureProvider.ParseCookieValue(".AspNetCore.Culture");
+        //todo: костыль, не могу из куков считать культуру почему-то
+        string culture = Localizer["Hours"].Value == "hours" ? "en" : "ru";
+
+        if (culture == "en")
+        {
+            if (hours == 1)
+                return Localizer["Hour"].Value.ToLower();
+            else
+                return Localizer["Hours"].Value.ToLower();
+        }
+        else
+        {
+            if (hours >= 1 && hours <= 4)
+                return Localizer["Hour"].Value.ToLower();
+            else
+                return Localizer["Hours"].Value.ToLower();
+        }
+    }
+}
+
 
 @if (Model != null)
 {
-    @if (Model.Parent != null)
-    {
-        <input class="detail-hide" style="display: none" type="text" name="parentId" , value="@Model.Parent.Id" />
-    }
-    <input class="detail-input" style="display: none" type="text" name="id" , value="@Model.Id" />
+
+    <input class="detail-hide" style="display: none" type="text" name="parentId" , value="@Model.ParentId" />
+
+    <input class="detail-input" style="display: none" type="text" name="id" , value="@Model.TaskNode.Id" />
     <span class="detail-title">
-        <input class="detail-input" type="text" name="title" value="@Model.Title" />
+        <input class="detail-input" type="text" name="title" value="@Localizer["TaskTitle"]" />
     </span>
     <span class="detail-description">
-        <input class="detail-input" type="text" name="description" value="@Model.Description" />
+        <input class="detail-input" type="text" name="description" value="@Localizer["TaskDescription"]" />
     </span>
-    <span class="detail-date-register">@Model.RegisterDate.ToString("dd/MM/yyyy HH:mm")</span>
+    <span class="detail-date-register">@Model.TaskNode.RegisterDate.ToString("dd/MM/yyyy HH:mm")</span>
 
     <span class="detail-executors">
-        Executors: <input class="detail-input" type="text" name="executors" value="@Model.Executors" />
-    </span>
-    <span class="detail-state detail-unchanging">
-        State: @Model.TaskState
-        <img class="detail-button-unable detail-state-button-execute" type="image" src="~/img/execute.png" />
-        <img class="detail-button-unable" type="image" src="~/img/pause.png" />
-        <img class="detail-button-unable detail-state-button-complete" type="image" src="~/img/complete.png" />
+        @Localizer["Executors"]: <input class="detail-input" type="text" name="executors" value="@Model.TaskNode.Executors" />
     </span>
 
     <span class="detail-time-planned">
-        Execution time planned:
-        <input class="detail-input-small" type="text" name="timePlanned" value="@Model.ExecutionTimePlanned" />
-        hours
+        @Localizer["ThisTimePlanned"]:
+        <input class="detail-input-small" type="text" name="timePlanned" />
+        @GetHoursString(Model.TaskNode.GetThisExecutionTimePlanned())
     </span>
-
-    <span class="detail-time-actual detail-unchanging">Execution time actual: @Model.ExecutionTimeActual hours</span>
 
     <input class="detail-save-button" type="submit" value="Save" />
 }
