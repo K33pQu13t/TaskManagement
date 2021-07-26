@@ -12,11 +12,8 @@ namespace TaskManagement.Services
 {
     public class TaskNodeRepository : ITaskNodeRepository
     {
-        readonly ApplicationContext _db;
-
+        private readonly ApplicationContext _db;
         private List<TaskNodeExecution> _taskNodeExecutionList;
-
-        private Task _timeUpdater;
 
         public TaskNodeRepository()
         {
@@ -44,7 +41,7 @@ namespace TaskManagement.Services
             }
 
             //запускаем синхронизацию фактического времени выполнения
-            _timeUpdater = Task.Run(() => ActualTimeUpdater());
+            Task.Run(() => ActualTimeUpdater());
         }
 
         public async Task AddTaskAsync(TaskNode taskNode)
@@ -87,7 +84,7 @@ namespace TaskManagement.Services
 
             //синхронизируем объекты из _taskNodeExecutionList с базой
             _taskNodeExecutionList = new List<TaskNodeExecution>();
-            List<TaskNode> taskNodeList = _db.TaskNodeList.ToList();
+            List<TaskNode> taskNodeList = await _db.TaskNodeList.ToListAsync();
             foreach (TaskNode taskNode in taskNodeList)
             {
                 _taskNodeExecutionList.Add(new TaskNodeExecution { Node = taskNode });
@@ -144,10 +141,9 @@ namespace TaskManagement.Services
         /// <returns></returns>
         private async Task ActualTimeUpdater()
         {
+            //эта система не считает время, если код не запущен. Не знаю, недостаток ли это, просто факт
             int oneMinute = 60000;
             int oneHour = 3600000;
-
-          
 
             while (true)
             {

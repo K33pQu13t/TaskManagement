@@ -47,7 +47,6 @@ namespace TaskManagement.Models
                     //если эта задача выполняется и нет ни одной задачи среди её дочерних, которая была бы не на паузе
                     if (TaskState == State.Executing)
                     {
-                        //_actualTimeUpdater.Dispose();
                         _taskState = value;
                     }
                     //todo: else exception
@@ -116,9 +115,6 @@ namespace TaskManagement.Models
         /// </summary>
         public DateTime CompleteDate { get; private set; }
 
-        //private Task _actualTimeUpdater;
-        //private int _minutesPassedFromLastHour;
-
         public TaskNode() 
         {
             TaskState = State.Assigned;
@@ -140,9 +136,6 @@ namespace TaskManagement.Models
             RegisterDate = DateTime.Now;
 
             ChildrenList = new List<TaskNode>();
-
-            //запускет обновление фактического времени
-            //_actualTimeUpdater = Task.Run(() => ActualTimeUpdater());
         }
 
         /// <summary>
@@ -183,23 +176,6 @@ namespace TaskManagement.Models
                 ChildrenList.Add(node);
             }
         }
-
-        //private async void ActualTimeUpdater()
-        //{
-        //    while (true)
-        //    {
-        //        //ждём 60 минут и 5 мс (для гарантии)
-        //        Thread.Sleep(60000);
-
-        //        _minutesPassedFromLastHour++;
-
-        //        if (_minutesPassedFromLastHour >= 60)
-        //        {
-        //            _executionTimeActual++;
-        //            _minutesPassedFromLastHour = 0;
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Переводит все дочерние объекты в статус Complete, если это возможно
@@ -284,29 +260,6 @@ namespace TaskManagement.Models
         {
             TaskState = State.Complete;
             CompleteDate = DateTime.Now;
-        }
-
-        private async Task ActualTimeUpdater()
-        {
-            int oneMinute = 60000;
-            int oneHour = 3600000;
-            int seconds = 0;
-            while (true)
-            {
-                //await Task.Delay(oneMinute);
-                await Task.Delay(5000);  //для отладки чтоб быстрее смотреть как изменяется время
-
-                if (this.TaskState == TaskNode.State.Executing)
-                {
-                    //taskNodeExecution.Seconds += oneMinute;
-                    seconds += oneHour; //для отладки чтоб быстрее смотреть как изменяется время
-                }
-                if (seconds >= oneHour)
-                {
-                    seconds = 0;
-                    AddExecutionTimeActual(1);
-                }
-            }
         }
 
         public enum State

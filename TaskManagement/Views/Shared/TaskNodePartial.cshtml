@@ -105,8 +105,8 @@ Model.TaskState == TaskNode.State.Complete)
             </a>
         }
         @if (Model.TaskState == TaskNode.State.Suspend ||
-  Model.TaskState == TaskNode.State.Assigned ||
-  Model.TaskState == TaskNode.State.Complete)
+ Model.TaskState == TaskNode.State.Assigned ||
+ Model.TaskState == TaskNode.State.Complete)
         {
             <img class="detail-button-unable detail-suspend-button" type="image" src="~/img/pause.png" />
         }
@@ -118,9 +118,9 @@ Model.TaskState == TaskNode.State.Complete)
             </a>
         }
         @if (Model.TaskState == TaskNode.State.Complete ||
- Model.TaskState == TaskNode.State.Assigned ||
- Model.TaskState == TaskNode.State.Suspend ||
- !TaskNode.CompleteChildrenIfPossible(Model))
+Model.TaskState == TaskNode.State.Assigned ||
+Model.TaskState == TaskNode.State.Suspend ||
+!TaskNode.CompleteChildrenIfPossible(Model))
         {
             <img class="detail-button-unable detail-complete-button" type="image" src="~/img/complete.png" />
         }
@@ -136,15 +136,22 @@ Model.TaskState == TaskNode.State.Complete)
     <span class="detail-time-planned">
         @Localizer["TimePlanned"]: @Model.ExecutionTimePlanned @GetHoursString(Model.ExecutionTimePlanned)
     </span>
-    <span class="detail-time-planned">
-        @Localizer["ThisTimePlanned"]: @Model.GetThisExecutionTimePlanned() @GetHoursString(Model.GetThisExecutionTimePlanned())
-    </span>
+    @if (Model.ChildrenList.Count >= 0)
+    {
+        <span class="detail-time-planned">
+            @Localizer["ThisTimePlanned"]: @Model.GetThisExecutionTimePlanned() @GetHoursString(Model.GetThisExecutionTimePlanned())
+        </span>
+    }
     <span class="detail-time-actual">
         @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
     </span>
-    <span class="detail-time-planned">
-        @Localizer["ThisTimeActual"]: @Model.GetThisExecutionTimeActual() @GetHoursString(Model.GetThisExecutionTimeActual())
-    </span>
+
+    @if (Model.ChildrenList.Count >= 0)
+    {
+        <span class="detail-time-planned">
+            @Localizer["ThisTimeActual"]: @Model.GetThisExecutionTimeActual() @GetHoursString(Model.GetThisExecutionTimeActual())
+        </span>
+    }
 
     @if (Model.TaskState == TaskNode.State.Complete)
     {

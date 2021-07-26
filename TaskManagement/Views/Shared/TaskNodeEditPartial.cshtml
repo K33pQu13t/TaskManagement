@@ -72,15 +72,22 @@
     <span class="detail-time-planned detail-unchanging">
         @Localizer["TimePlanned"]: @Model.ExecutionTimePlanned @GetHoursString(Model.ExecutionTimePlanned)
     </span>
-    <span class="detail-time-planned detail-unchanging">
-        @Localizer["ThisTimePlanned"]: @Model.GetThisExecutionTimePlanned() @GetHoursString(Model.GetThisExecutionTimePlanned())
-    </span>
+    @if (Model.ChildrenList.Count >= 0)
+    {
+        <span class="detail-time-planned detail-unchanging">
+            @Localizer["ThisTimePlanned"]: @Model.GetThisExecutionTimePlanned() @GetHoursString(Model.GetThisExecutionTimePlanned())
+        </span>
+    }
     <span class="detail-time-actual detail-unchanging">
         @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
     </span>
-    <span class="detail-time-planned detail-unchanging">
-        @Localizer["ThisTimeActual"]: @Model.GetThisExecutionTimeActual() @GetHoursString(Model.GetThisExecutionTimeActual())
-    </span>
+
+    @if (Model.ChildrenList.Count >= 0)
+    {
+        <span class="detail-time-planned detail-unchanging">
+            @Localizer["ThisTimeActual"]: @Model.GetThisExecutionTimeActual() @GetHoursString(Model.GetThisExecutionTimeActual())
+        </span>
+    }
 
     <input class="detail-save-button" type="submit" value="Save" />
 }
