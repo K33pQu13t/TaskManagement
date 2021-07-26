@@ -149,10 +149,7 @@ namespace TaskManagement.Models
 
         public TaskNode(string _title, string _description,
             string _executors,
-            int _executionTimePlanned
-            //,List<TaskNode> _childrenList = null,
-            //TaskNode _parent = null
-            )
+            int _executionTimePlanned)
         {
             Title = _title;
             Description = _description;
@@ -264,26 +261,22 @@ namespace TaskManagement.Models
         }
 
         /// <summary>
-        /// считает трудоёмкость задачи, путём сложения трудоёмкости каждой подзадачи
+        /// 
         /// </summary>
-        /// <param name="taskNode"></param>
-        /// <param name="time"></param>
-        /// <returns>предположительная трудоёмкость задачи</returns>
-        //private int CalculateTimePlanned(TaskNode taskNode, TaskNode taskNodeStart = null, int time = default)
-        //{
-        //    //todo: неверно считает
-        //    if (taskNodeStart == null)
-        //        taskNodeStart = taskNode;
+        /// <returns>запланированное время на выполнения для этой задачи (без учёта подзадач)</returns>
+        public int GetThisExecutionTimePlanned()
+        {
+            return _executionTimePlanned;
+        }
 
-        //    time += taskNode._executionTimePlanned;
-        //    foreach(TaskNode node in taskNode.ChildrenList)
-        //    {
-        //        CalculateTimePlanned(node, taskNodeStart, time);
-        //    }
-
-        //    //if (taskNode == taskNodeStart)
-        //        return time;
-        //}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>фактическое время на выполнения для этой задачи (без учёта подзадач)</returns>
+        public int GetThisExecutionTimeActual()
+        {
+            return _executionTimeActual;
+        }
 
         /// <summary>
         /// перевести задачу в статус "выполняется"

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,9 +37,15 @@ namespace TaskManagement
                 options.UseSqlServer(connection));
             services.AddControllersWithViews();
 
-            
+
+            //services.AddLocalization(options => options.ResourcesPath = "Resources");
+            //services.AddControllersWithViews()
+            //    .AddViewLocalization()
+            //    .AddDataAnnotationsLocalization()
+            //    .AddViewLocalization();// добавляем локализацию представлений;
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddViewLocalization();// добавляем локализацию представлений;
         }
 
 
@@ -57,10 +64,21 @@ namespace TaskManagement
                 app.UseHsts();
             }
 
+            //var supportedCultures = new[]
+            //{
+            //    new CultureInfo("en-us"),
+            //    new CultureInfo("ru-ru")
+            //};
+            //app.UseRequestLocalization(new RequestLocalizationOptions
+            //{
+            //    DefaultRequestCulture = new RequestCulture("en-en"),
+            //    SupportedCultures = supportedCultures,
+            //    SupportedUICultures = supportedCultures
+            //});
             var supportedCultures = new[]
-        {
+            {
                 new CultureInfo("en"),
-                new CultureInfo("ru")
+                new CultureInfo("ru"),
             };
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
@@ -68,9 +86,6 @@ namespace TaskManagement
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
             });
-
-            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
-            app.UseRequestLocalization(localizationOptions);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

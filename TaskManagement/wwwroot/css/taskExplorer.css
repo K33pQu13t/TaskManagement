@@ -21,7 +21,7 @@
   flex: 0 0 auto;
 }
 #task-explorer .task .task-info .collapse-button {
-  visibility: hidden;
+  /*visibility: hidden;*/
   justify-content: center;
   vertical-align: middle;
   text-align: center;
@@ -46,9 +46,10 @@
   height: 30px;
   line-height: 30px;
   color: unset;
+  min-width: 28px;
 }
 #task-explorer .task .task-info .task-title:hover {
-  border-bottom: 1px solid red;
+  border-bottom: 1px solid #5968d8;
   text-decoration: none;
   color: unset;
 }
@@ -129,7 +130,7 @@
   margin: 0 5px 5px;
   display: inline-flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
 }
 #task-viewer .detail-state {
   display: inline-flex;
@@ -160,9 +161,16 @@
 .add-button {
   padding-bottom: 5px;
 }
+.header-button {
+  margin: 0 5px 5px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.header-button .lang-button:hover {
+  box-shadow: 0 0 5px 2px;
+  display: inline-block;
+}
 .detail-hide {
   display: none;
 }
-/*.right-area {
-    width: 100%;
-}*/

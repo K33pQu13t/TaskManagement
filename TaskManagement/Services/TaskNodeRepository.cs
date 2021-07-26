@@ -10,7 +10,7 @@ namespace TaskManagement.Services
 {
     public class TaskNodeRepository : ITaskNodeRepository
     {
-        ApplicationContext _db;
+        readonly ApplicationContext _db;
 
 
         public TaskNodeRepository()
@@ -55,7 +55,6 @@ namespace TaskManagement.Services
 
             if (taskNode != null)
             {
-                taskNode = newTaskNode;
                 await SaveAsync();
             }
             //todo: else throw new exception?

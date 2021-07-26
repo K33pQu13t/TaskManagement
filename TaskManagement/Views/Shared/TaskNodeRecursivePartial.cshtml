@@ -8,7 +8,7 @@
     {
         <div class="task task-main">
             <div class="task-info">
-                <span class="collapse-button">></span>
+                <img src="~/img/dot.png"/>
                 <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
                    asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
                     @Model.Title
@@ -42,7 +42,7 @@ else
     {
         <div class="task">
             <div class="task-info">
-                <span class="collapse-button">></span>
+                <img src="~/img/dot.png" />
                 <a class="task-title" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
                    asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
                     @Model.Title

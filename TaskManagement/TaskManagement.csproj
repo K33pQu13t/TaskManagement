@@ -6,11 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TagHelpers\**" />
+    <Content Remove="TagHelpers\**" />
+    <EmbeddedResource Remove="TagHelpers\**" />
+    <None Remove="TagHelpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.Unobtrusive.Ajax" Version="1.1.3" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="gulp-uglify.TypeScript.DefinitelyTyped" Version="0.1.2" />
     <PackageReference Include="jQuery" Version="3.6.0" />
-    <PackageReference Include="Microsoft.AspNet.Web.Optimization" Version="1.1.3" />
+    <PackageReference Include="Localization.AspNetCore.TagHelpers" Version="0.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.8">
@@ -19,39 +26,9 @@
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
-    <PackageReference Include="System.Web.Optimization.Less" Version="1.3.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Strings.en.resx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\tasknode.ru-RU.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>tasknode.ru-RU.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\tasknode.ru-RU.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>tasknode.ru-RU.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Scripts\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

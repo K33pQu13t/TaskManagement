@@ -1,21 +1,48 @@
 ﻿@using Microsoft.AspNetCore.Localization
-@using System.Web.Optimization
+@inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Home Page";
 
     List<TaskManagement.Models.TaskNode> model = ViewBag.TaskNodeRecursivePartial;
+
+    // получаем сервис IRequestCultureFeature
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
 }
 
-<a class="detail-button add-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
-   asp-action="AddTaskNodeShow" asp-controller="Home">
-    <img src="~/img/add.png" />
-</a>
-<a class="detail-button refresh-buttor" id="refresher"
-   data-ajax="true" data-ajax-update="#task-explorer" data-ajax-mode="replace"
-   asp-action="RefreshTaskExplorer" asp-controller="Home">
-    <img src="~/img/refresh.png" />
-</a>
+
+<span class="header-button">
+    <span>
+        <a class="detail-button add-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+           asp-action="AddTaskNodeShow" asp-controller="Home">
+            <img src="~/img/add.png" />
+        </a>
+        <a class="detail-button refresh-buttor" id="refresher"
+           data-ajax="true" data-ajax-update="#task-explorer" data-ajax-mode="replace"
+           asp-action="RefreshTaskExplorer" asp-controller="Home">
+            <img src="~/img/refresh.png" />
+        </a>
+    </span>
+    <span>
+        <a class="detail-button lang-button" id="refresher"
+        
+           asp-action="SetLanguage" asp-controller="Home"
+           asp-route-returnUrl="@Context.Request.Path"
+           asp-route-culture="en">
+            <img src="~/img/en.png" />
+        </a>
+        <a class="detail-button lang-button" id="refresher"
+ 
+           asp-action="SetLanguage" asp-controller="Home"
+           asp-route-returnUrl="@Context.Request.Path"
+           asp-route-culture="ru">
+            <img src="~/img/ru.png" />
+        </a>
+    </span>
+</span>
+
+
+
 
 <div class="main-grid">
     <div id="task-explorer">
