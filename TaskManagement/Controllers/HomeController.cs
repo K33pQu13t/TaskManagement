@@ -31,7 +31,6 @@ namespace TaskManagement.Controllers
         public async Task<IActionResult> Index()
         {
             List<TaskNode> taskNodeList = await TaskNodeRepository.LoadAsync();
-            //ViewBag.TaskNodeRecursivePartial = taskNodeList;
 
             return View(taskNodeList);
         }
@@ -93,7 +92,7 @@ namespace TaskManagement.Controllers
                     Title = taskNodeEditing.Title,
                     Description = taskNodeEditing.Description,
                     ParentId = taskNodeEditing.Parent == null ? default : taskNodeEditing.Parent.Id,
-                    HasChildren = taskNodeEditing.ChildrenList.Count > 0,
+                    IsHavingChildren = taskNodeEditing.ChildrenList.Count > 0,
                     Executors = taskNodeEditing.Executors,
                     TaskState = taskNodeEditing.TaskState,
                     RegisterDate = taskNodeEditing.RegisterDate,

@@ -16,7 +16,7 @@ namespace TaskManagement.ViewModels
         [Required]
         public string Description { get; set; }
         public int ParentId { get; set; }
-        public bool HasChildren { get; set; }
+        public bool IsHavingChildren { get; set; }
         [Required]
         public string Executors { get; set; }
         public TaskNode.State TaskState { get; set; }

@@ -30,6 +30,8 @@
 
 @if (Model != null)
 {
+    @* почему-то на форме с ajax не работает клиентская валидация стандартная в mvc, не разобрался что сделать.
+    Тут сделал клиентскую валидацию через html теги, но на сервере нормальная валидация*@
     <div class="validation" asp-validation-summary="ModelOnly"></div>
     <input class="detail-hide" type="text" asp-for="ParentId" value="@Model.ParentId" />
 
@@ -51,7 +53,7 @@
 
     <span class="detail-time-planned">
         @Localizer["ThisTimePlanned"]:
-        <input class="detail-input-small" type="text" required min="1" asp-for="ExecutionTimePlanned"/>
+        <input class="detail-input small" type="number" required min="1" asp-for="ExecutionTimePlanned"/>
         @GetHoursString(Model.ExecutionTimePlanned)
         <span asp-validation-for="ExecutionTimePlanned"></span>
     </span>

@@ -456,3 +456,4 @@ C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\net
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\netcoreapp3.1\en\TaskManagement.resources.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\netcoreapp3.1\ru\TaskManagement.resources.dll
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagementTests\bin\Debug\netcoreapp3.1\libman.json

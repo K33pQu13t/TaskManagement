@@ -15,7 +15,7 @@ namespace TaskManagement.Services
         Task SaveAsync();
         Task<List<TaskNode>> LoadAsync();
 
-        Task<bool> Remove(int id, List<TaskNode> taskNodeListToRemove = null);
+        Task<bool> Remove(int id);
 
         Task<TaskNode> FindById(int id);
     }

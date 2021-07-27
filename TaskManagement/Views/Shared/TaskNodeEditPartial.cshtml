@@ -34,6 +34,8 @@
 
 @if (Model != null)
 {
+    @* почему-то на форме с ajax не работает клиентская валидация стандартная в mvc, не разобрался что сделать.
+    Тут сделал клиентскую валидацию через html теги, но на сервере нормальная валидация*@
     <div class="validation" asp-validation-summary="ModelOnly"></div>
     @if (Model.ParentId == default)
     {
@@ -72,16 +74,18 @@
         {
             @Localizer["Complete"]
         }
-        <img class="detail-button-unable detail-state-button-execute" type="image" src="~/img/execute.png" />
-        <img class="detail-button-unable" type="image" src="~/img/pause.png" />
-        <img class="detail-button-unable detail-state-button-complete" type="image" src="~/img/complete.png" />
+
+        <img class="detail-button execute unable" type="image" src="~/img/execute.png" />
+        <img class="detail-button middle-button unable" type="image" src="~/img/pause.png" />
+        <img class="detail-button danger-button unable" type="image" src="~/img/complete.png" />
+
     </span>
 
 
     <span class="detail-time-planned detail-unchanging">
         @Localizer["TimePlanned"]: @Model.ExecutionTimePlanned @GetHoursString(Model.ExecutionTimePlanned)
     </span>
-    @if (Model.HasChildren)
+    @if (Model.IsHavingChildren)
     {
         <span class="detail-time-planned detail-unchanging">
             @Localizer["ThisTimePlanned"]: @Model.ExecutionTimePlannedThis @GetHoursString(Model.ExecutionTimePlannedThis)
@@ -91,7 +95,7 @@
         @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
     </span>
 
-    @if (Model.HasChildren)
+    @if (Model.IsHavingChildren)
     {
         <span class="detail-time-planned detail-unchanging">
             @Localizer["ThisTimeActual"]: @Model.ExecutionTimeActualThis @GetHoursString(Model.ExecutionTimeActualThis)

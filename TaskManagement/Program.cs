@@ -15,20 +15,6 @@ namespace TaskManagement
     {
         public static void Main(string[] args)
         {
-            //TaskNodeRepository repository = new TaskNodeRepository();
-
-            //TaskNode taskNode = new TaskNode("задача1", "описание", "Вася, Петя", 2);
-            //TaskNode taskNode2 = new TaskNode("подзадача1", "описание", "Вася, Петя", 1);
-            //taskNode.AddSubtask(taskNode2);
-            //repository.AddTaskAsync(taskNode);
-            //repository.AddTaskAsync(taskNode2);
-            //List<TaskNode> taskNodes = repository.Load();
-
-            //repository.AddSubtaskAsync(2, new TaskNode("подзадача1 подзадачи 1", "описание", "Вася, Петя", 1));
-            //repository.AddSubtaskAsync(1, new TaskNode("подзадача2", "описание", "Петя", 1));
-
-            //List<TaskNode> taskNodes = repository.Load();
-
             CreateHostBuilder(args).Build().Run();
         }
 

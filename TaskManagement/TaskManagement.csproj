@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\lib\jquery-3.6.0.min.js" />
-    <None Include="wwwroot\lib\jquery.unobtrusive-ajax.min.js" />
   </ItemGroup>
 
 </Project>

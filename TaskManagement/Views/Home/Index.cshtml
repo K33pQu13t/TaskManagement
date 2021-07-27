@@ -14,24 +14,25 @@
 
 <span class="header-button">
     <span>
-        <a class="detail-button add-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+        <a class="detail-button add" 
+           data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
            asp-action="AddTaskNodeShow" asp-controller="Home">
-            <img src="~/img/add.png" />
+            <img class="button-round-shadow" src="~/img/add.png" />
         </a>
-        <a class="detail-button refresh-buttor" id="refresher"
+        <a class="detail-button refresh" id="refresher"
            data-ajax="true" data-ajax-update="#task-explorer" data-ajax-mode="replace"
            asp-action="RefreshTaskExplorer" asp-controller="Home">
-            <img src="~/img/refresh.png" />
+            <img class="button-round-shadow" src="~/img/refresh.png" />
         </a>
     </span>
     <span>
-        <a class="detail-button lang-button" id="refresher"
+        <a class="detail-button lang"
            asp-action="SetLanguage" asp-controller="Home"
            asp-route-returnUrl="@Context.Request.Path"
            asp-route-culture="en">
             <img src="~/img/en.png" />
         </a>
-        <a class="detail-button lang-button" id="refresher"
+        <a class="detail-button lang"
            asp-action="SetLanguage" asp-controller="Home"
            asp-route-returnUrl="@Context.Request.Path"
            asp-route-culture="ru">
@@ -49,8 +50,7 @@
 
     <form id="task-viewer" method="post"
           data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
-          data-ajax-complete="refresh" data-ajax-success="validatorupd"
-          asp-antiforgery="true"
+          data-ajax-complete="refresh()"
           data-ajax-validate="true"
           asp-action="EditTaskNodeDetailsSave" asp-controller="Home">
     </form>
@@ -59,11 +59,11 @@
 
 
 @section scripts{
-    <script src="~/lib/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
 
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 
     <script type="text/javascript" src="~/js/refreshTree.js"></script>
-    <script type="text/javascript" src="~/js/refreshAuto.js"></script>
+    @*<script type="text/javascript" src="~/js/refreshAuto.js"></script>*@
 }

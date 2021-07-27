@@ -96,47 +96,39 @@
         width: 100%;
     }
 
-    .detail-input-small {
+    .detail-input.small {
         width: 50px;
     }
 
-    .detail-save-button {
-        align-self: center;
-        width: 80%;
-        margin: 14px;
-    }
+    .detail-button {
 
-    .detail-execute-button {
-        padding-left: 14px;
-    }
+        &.unable {
+            line-height: 30px;
+            display: inline-flex;
+            opacity: 0.4;
+            cursor: default;
+        }
 
-    .detail-suspend-button {
-        padding-left: 18px;
-    }
+        &.execute {
+            margin-left: 14px;
+        }
 
-    .detail-complete-button {
-        padding-left: 38px;
-    }
+        &.middle-button {
+            margin-left: 18px;
+        }
 
-    .detail-remove-button {
-        padding-left: 38px;
-    }
+        &.danger-button {
+            margin-left: 38px;
+        }
 
-    .detail-edit-button {
-        padding-left: 18px;
-    }
-
-    .detail-button-unable {
-        line-height: 30px;
-        display: inline-flex;
-        opacity: 0.4;
-        cursor: default;
-
-        &:hover {
-            text-decoration: none;
-            color: unset;
+        &.save {
+            align-self: center;
+            width: 80%;
+            margin: 14px;
         }
     }
+
+
 
     > *:nth-child(n+4) {
         padding-left: 16px;
@@ -169,14 +161,6 @@
     .detail-state {
         display: inline-flex;
         align-items: center;
-
-        .detail-state-button-execute {
-            padding-left: 6px;
-        }
-
-        .detail-state-button-complete {
-            padding-left: 12px;
-        }
     }
 
     .detail-time-planned {
@@ -196,34 +180,44 @@
     display: flex;
 }
 
-.detail-button {
-    &:hover {
-        text-decoration: none;
-        color: unset;
-        cursor: pointer;
-    }
-}
-
-.refresh-buttor {
-    padding-left: 18px;
-    padding-bottom: 5px;
-}
-
-.add-button {
-    padding-bottom: 5px;
-}
-
 .header-button {
     margin: 0 5px 5px;
     justify-content: space-between;
     align-items: center;
     display: flex;
 
-    .lang-button {
+    .detail-button {
         &:hover {
-            box-shadow: 0 0 5px 2px;
-            display: inline-block;
+            text-decoration: none;
+            color: unset;
+            cursor: pointer;
         }
+
+        &.add {
+            padding-bottom: 5px;
+        }
+
+        &.refresh {
+            margin-left: 18px;
+            padding-bottom: 5px;
+        }
+
+        &.lang {
+            &:hover {
+                box-shadow: 0 0 5px 2px;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+.button-round-shadow {
+    &:hover {
+        text-decoration: none;
+        color: unset;
+        cursor: pointer;
+        box-shadow: 0 0 5px 2px;
+        border-radius: 50%;
     }
 }
 

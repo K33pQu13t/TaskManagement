@@ -9,6 +9,6 @@ namespace TaskManagement.Helpers
     public class TaskNodeExecution
     {
         public TaskNode Node { get; set; }
-        public int Seconds { get; set; }
+        public int Milliseconds { get; set; }
     }
 }

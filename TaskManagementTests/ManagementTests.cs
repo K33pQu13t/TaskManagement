@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 using TaskManagement.Models;
 
 namespace TaskManagementTests
@@ -45,6 +46,38 @@ namespace TaskManagementTests
             int timePlanned = taskNode.ExecutionTimePlanned;
 
             Assert.AreEqual(18, timePlanned);
+        }
+
+        [TestMethod]
+        public void GetAllDemensions()
+        {
+          
+            TaskNode taskNode = new TaskNode("1", "описание", "Вася, Петя", 1);
+            TaskNode taskNode2 = new TaskNode("2", "описание", "Вася, Петя", 4);
+            taskNode.AddSubtask(taskNode2);
+            TaskNode taskNode3 = new TaskNode("3", "описание", "Вася, Петя", 3);
+            taskNode2.AddSubtask(taskNode3);
+            TaskNode taskNode4 = new TaskNode("4", "описание", "Вася, Петя", 2);
+            taskNode2.AddSubtask(taskNode4);
+            TaskNode taskNode5 = new TaskNode("5", "описание", "Вася, Петя", 5);
+            taskNode4.AddSubtask(taskNode5);
+            TaskNode taskNode6 = new TaskNode("6", "описание", "Вася, Петя", 3);
+            taskNode.AddSubtask(taskNode6);
+            //taskNode
+            //--taskNode2
+            //----taskNode3
+            //----taskNode4
+            //------taskNode5
+            //--taskNode6
+            List<TaskNode> taskNodeList = new List<TaskNode>()
+            {
+                taskNode, taskNode2, taskNode3, taskNode4, taskNode5, taskNode6
+            };
+            //taskNodeList.Sort();
+            List<TaskNode> allDemensionsList = taskNode.GetAllDemensions();
+            //allDemensionsList.Sort();
+
+            Assert.AreEqual(taskNodeList.SequenceEqual(allDemensionsList), true);
         }
 
         //[TestMethod]

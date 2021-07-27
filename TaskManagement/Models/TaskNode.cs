@@ -45,19 +45,19 @@ namespace TaskManagement.Models
                 else if (value == State.Suspend)
                 {
                     //если эта задача выполняется и нет ни одной задачи среди её дочерних, которая была бы не на паузе
-                    if (TaskState == State.Executing)
-                    {
+                    if (CanBeSuspended())
                         _taskState = value;
-                    }
                     //todo: else exception
                 }
-                else if (value == State.Complete && CompleteChildrenIfPossible(this))
+                else if (value == State.Complete)
                 {
-                    _taskState = value;
+                    //если можем завершить, то ставить дату завершения
+                    CompleteTaskAndChildrenIfPossible();
                 }
-                else
-                {
-                    _taskState = value;
+                else if (value == State.Executing)
+                { 
+                    if (CanBeExecuted())
+                        _taskState = value;
                 }
             }
         }
@@ -178,40 +178,87 @@ namespace TaskManagement.Models
         }
 
         /// <summary>
-        /// Переводит все дочерние объекты в статус Complete, если это возможно
+        /// Переводит объект и все его дочерние объекты в статус Complete, если это возможно
+        /// </summary>
+        /// <returns>true если эту задачу можно перевести в состояние Complete (возможно только если все дочерние элементы в состоянии Executing)</returns>
+        private bool CompleteTaskAndChildrenIfPossible()
+        {
+            if (CanBeCompleted())
+            {
+                var allSubtaskList = _GetAllDemensions(this);
+                foreach (var node in allSubtaskList)
+                {
+                    node._taskState = State.Complete;
+                    node.CompleteDate = DateTime.Now;
+                } 
+                return true;
+            }
+            return false;
+        }
+
+        public List<TaskNode> GetAllDemensions()
+        {
+            return _GetAllDemensions(this);
+        }
+
+        //этот метод нужен чтобы скрыть его извне, чтоб обращались через обычный GetAllDemensions
+        /// <summary>
+        /// получить задачу + все подзадачи всех подзадач
         /// </summary>
         /// <param name="taskNode"></param>
-        /// <param name="taskNodeCommonChildren"></param>
-        /// <returns>true если эту задачу можно перевести в состояние Complete (возможно только если все дочерние элементы в состоянии Executing)</returns>
-        static public bool CompleteChildrenIfPossible(TaskNode taskNode, TaskNode taskNodeStart = null, List<TaskNode> taskNodeCommonChildren = null)
+        /// <param name="taskNodeListAllDemensions"></param>
+        /// <returns>список задач, который состоит из исходной задачи и всех её подзадач во всех измерениях</returns>
+        private List<TaskNode> _GetAllDemensions(TaskNode taskNode, List<TaskNode> taskNodeListAllDemensions = null)
         {
-            if (taskNodeStart == null)
-                taskNodeStart = taskNode;
+            if (taskNodeListAllDemensions == null)
+                taskNodeListAllDemensions = new List<TaskNode>();
 
-            if (taskNodeCommonChildren == null)
-                taskNodeCommonChildren = new List<TaskNode>();
+            taskNodeListAllDemensions.Add(taskNode);
 
-
-            //если хотя бы один не Executing или Complete, то сразу ясно что не получится
-            if (taskNode.TaskState != State.Executing &&
-                taskNode.TaskState != State.Complete)
-                return false;
-
-            //тот объект который вызвали самым первым не добавляю, он сам после вызова в сеттере поменяет состояние
-            if (taskNode != taskNodeStart)
-                taskNodeCommonChildren.Add(taskNode);
-
-            foreach(TaskNode node in taskNode.ChildrenList)
+            foreach (TaskNode node in taskNode.ChildrenList)
             {
-                if (!CompleteChildrenIfPossible(node, taskNodeStart, taskNodeCommonChildren))
-                    return false;
+                _GetAllDemensions(node, taskNodeListAllDemensions);
             }
+           
+            return taskNodeListAllDemensions;
+        }
 
-            foreach(TaskNode node in taskNodeCommonChildren)
-            {
-                node.Complete();
-            }
-            return true;
+        public bool CanBeCompleted()
+        {
+            return _GetAllDemensions(this)
+                .All(node => node.TaskState == State.Complete || node.TaskState == State.Executing);
+        }
+
+        public bool CanBeExecuted()
+        {
+            return this.TaskState == State.Assigned || this.TaskState == State.Suspend;
+        }
+
+        public bool CanBeSuspended()
+        {
+            return this.TaskState == State.Executing;
+        }
+
+        public bool IsCompleted()
+        {
+            return TaskState == State.Complete;
+        }
+
+        public bool IsHavingChildren()
+        {
+            return ChildrenList.Count > 0;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>true если задачу можно удалить</returns>
+        public bool CanBeDeleted()
+        {
+            //удалить можно только терминальную задачу
+            //false если хоть одна задача не Complete
+            return _GetAllDemensions(this)
+                .All(node => node.TaskState == State.Complete);
         }
 
         /// <summary>
@@ -259,7 +306,6 @@ namespace TaskManagement.Models
         public void Complete()
         {
             TaskState = State.Complete;
-            CompleteDate = DateTime.Now;
         }
 
         public enum State

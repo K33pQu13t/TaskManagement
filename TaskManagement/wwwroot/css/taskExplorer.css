@@ -77,38 +77,28 @@
 #task-viewer .detail-input {
   width: 100%;
 }
-#task-viewer .detail-input-small {
+#task-viewer .detail-input.small {
   width: 50px;
 }
-#task-viewer .detail-save-button {
-  align-self: center;
-  width: 80%;
-  margin: 14px;
-}
-#task-viewer .detail-execute-button {
-  padding-left: 14px;
-}
-#task-viewer .detail-suspend-button {
-  padding-left: 18px;
-}
-#task-viewer .detail-complete-button {
-  padding-left: 38px;
-}
-#task-viewer .detail-remove-button {
-  padding-left: 38px;
-}
-#task-viewer .detail-edit-button {
-  padding-left: 18px;
-}
-#task-viewer .detail-button-unable {
+#task-viewer .detail-button.unable {
   line-height: 30px;
   display: inline-flex;
   opacity: 0.4;
   cursor: default;
 }
-#task-viewer .detail-button-unable:hover {
-  text-decoration: none;
-  color: unset;
+#task-viewer .detail-button.execute {
+  margin-left: 14px;
+}
+#task-viewer .detail-button.middle-button {
+  margin-left: 18px;
+}
+#task-viewer .detail-button.danger-button {
+  margin-left: 38px;
+}
+#task-viewer .detail-button.save {
+  align-self: center;
+  width: 80%;
+  margin: 14px;
 }
 #task-viewer > *:nth-child(n+4) {
   padding-left: 16px;
@@ -135,12 +125,6 @@
   display: inline-flex;
   align-items: center;
 }
-#task-viewer .detail-state .detail-state-button-execute {
-  padding-left: 6px;
-}
-#task-viewer .detail-state .detail-state-button-complete {
-  padding-left: 12px;
-}
 #task-viewer .detail-date-complete {
   border-top: 1px solid red;
 }
@@ -148,27 +132,34 @@
   height: 70vh;
   display: flex;
 }
-.detail-button:hover {
-  text-decoration: none;
-  color: unset;
-  cursor: pointer;
-}
-.refresh-buttor {
-  padding-left: 18px;
-  padding-bottom: 5px;
-}
-.add-button {
-  padding-bottom: 5px;
-}
 .header-button {
   margin: 0 5px 5px;
   justify-content: space-between;
   align-items: center;
   display: flex;
 }
-.header-button .lang-button:hover {
+.header-button .detail-button:hover {
+  text-decoration: none;
+  color: unset;
+  cursor: pointer;
+}
+.header-button .detail-button.add {
+  padding-bottom: 5px;
+}
+.header-button .detail-button.refresh {
+  margin-left: 18px;
+  padding-bottom: 5px;
+}
+.header-button .detail-button.lang:hover {
   box-shadow: 0 0 5px 2px;
   display: inline-block;
+}
+.button-round-shadow:hover {
+  text-decoration: none;
+  color: unset;
+  cursor: pointer;
+  box-shadow: 0 0 5px 2px;
+  border-radius: 50%;
 }
 .detail-hide {
   display: none;

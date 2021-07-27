@@ -45,30 +45,30 @@
     <span class="detail-date-register">
         @Model.RegisterDate.ToString("dd/MM/yyyy HH:mm")
         <span>
-            @if (Model.TaskState != TaskNode.State.Complete)
+            @if (!Model.IsCompleted())
             {
                 <a class="detail-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
                    asp-action="AddTaskNodeShow" asp-route-parentId="@Model.Id" asp-controller="Home">
-                    <img src="~/img/addsub.png" />
+                    <img class="button-round-shadow" src="~/img/addsub.png" />
                 </a>
-                <a class="detail-button detail-edit-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                <a class="detail-button middle-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
                    asp-action="EditTaskNodeDetailsShow" asp-route-id="@Model.Id" asp-controller="Home">
-                    <img src="~/img/edit.png" />
+                    <img class="button-round-shadow" src="~/img/edit.png" />
                 </a>
             }
             else
             {
-                <img class="detail-button-unable" src="~/img/add.png" />
-                <img class="detail-button-unable detail-edit-button" src="~/img/edit.png" />
+                <img class="detail-button unable" src="~/img/addsub.png" />
+                <img class="detail-button middle-button unable" src="~/img/edit.png" />
             }
 
             @* удалить можно только терминальную задачу *@
-            @if (Model.Parent == null)
+            @if (Model.CanBeDeleted())
             {
-                <a class="detail-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                <a class="detail-button danger-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
                    data-ajax-complete="refresh" data-ajax-confirm="@string.Format(Localizer["DeleteWarning"].Value, Model.Title)"
                    asp-action="RemoveTaskNode" asp-route-id="@Model.Id" asp-controller="Home">
-                    <img class="detail-remove-button" src="~/img/delete.png">
+                    <img class="button-round-shadow" src="~/img/delete.png">
                 </a>
             }
 
@@ -97,51 +97,45 @@
 
         @* условия перехода состояний могут запрещать нажимать некоторые кнопки *@
         @* вообще, у TaskNode есть валидатор на сеттер состояния, это просто для визуала *@
-        @if (Model.TaskState == TaskNode.State.Executing ||
-Model.TaskState == TaskNode.State.Complete)
+        @if (Model.CanBeExecuted())
         {
-            <img class="detail-button-unable detail-execute-button" type="image" src="~/img/execute.png" />
-        }
-        else
-        {
-            <a class="detail-button detail-execute-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+            <a class="detail-button execute" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
                asp-action="ExecuteTask" asp-route-id="@Model.Id" asp-controller="Home">
-                <img src="~/img/execute.png" />
+                <img class="button-round-shadow" src="~/img/execute.png" />
             </a>
-        }
-        @if (Model.TaskState == TaskNode.State.Suspend ||
- Model.TaskState == TaskNode.State.Assigned ||
- Model.TaskState == TaskNode.State.Complete)
-        {
-            <img class="detail-button-unable detail-suspend-button" type="image" src="~/img/pause.png" />
         }
         else
         {
-            <a class="detail-button detail-suspend-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+            <img class="detail-button execute unable" type="image" src="~/img/execute.png" />
+        }
+        @if (Model.CanBeSuspended())
+        {
+            <a class="detail-button middle-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
                asp-action="SuspendTask" asp-route-id="@Model.Id" asp-controller="Home">
-                <img type="image" src="~/img/pause.png" />
+                <img class="button-round-shadow" type="image" src="~/img/pause.png" />
             </a>
-        }
-        @if (Model.TaskState == TaskNode.State.Complete ||
-Model.TaskState == TaskNode.State.Assigned ||
-Model.TaskState == TaskNode.State.Suspend ||
-!TaskNode.CompleteChildrenIfPossible(Model))
-        {
-            <img class="detail-button-unable detail-complete-button" type="image" src="~/img/complete.png" />
         }
         else
         {
-            <a class="detail-button detail-complete-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+            <img class="detail-button middle-button  unable" type="image" src="~/img/pause.png" />
+        }
+        @if (Model.CanBeCompleted() && !Model.IsCompleted())
+        {
+            <a class="detail-button danger-button" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
                asp-action="CompleteTask" asp-route-id="@Model.Id" asp-controller="Home">
-                <img type="image" src="~/img/complete.png" />
+                <img class="button-round-shadow" type="image" src="~/img/complete.png" />
             </a>
+        }
+        else
+        {
+            <img class="detail-button danger-button unable" type="image" src="~/img/complete.png" />
         }
     </span>
 
     <span class="detail-time-planned">
         @Localizer["TimePlanned"]: @Model.ExecutionTimePlanned @GetHoursString(Model.ExecutionTimePlanned)
     </span>
-    @if (Model.ChildrenList.Count >= 0)
+    @if (Model.IsHavingChildren())
     {
         <span class="detail-time-planned">
             @Localizer["ThisTimePlanned"]: @Model.GetThisExecutionTimePlanned() @GetHoursString(Model.GetThisExecutionTimePlanned())
@@ -151,14 +145,14 @@ Model.TaskState == TaskNode.State.Suspend ||
         @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
     </span>
 
-    @if (Model.ChildrenList.Count >= 0)
+    @if (Model.IsHavingChildren())
     {
         <span class="detail-time-planned">
             @Localizer["ThisTimeActual"]: @Model.GetThisExecutionTimeActual() @GetHoursString(Model.GetThisExecutionTimeActual())
         </span>
     }
 
-    @if (Model.TaskState == TaskNode.State.Complete)
+    @if (Model.IsCompleted())
     {
         <span class="detail-date-complete">@Localizer["CompleteDate"]: @Model.CompleteDate.ToString("dd/MM/yyyy HH:mm")</span>
     }
