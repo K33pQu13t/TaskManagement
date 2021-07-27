@@ -1,4 +1,4 @@
-﻿@model TaskNode
+﻿@model TaskManagement.ViewModels.TaskNodeAddTaskViewModel
 
 @inject IViewLocalizer Localizer
 
@@ -34,21 +34,25 @@
 
 @if (Model != null)
 {
-    @if (Model.Parent != null)
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    @if (Model.ParentId == default)
     {
-        <input class="detail-hide" style="display: none" type="text" name="parentId" , value="@Model.Parent.Id" />
+        <input class="detail-hide" style="display: none" type="text" asp-for="ParentId" value="@Model.ParentId" />
     }
-    <input class="detail-input" style="display: none" type="text" name="id" , value="@Model.Id" />
+    <input class="detail-input" style="display: none" type="text" asp-for="Id" value="@Model.Id" />
     <span class="detail-title">
-        <input class="detail-input" type="text" name="title" value="@Model.Title" />
+        <input class="detail-input" type="text" required asp-for="Title" placeholder="@Localizer["TaskTitle"].Value" />
+        <span asp-validation-for="Title"></span>
     </span>
     <span class="detail-description">
-        <input class="detail-input" type="text" name="description" value="@Model.Description" />
+        <input class="detail-input" type="text" required asp-for="Description" placeholder="@Localizer["TaskDescription"].Value" />
+        <span asp-validation-for="Description"></span>
     </span>
     <span class="detail-date-register">@Model.RegisterDate.ToString("dd/MM/yyyy HH:mm")</span>
 
     <span class="detail-executors">
-        @Localizer["Executors"]: <input class="detail-input" type="text" name="executors" value="@Model.Executors" />
+        @Localizer["Executors"]: <input class="detail-input" type="text" required asp-for="Executors" placeholder="@Model.Executors" />
+        <span asp-validation-for="Executors"></span>
     </span>
     <span class="detail-state detail-unchanging">
         @Localizer["State"]:
@@ -77,20 +81,20 @@
     <span class="detail-time-planned detail-unchanging">
         @Localizer["TimePlanned"]: @Model.ExecutionTimePlanned @GetHoursString(Model.ExecutionTimePlanned)
     </span>
-    @if (Model.ChildrenList.Count >= 0)
+    @if (Model.HasChildren)
     {
         <span class="detail-time-planned detail-unchanging">
-            @Localizer["ThisTimePlanned"]: @Model.GetThisExecutionTimePlanned() @GetHoursString(Model.GetThisExecutionTimePlanned())
+            @Localizer["ThisTimePlanned"]: @Model.ExecutionTimePlannedThis @GetHoursString(Model.ExecutionTimePlannedThis)
         </span>
     }
     <span class="detail-time-actual detail-unchanging">
         @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
     </span>
 
-    @if (Model.ChildrenList.Count >= 0)
+    @if (Model.HasChildren)
     {
         <span class="detail-time-planned detail-unchanging">
-            @Localizer["ThisTimeActual"]: @Model.GetThisExecutionTimeActual() @GetHoursString(Model.GetThisExecutionTimeActual())
+            @Localizer["ThisTimeActual"]: @Model.ExecutionTimeActualThis @GetHoursString(Model.ExecutionTimeActualThis)
         </span>
     }
 

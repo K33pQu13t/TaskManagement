@@ -18,14 +18,12 @@ namespace TaskManagement.Controllers
 {
     public class HomeController : Controller
     {
-        //readonly ITaskNodeRepository taskNodeRepository;
         public ITaskNodeRepository TaskNodeRepository { get; set; }
         readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger, IServiceProvider provider)
         {
             _logger = logger;
-            //_appEnvironment = environment;
 
             TaskNodeRepository = provider.GetService<ITaskNodeRepository>();
         }
@@ -33,9 +31,9 @@ namespace TaskManagement.Controllers
         public async Task<IActionResult> Index()
         {
             List<TaskNode> taskNodeList = await TaskNodeRepository.LoadAsync();
-            ViewBag.TaskNodeRecursivePartial = taskNodeList;
+            //ViewBag.TaskNodeRecursivePartial = taskNodeList;
 
-            return View();
+            return View(taskNodeList);
         }
 
         /// <summary>
@@ -63,8 +61,15 @@ namespace TaskManagement.Controllers
         [HttpGet]
         public ActionResult AddTaskNodeShow(int parentId = default)
         {
-            return PartialView("TaskNodeCreatePartial", new TaskNodeAddTaskViewModel {
-                                                                TaskNode = new TaskNode(), ParentId = parentId});
+            TaskNode taskNode = new TaskNode();
+            return PartialView("TaskNodeCreatePartial", 
+                //остальные поля дефолтно встанут
+                new TaskNodeAddTaskViewModel 
+                {
+                     ParentId = parentId,
+                     TaskState = taskNode.TaskState,
+                     RegisterDate = taskNode.RegisterDate
+                });
         }
 
         /// <summary>
@@ -75,13 +80,28 @@ namespace TaskManagement.Controllers
         [HttpGet]
         public async Task<ActionResult> EditTaskNodeDetailsShow(int id)
         {
-            TaskNode taskNode = await TaskNodeRepository.FindById(id);
-            if (taskNode == null)
+            TaskNode taskNodeEditing = await TaskNodeRepository.FindById(id);
+            if (taskNodeEditing == null)
             {
                 //todo: надо бросить 404
                 return PartialView("TaskNodeEditPartial", null);
             }
-            return PartialView("TaskNodeEditPartial", taskNode);
+            return PartialView("TaskNodeEditPartial",
+                new TaskNodeAddTaskViewModel
+                {
+                    Id = taskNodeEditing.Id,
+                    Title = taskNodeEditing.Title,
+                    Description = taskNodeEditing.Description,
+                    ParentId = taskNodeEditing.Parent == null ? default : taskNodeEditing.Parent.Id,
+                    HasChildren = taskNodeEditing.ChildrenList.Count > 0,
+                    Executors = taskNodeEditing.Executors,
+                    TaskState = taskNodeEditing.TaskState,
+                    RegisterDate = taskNodeEditing.RegisterDate,
+                    ExecutionTimePlanned = taskNodeEditing.ExecutionTimePlanned,
+                    ExecutionTimePlannedThis = taskNodeEditing.GetThisExecutionTimePlanned(),
+                    ExecutionTimeActual = taskNodeEditing.ExecutionTimeActual,
+                    ExecutionTimeActualThis = taskNodeEditing.GetThisExecutionTimeActual()
+                }); ;
         }
 
         /// <summary>
@@ -93,34 +113,39 @@ namespace TaskManagement.Controllers
         /// <param name="executors"></param>
         /// <returns>частичное представление просмотра задачи</returns>
         [HttpPost]
-        public async Task<ActionResult> EditTaskNodeDetailsSave(int id, string title, string description, string executors, int timePlanned, int parentId)
+        //public async Task<ActionResult> EditTaskNodeDetailsSave(int id, string title, string description, string executors, int executionTimePlanned, int parentId)
+        public async Task<ActionResult> EditTaskNodeDetailsSave(TaskNodeAddTaskViewModel viewModel)
         {
-            TaskNode taskNode = await TaskNodeRepository.FindById(id);
-            //если добавляем новую задачу/подзадачу
-            if (taskNode == null)
+            if (ModelState.IsValid)
             {
-                taskNode = new TaskNode(title, description, executors, timePlanned);
-                //если подзадача, то в родителя ещё добавляем ссылку
-                if (parentId != default)
+                TaskNode taskNode = await TaskNodeRepository.FindById(viewModel.Id);
+                //если добавляем новую задачу/подзадачу
+                if (taskNode == null)
                 {
-                    TaskNode taskNodeParent = await TaskNodeRepository.FindById(parentId);
-                    taskNodeParent.AddSubtask(taskNode);
+                    taskNode = new TaskNode(viewModel.Title, viewModel.Description, viewModel.Executors, viewModel.ExecutionTimePlanned);
+                    //если подзадача, то в родителя ещё добавляем ссылку
+                    if (viewModel.ParentId != default)
+                    {
+                        TaskNode taskNodeParent = await TaskNodeRepository.FindById(viewModel.ParentId);
+                        taskNodeParent.AddSubtask(taskNode);
+                    }
+
+                    await TaskNodeRepository.AddTaskAsync(taskNode);
+                }
+                //если редактируем имеющуюся задачу
+                else
+                {
+                    taskNode.Title = viewModel.Title;
+                    taskNode.Description = viewModel.Description;
+                    taskNode.Executors = viewModel.Executors;
+                    taskNode.ExecutionTimePlanned = viewModel.ExecutionTimePlanned;
+
+                    await TaskNodeRepository.SaveAsync();
                 }
 
-                await TaskNodeRepository.AddTaskAsync(taskNode);
+                return PartialView("TaskNodePartial", taskNode);
             }
-            //если редактируем имеющуюся задачу
-            else
-            {
-                taskNode.Title = title;
-                taskNode.Description = description;
-                taskNode.Executors = executors;
-                taskNode.ExecutionTimePlanned = timePlanned;
-
-                await TaskNodeRepository.SaveAsync();
-            }
-
-            return PartialView("TaskNodePartial", taskNode);
+            return StatusCode(400);
         }
 
         /// <summary>

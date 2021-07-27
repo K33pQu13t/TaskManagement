@@ -1,15 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Localization
 @inject IViewLocalizer Localizer
 
+@model List<TaskManagement.Models.TaskNode>
+
 @{
     ViewData["Title"] = "Home Page";
 
-    List<TaskManagement.Models.TaskNode> model = ViewBag.TaskNodeRecursivePartial;
+    //List<TaskManagement.Models.TaskNode> model = ViewBag.TaskNodeRecursivePartial;
 
     // получаем сервис IRequestCultureFeature
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
 }
-
 
 <span class="header-button">
     <span>
@@ -41,21 +42,28 @@
 
 
 
-
 <div class="main-grid">
     <div id="task-explorer">
-        @Html.Partial("TaskNodeRecursiveCyclePartial", model)
+        @await Html.PartialAsync("TaskNodeRecursiveCyclePartial", Model)
     </div>
 
     <form id="task-viewer" method="post"
           data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
-          data-ajax-complete="refresh"
+          data-ajax-complete="refresh" data-ajax-success="validatorupd"
+          asp-antiforgery="true"
+          data-ajax-validate="true"
           asp-action="EditTaskNodeDetailsSave" asp-controller="Home">
     </form>
 </div>
 
+
+
 @section scripts{
     <script src="~/lib/jquery.unobtrusive-ajax.min.js"></script>
-    <script title="refresh" type="text/javascript" src="~/js/refreshTree.js"></script>
-    <script title="refresh" type="text/javascript" src="~/js/refreshAuto.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript" src="~/js/refreshTree.js"></script>
+    <script type="text/javascript" src="~/js/refreshAuto.js"></script>
 }

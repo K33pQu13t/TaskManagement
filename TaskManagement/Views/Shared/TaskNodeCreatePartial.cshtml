@@ -30,26 +30,30 @@
 
 @if (Model != null)
 {
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    <input class="detail-hide" type="text" asp-for="ParentId" value="@Model.ParentId" />
 
-    <input class="detail-hide" style="display: none" type="text" name="parentId" , value="@Model.ParentId" />
-
-    <input class="detail-input" style="display: none" type="text" name="id" , value="@Model.TaskNode.Id" />
+    <input class="detail-hide" type="text" asp-for="Id" value="@Model.Id" />
     <span class="detail-title">
-        <input class="detail-input" type="text" name="title" value="@Localizer["TaskTitle"]" />
+        <input class="detail-input" type="text" required asp-for="Title" placeholder="@Localizer["TaskTitle"].Value" />
+        <span asp-validation-for="Title"></span>
     </span>
     <span class="detail-description">
-        <input class="detail-input" type="text" name="description" value="@Localizer["TaskDescription"]" />
+        <input class="detail-input" type="text" required asp-for="Description" placeholder="@Localizer["TaskDescription"].Value" />
+        <span asp-validation-for="Description"></span>
     </span>
-    <span class="detail-date-register">@Model.TaskNode.RegisterDate.ToString("dd/MM/yyyy HH:mm")</span>
+    <span class="detail-date-register">@Model.RegisterDate.ToString("dd/MM/yyyy HH:mm")</span>
 
     <span class="detail-executors">
-        @Localizer["Executors"]: <input class="detail-input" type="text" name="executors" value="@Model.TaskNode.Executors" />
+        @Localizer["Executors"]: <input class="detail-input" type="text" required asp-for="Executors" placeholder="@Model.Executors" />
+        <span asp-validation-for="Executors"></span>
     </span>
 
     <span class="detail-time-planned">
         @Localizer["ThisTimePlanned"]:
-        <input class="detail-input-small" type="text" name="timePlanned" />
-        @GetHoursString(Model.TaskNode.GetThisExecutionTimePlanned())
+        <input class="detail-input-small" type="text" required min="1" asp-for="ExecutionTimePlanned"/>
+        @GetHoursString(Model.ExecutionTimePlanned)
+        <span asp-validation-for="ExecutionTimePlanned"></span>
     </span>
 
     <input class="detail-save-button" type="submit" value="Save" />

@@ -73,6 +73,8 @@ namespace TaskManagement
                 SupportedUICultures = supportedCultures
             });
 
+            app.UseStatusCodePagesWithRedirects("/Error/{0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

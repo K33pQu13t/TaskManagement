@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskManagement.Models;
@@ -8,21 +9,23 @@ namespace TaskManagement.ViewModels
 {
     public class TaskNodeAddTaskViewModel
     {
-        public TaskNode TaskNode { get; set; }
-
+        public int Id { get; set; }
+        [Required]
+        [StringLength(64)]
+        public string Title { get; set; }
+        [Required]
+        public string Description { get; set; }
         public int ParentId { get; set; }
-
-        //public int Id { get; set; }
-        //public string Title { get; set; }
-        //public string Description { get; set; }
-        //public TaskNodeViewModel Parent { get; set; }
-        //public List<TaskNodeViewModel> Children { get; set; }
-        //public string Executors { get; set; }
-        //public int State { get; set; }
-        //public DateTime RegisterDate { get; set; }
-        //public int ExecutionTimePlanned { get; set; }
-        //public int ExecutionTimeActual { get; set; }
-        //public DateTime CompleteDate { get; set; }
+        public bool HasChildren { get; set; }
+        [Required]
+        public string Executors { get; set; }
+        public TaskNode.State TaskState { get; set; }
+        public DateTime RegisterDate { get; set; }
+        [Required]
+        public int ExecutionTimePlanned { get; set; }
+        public int ExecutionTimePlannedThis { get; set; }
+        public int ExecutionTimeActual { get; set; }
+        public int ExecutionTimeActualThis { get; set; }
 
         //public TaskNodeViewModel(TaskNode taskNode)
         //{
