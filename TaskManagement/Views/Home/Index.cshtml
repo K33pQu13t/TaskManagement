@@ -25,14 +25,12 @@
     </span>
     <span>
         <a class="detail-button lang-button" id="refresher"
-        
            asp-action="SetLanguage" asp-controller="Home"
            asp-route-returnUrl="@Context.Request.Path"
            asp-route-culture="en">
             <img src="~/img/en.png" />
         </a>
         <a class="detail-button lang-button" id="refresher"
- 
            asp-action="SetLanguage" asp-controller="Home"
            asp-route-returnUrl="@Context.Request.Path"
            asp-route-culture="ru">
@@ -58,27 +56,6 @@
 
 @section scripts{
     <script src="~/lib/jquery.unobtrusive-ajax.min.js"></script>
-
-    <script>
-        refresh = function () {
-            document.getElementById("refresher").click();
-        };
-
-        //эта функция обновляет дерево каждые 5 секунд
-        $(document).ready(
-            setInterval(function () {
-                document.getElementById("refresher").click();
-            }, 5000)
-        );
-
-        //эта функция обновляет форму отображения задачи 5,005 секунд
-        $(document).ready(
-            setInterval(function () {
-                if (document.getElementById("taskid")) {
-                    var id = document.getElementById("taskid").innerHTML;
-                    document.getElementById("task"+id).click();
-                }
-            }, 5005)
-        );
-    </script>
+    <script title="refresh" type="text/javascript" src="~/js/refreshTree.js"></script>
+    <script title="refresh" type="text/javascript" src="~/js/refreshAuto.js"></script>
 }

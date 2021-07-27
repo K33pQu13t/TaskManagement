@@ -20,7 +20,12 @@
         }
         else
         {
-            if (hours >= 1 && hours <= 4)
+            //в русском языке числа, оканчивающиеся на 1, 2, 3, 4 имеют не такое же склонение слов, как остальные числа
+            //да, числа к строке приводить так не лучшая идея, но лучше, чем делить на 10^n
+            if (hours.ToString().EndsWith("1") ||
+                hours.ToString().EndsWith("2") ||
+                hours.ToString().EndsWith("3") ||
+                hours.ToString().EndsWith("4"))
                 return Localizer["Hour"].Value.ToLower();
             else
                 return Localizer["Hours"].Value.ToLower();
