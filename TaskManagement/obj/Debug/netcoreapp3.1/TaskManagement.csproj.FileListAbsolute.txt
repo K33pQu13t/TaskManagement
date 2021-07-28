@@ -406,3 +406,5 @@ C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcorea
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\libman.json
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Error\Error.cshtml.g.cs
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.csproj.AssemblyReference.cache
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Controllers.HomeController.en.resources
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Controllers.HomeController.ru.resources

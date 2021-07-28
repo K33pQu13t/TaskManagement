@@ -1,12 +1,12 @@
-﻿//эта функция обновляет дерево каждые 10 секунд
+﻿//эта функция обновляет дерево и отображение деталей задачи (если открыты) каждые 60 секунд
 $(document).ready(
     setInterval(function () {
-        //alert("tree refresh");
-        document.getElementById("refresher").click();
+        refresh();
+        setCollapseListeners();
+
         if (document.getElementById("taskid")) {
-            //alert("view refresh");
             var id = document.getElementById("taskid").innerHTML;
             document.getElementById("task" + id).click();
         }
-    }, 10000)
+    }, 60000)
 );

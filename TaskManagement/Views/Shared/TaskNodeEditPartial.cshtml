@@ -6,8 +6,6 @@
     //возвращает строку hours или hour (часы и час(а) для русской локали) в зависимости от того сколько часов
     string GetHoursString(int hours)
     {
-        //var culture = CookieRequestCultureProvider.ParseCookieValue(".AspNetCore.Culture");
-        //todo: костыль, не могу из куков считать культуру почему-то
         string culture = Localizer["Hours"].Value == "hours" ? "en" : "ru";
 
         if (culture == "en")
@@ -34,8 +32,8 @@
 
 @if (Model != null)
 {
-    @* почему-то на форме с ajax не работает клиентская валидация стандартная в mvc, не разобрался что сделать.
-    Тут сделал клиентскую валидацию через html теги, но на сервере нормальная валидация*@
+    @* почему-то на форме с ajax не работает клиентская валидация стандартная в mvc, не разобрался в чём дело.
+        Тут сделал клиентскую валидацию через html теги, но на сервере нормальная валидация*@
     <div class="validation" asp-validation-summary="ModelOnly"></div>
     @if (Model.ParentId == default)
     {
@@ -78,25 +76,20 @@
         <img class="detail-button execute unable" type="image" src="~/img/execute.png" />
         <img class="detail-button middle-button unable" type="image" src="~/img/pause.png" />
         <img class="detail-button danger-button unable" type="image" src="~/img/complete.png" />
-
     </span>
 
 
     <span class="detail-time-planned detail-unchanging">
         @Localizer["TimePlanned"]: @Model.ExecutionTimePlanned @GetHoursString(Model.ExecutionTimePlanned)
     </span>
+    <span class="detail-time-actual detail-unchanging">
+        @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
+    </span>
     @if (Model.IsHavingChildren)
     {
         <span class="detail-time-planned detail-unchanging">
             @Localizer["ThisTimePlanned"]: @Model.ExecutionTimePlannedThis @GetHoursString(Model.ExecutionTimePlannedThis)
         </span>
-    }
-    <span class="detail-time-actual detail-unchanging">
-        @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
-    </span>
-
-    @if (Model.IsHavingChildren)
-    {
         <span class="detail-time-planned detail-unchanging">
             @Localizer["ThisTimeActual"]: @Model.ExecutionTimeActualThis @GetHoursString(Model.ExecutionTimeActualThis)
         </span>

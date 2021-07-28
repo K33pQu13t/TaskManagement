@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskManagement.Middleware;
 using TaskManagement.Models;
 using TaskManagement.Services;
 
@@ -73,7 +74,8 @@ namespace TaskManagement
                 SupportedUICultures = supportedCultures
             });
 
-            app.UseStatusCodePagesWithRedirects("/Error/{0}");
+            //app.UseStatusCodePagesWithRedirects("/Error/{0}");
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

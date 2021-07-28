@@ -7,9 +7,7 @@
     //возвращает строку hours или hour (часы и час(а) для русской локали) в зависимости от того сколько часов
     string GetHoursString(int hours)
     {
-        //var culture = CookieRequestCultureProvider.ParseCookieValue(".AspNetCore.Culture");
-        //todo: костыль, не могу из куков считать культуру почему-то
-        string culture = Localizer["Hours"].Value == "hours" ? "en" : "ru";
+        string culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 
         if (culture == "en")
         {
@@ -18,7 +16,7 @@
             else
                 return Localizer["Hours"].Value.ToLower();
         }
-        else
+        else if (culture == "ru")
         {
             //в русском языке числа, оканчивающиеся на 1, 2, 3, 4 имеют не такое же склонение слов, как остальные числа
             //да, числа к строке приводить так не лучшая идея, но лучше, чем делить на 10^n
@@ -30,6 +28,8 @@
             else
                 return Localizer["Hours"].Value.ToLower();
         }
+        else
+            return Localizer["Hours"].Value.ToLower();
     }
 }
 
@@ -40,8 +40,6 @@
     <p class="detail-description">
         @Model.Description
     </p>
-
-
     <span class="detail-date-register">
         @Model.RegisterDate.ToString("dd/MM/yyyy HH:mm")
         <span>
@@ -61,7 +59,6 @@
                 <img class="detail-button unable" src="~/img/addsub.png" />
                 <img class="detail-button middle-button unable" src="~/img/edit.png" />
             }
-
             @* удалить можно только терминальную задачу *@
             @if (Model.CanBeDeleted())
             {
@@ -71,10 +68,8 @@
                     <img class="button-round-shadow" src="~/img/delete.png">
                 </a>
             }
-
         </span>
     </span>
-
     <span class="detail-executors">@Localizer["Executors"]: @Model.Executors</span>
     <span class="detail-state">
         @Localizer["State"]:
@@ -135,18 +130,14 @@
     <span class="detail-time-planned">
         @Localizer["TimePlanned"]: @Model.ExecutionTimePlanned @GetHoursString(Model.ExecutionTimePlanned)
     </span>
+    <span class="detail-time-actual">
+        @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
+    </span>
     @if (Model.IsHavingChildren())
     {
         <span class="detail-time-planned">
             @Localizer["ThisTimePlanned"]: @Model.GetThisExecutionTimePlanned() @GetHoursString(Model.GetThisExecutionTimePlanned())
         </span>
-    }
-    <span class="detail-time-actual">
-        @Localizer["TimeActual"]: @Model.ExecutionTimeActual @GetHoursString(Model.ExecutionTimeActual)
-    </span>
-
-    @if (Model.IsHavingChildren())
-    {
         <span class="detail-time-planned">
             @Localizer["ThisTimeActual"]: @Model.GetThisExecutionTimeActual() @GetHoursString(Model.GetThisExecutionTimeActual())
         </span>

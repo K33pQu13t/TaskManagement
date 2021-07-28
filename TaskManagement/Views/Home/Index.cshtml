@@ -6,8 +6,6 @@
 @{
     ViewData["Title"] = "Home Page";
 
-    //List<TaskManagement.Models.TaskNode> model = ViewBag.TaskNodeRecursivePartial;
-
     // получаем сервис IRequestCultureFeature
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
 }
@@ -21,6 +19,7 @@
         </a>
         <a class="detail-button refresh" id="refresher"
            data-ajax="true" data-ajax-update="#task-explorer" data-ajax-mode="replace"
+           data-ajax-complete="setCollapseListeners()"
            asp-action="RefreshTaskExplorer" asp-controller="Home">
             <img class="button-round-shadow" src="~/img/refresh.png" />
         </a>
@@ -28,14 +27,16 @@
     <span>
         <a class="detail-button lang"
            asp-action="SetLanguage" asp-controller="Home"
-           asp-route-returnUrl="@Context.Request.Path"
-           asp-route-culture="en">
+           data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+           asp-route-culture="en"
+           asp-route-id="0">
             <img src="~/img/en.png" />
         </a>
         <a class="detail-button lang"
            asp-action="SetLanguage" asp-controller="Home"
-           asp-route-returnUrl="@Context.Request.Path"
-           asp-route-culture="ru">
+           data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+           asp-route-culture="ru"
+           asp-route-id="0">
             <img src="~/img/ru.png" />
         </a>
     </span>
@@ -51,6 +52,7 @@
     <form id="task-viewer" method="post"
           data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
           data-ajax-complete="refresh()"
+          data-ajax-failure="onFailure()"
           data-ajax-validate="true"
           asp-action="EditTaskNodeDetailsSave" asp-controller="Home">
     </form>
@@ -59,11 +61,15 @@
 
 
 @section scripts{
-    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
-
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
 
-    <script type="text/javascript" src="~/js/refreshTree.js"></script>
-    @*<script type="text/javascript" src="~/js/refreshAuto.js"></script>*@
+    <script type="text/javascript" src="~/js/onFailure.js"></script>
+    <script type="text/javascript" src="~/js/refresh.js"></script>
+    @*<script type="text/javascript" src="~/js/refreshauto.js"></script>*@
+
+    <script type="text/javascript">
+        setCollapseListeners();
+    </script>
 }

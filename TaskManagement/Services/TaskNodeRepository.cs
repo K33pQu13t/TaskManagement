@@ -51,7 +51,7 @@ namespace TaskManagement.Services
         /// <summary>
         /// добавляет задачу
         /// </summary>
-        /// <param name="taskNode"></param>
+        /// <param name="taskNode">задача которую нужно добавить</param>
         /// <returns></returns>
         public async Task AddTaskAsync(TaskNode taskNode)
         {
@@ -60,45 +60,9 @@ namespace TaskManagement.Services
         }
 
         /// <summary>
-        /// добавляет к задаче подзадачу
+        /// сохраняет любые изменения
         /// </summary>
-        /// <param name="parentId"></param>
-        /// <param name="taskNodeChild"></param>
         /// <returns></returns>
-        public async Task AddSubtaskAsync(int parentId, TaskNode taskNodeChild)
-        {
-            TaskNode taskNodeParent = await FindById(parentId);
-            if (taskNodeParent != null && taskNodeChild.Parent == null)
-            {
-                taskNodeParent.AddSubtask(taskNodeChild);
-         
-                await AddTaskAsync(taskNodeChild);
-            }
-            //todo: else throw new exception?
-        }
-
-        /// <summary>
-        /// сохраняет изменения в объекте в бд
-        /// </summary>
-        /// <param name="taskNodeEdited">изменённый объект</param>
-        /// <returns></returns>
-        public async Task EditAsync(TaskNode taskNodeEdited)
-        {
-            TaskNode taskNode = await FindById(taskNodeEdited.Id);
-
-            if (taskNode != null)
-            {
-                await SaveAsync();
-            }
-            //todo: else throw new exception?
-        }
-
-        public async Task<List<TaskNode>> LoadAsync()
-        {
-            return await _db.TaskNodeList.ToListAsync();
-        }
-
-        //сохраняет любые изменения
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
@@ -110,24 +74,29 @@ namespace TaskManagement.Services
             //создаём из них объекты TaskNodeExecution и добавляем 
             foreach (TaskNode taskNode in taskNodeList)
             {
-                _taskNodeExecutionList.Add(new TaskNodeExecution { Node = taskNode });
+                //если в списке нет такого TaskNodeExecution, что у него Node это taskNode, то добавляем
+                if (!_taskNodeExecutionList.Any(execution => execution.Node == taskNode))
+                    _taskNodeExecutionList.Add(new TaskNodeExecution { Node = taskNode });
             }
-            //оставляем только те которые Executing
-            //(там в процессе задачи могут стать Suspend или Complete, убираем их чтоб оптимизировать foreach в апдейтере)
-            _taskNodeExecutionList.RemoveAll(execution => execution.Node.TaskState != TaskNode.State.Executing);
+
+            //там в процессе задачи могут стать Complete, убираем их чтоб оптимизировать foreach в ActualTimeUpdater
+            _taskNodeExecutionList.RemoveAll(execution => execution.Node.TaskState == TaskNode.State.Complete);
         }
 
-        public async Task<TaskNode> FindById(int id)
+        /// <summary>
+        /// получить все объекты из бд
+        /// </summary>
+        /// <returns>возвращает список объектов</returns>
+        public async Task<List<TaskNode>> LoadAsync()
         {
-            return await _db.TaskNodeList.FindAsync(id);
+            return await _db.TaskNodeList.ToListAsync();
         }
 
         /// <summary>
         /// удаляет задачу вместе со всеми её вложениями
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="taskNodeListToRemove"></param>
-        /// <returns>true если база данных содержала залачу и она была успешно удалена вместе со всеми подзадачами</returns>
+        /// <param name="id">id удаляемой задачи</param>
+        /// <returns>true если база данных содержала задачу и она была успешно удалена вместе со всеми подзадачами</returns>
         public async Task<bool> Remove(int id)
         {
             TaskNode taskNode = await FindById(id);
@@ -143,6 +112,18 @@ namespace TaskManagement.Services
         }
 
         /// <summary>
+        /// получить конкретный объект
+        /// </summary>
+        /// <param name="id">id объекта</param>
+        /// <returns>возвращает объект по его id</returns>
+        public async Task<TaskNode> FindById(int id)
+        {
+            return await _db.TaskNodeList.FindAsync(id);
+        }
+
+
+
+        /// <summary>
         /// запускает обновление фактической трудоёмкости. Трудоёмкость растёт только у задач с состоянием Executing
         /// </summary>
         /// <returns></returns>
@@ -154,16 +135,14 @@ namespace TaskManagement.Services
 
             while (true)
             {
-                //await Task.Delay(oneMinute);
-                await Task.Delay(5000);  //для отладки чтоб быстрее смотреть как изменяется время
+                await Task.Delay(oneMinute);
+                //await Task.Delay(5000);  //для отладки чтоб быстрее смотреть как изменяется время
                 foreach (TaskNodeExecution taskNodeExecution in _taskNodeExecutionList)
                 {
-                    //по-идее, в методе SaveAsync висит логика, которая оставляет в _taskNodeExecutionList только те объекты,
-                    //которые Executing, но на всякий случай
                     if (taskNodeExecution.Node.TaskState == TaskNode.State.Executing)
                     {
-                        //taskNodeExecution.Seconds += oneMinute;
-                        taskNodeExecution.Milliseconds += oneHour; //для отладки чтоб быстрее смотреть как изменяется время
+                        taskNodeExecution.Milliseconds += oneMinute;
+                        //taskNodeExecution.Milliseconds += oneHour; //для отладки чтоб быстрее смотреть как изменяется время
                     }
                     if(taskNodeExecution.Milliseconds >= oneHour)
                     {

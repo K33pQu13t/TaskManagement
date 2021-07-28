@@ -5,12 +5,14 @@
     @* если у задачи нет подзадач *@
     @if (Model.ChildrenList == null || Model.ChildrenList.Count == 0)
     {
-        <div class="task task-main">
+        <div class="task task-main collapsed">
             <div class="task-info">
                 <img src="~/img/dot.png" />
-                <a class="task-title" id="@string.Concat("task", Model.Id)" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
-                   asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
-                    @Model.Title
+                <a class="task-title" id="@string.Concat("task", Model.Id)" 
+                    data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                    data-ajax-complete="setId()"
+                    asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
+                        @Model.Title
                 </a>
             </div>
         </div>
@@ -18,12 +20,14 @@
     @* если у задачи есть подзадачи*@
     else
     {
-        <div class="task subbed task-main">
+        <div class="task subbed task-main collapsed">
             <div class="task-info">
                 <span class="collapse-button">></span>
-                <a class="task-title" id="@string.Concat("task", Model.Id)" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
-                   asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
-                    @Model.Title
+                <a class="task-title" id="@string.Concat("task", Model.Id)"   
+                    data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                    data-ajax-complete="setId()"
+                    asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
+                        @Model.Title
                 </a>
             </div>
             @* рекурсия *@
@@ -39,12 +43,14 @@ else
     @* если у задачи нет подзадач *@
     @if (Model.ChildrenList == null || Model.ChildrenList.Count == 0)
     {
-        <div class="task">
+        <div class="task collapsed">
             <div class="task-info">
                 <img src="~/img/dot.png" />
-                <a class="task-title" id="@string.Concat("task", Model.Id)" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
-                   asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
-                    @Model.Title
+                <a class="task-title" id="@string.Concat("task", Model.Id)"   
+                    data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                    data-ajax-complete="setId()"
+                    asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
+                        @Model.Title
                 </a>
             </div>
         </div>
@@ -52,12 +58,14 @@ else
     @* если у задачи есть подзадачи*@
     else
     {
-        <div class="task subbed">
+        <div class="task subbed collapsed">
             <div class="task-info">
                 <span class="collapse-button">></span>
-                <a class="task-title" id="@string.Concat("task", Model.Id)" data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
-                   asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
-                    @Model.Title
+                <a class="task-title" id="@string.Concat("task", Model.Id)"   
+                    data-ajax="true" data-ajax-update="#task-viewer" data-ajax-mode="replace"
+                    data-ajax-complete="setId()"
+                    asp-action="ShowTaskNodeDetails" asp-route-id="@Model.Id" asp-controller="Home">
+                        @Model.Title
                 </a>
             </div>
             @* рекурсия *@

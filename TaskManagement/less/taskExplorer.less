@@ -13,6 +13,12 @@
         margin-top: 1px;
         padding-left: 5px;
 
+        &.collapsed {
+            > * {
+                display: none;
+            }
+        }
+
         .task-info {
             display: inline-flex;
             height: 30px;
@@ -22,7 +28,7 @@
             }
 
             .collapse-button {
-                /*visibility: hidden;*/
+                user-select: none;
                 justify-content: center;
                 vertical-align: middle;
                 text-align: center;
@@ -49,7 +55,7 @@
                 height: 30px;
                 line-height: 30px;
                 color: unset;
-                min-width: 28px;
+                min-width: 80px;
 
                 &:hover {
                     border-bottom: 1px solid #5968d8;
@@ -101,6 +107,10 @@
     }
 
     .detail-button {
+        &:hover {
+            text-decoration: none;
+            color: unset;
+        }
 
         &.unable {
             line-height: 30px;
@@ -130,7 +140,7 @@
 
 
 
-    > *:nth-child(n+4) {
+    > *:nth-child(n+5) {
         padding-left: 16px;
         margin: 5px;
     }
@@ -144,6 +154,7 @@
 
     .detail-description {
         margin: 5px;
+        font-size: 18px;
     }
 
     .detail-date-register {
@@ -216,7 +227,7 @@
         text-decoration: none;
         color: unset;
         cursor: pointer;
-        box-shadow: 0 0 5px 2px;
+        box-shadow: 0 0 5px 2px #666;
         border-radius: 50%;
     }
 }

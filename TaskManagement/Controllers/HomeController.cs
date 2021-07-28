@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskManagement.Helpers;
 using TaskManagement.Models;
 using TaskManagement.Services;
 using TaskManagement.ViewModels;
@@ -19,11 +22,28 @@ namespace TaskManagement.Controllers
     public class HomeController : Controller
     {
         public ITaskNodeRepository TaskNodeRepository { get; set; }
+        private readonly IStringLocalizer<HomeController> _localizer;
+
         readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, IServiceProvider provider)
+        private KeyNotFoundException _exceptionTaskNotFound;
+        private AppException _exceptionFieldsIsInvalid;
+        private AppException _exceptionCantExecute;
+        private AppException _exceptionCantRemove;
+        private AppException _exceptionCantSuspend;
+        private AppException _exceptionCantComplete;
+
+        public HomeController(IStringLocalizer<HomeController> localizer, ILogger<HomeController> logger, IServiceProvider provider)
         {
+            _localizer = localizer;
             _logger = logger;
+
+            _exceptionTaskNotFound = new KeyNotFoundException(_localizer["TaskNotFound"]);
+            _exceptionFieldsIsInvalid = new AppException(_localizer["FieldsIsInvalid"]);
+            _exceptionCantExecute = new AppException(_localizer["CantExecute"]);
+            _exceptionCantRemove = new AppException(_localizer["CantRemove"]);
+            _exceptionCantSuspend = new AppException(_localizer["CantSuspend"]);
+            _exceptionCantComplete = new AppException(_localizer["CantComplete"]);
 
             TaskNodeRepository = provider.GetService<ITaskNodeRepository>();
         }
@@ -46,8 +66,7 @@ namespace TaskManagement.Controllers
             TaskNode taskNode = await TaskNodeRepository.FindById(id);
             if (taskNode == null)
             {
-                //todo: надо бросить 404
-                return PartialView("TaskNodePartial", null);
+                throw _exceptionTaskNotFound;
             }
             return PartialView("TaskNodePartial", taskNode);
         }
@@ -55,7 +74,7 @@ namespace TaskManagement.Controllers
         /// <summary>
         /// отражает форму для добавления задачи
         /// </summary>
-        /// <param name="parentId">id родительской задачи</param>
+        /// <param name="parentId">id родительской задачи. 0 значит новая задача</param>
         /// <returns>частичное представление добавления задачи</returns>
         [HttpGet]
         public ActionResult AddTaskNodeShow(int parentId = default)
@@ -74,7 +93,7 @@ namespace TaskManagement.Controllers
         /// <summary>
         /// отражает форму редактирования задачи
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id задачи которую надо дотредактировать</param>
         /// <returns>частичное представление редактирования задачи</returns>
         [HttpGet]
         public async Task<ActionResult> EditTaskNodeDetailsShow(int id)
@@ -82,8 +101,7 @@ namespace TaskManagement.Controllers
             TaskNode taskNodeEditing = await TaskNodeRepository.FindById(id);
             if (taskNodeEditing == null)
             {
-                //todo: надо бросить 404
-                return PartialView("TaskNodeEditPartial", null);
+                throw _exceptionTaskNotFound;
             }
             return PartialView("TaskNodeEditPartial",
                 new TaskNodeAddTaskViewModel
@@ -92,7 +110,7 @@ namespace TaskManagement.Controllers
                     Title = taskNodeEditing.Title,
                     Description = taskNodeEditing.Description,
                     ParentId = taskNodeEditing.Parent == null ? default : taskNodeEditing.Parent.Id,
-                    IsHavingChildren = taskNodeEditing.ChildrenList.Count > 0,
+                    IsHavingChildren = taskNodeEditing.IsHavingChildren(),
                     Executors = taskNodeEditing.Executors,
                     TaskState = taskNodeEditing.TaskState,
                     RegisterDate = taskNodeEditing.RegisterDate,
@@ -106,10 +124,6 @@ namespace TaskManagement.Controllers
         /// <summary>
         /// перезаписывает свойства задачи по её id
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="title"></param>
-        /// <param name="description"></param>
-        /// <param name="executors"></param>
         /// <returns>частичное представление просмотра задачи</returns>
         [HttpPost]
         //public async Task<ActionResult> EditTaskNodeDetailsSave(int id, string title, string description, string executors, int executionTimePlanned, int parentId)
@@ -137,78 +151,95 @@ namespace TaskManagement.Controllers
                     taskNode.Title = viewModel.Title;
                     taskNode.Description = viewModel.Description;
                     taskNode.Executors = viewModel.Executors;
-                    taskNode.ExecutionTimePlanned = viewModel.ExecutionTimePlanned;
 
                     await TaskNodeRepository.SaveAsync();
                 }
 
                 return PartialView("TaskNodePartial", taskNode);
             }
-            return StatusCode(400);
+            throw _exceptionFieldsIsInvalid;
         }
 
         /// <summary>
         /// переводит задачу в статус Execute
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id задачи</param>
         /// <returns>частичное представление просмотра задачи</returns>
         public async Task<ActionResult> ExecuteTask(int id)
         {
             TaskNode taskNode = await TaskNodeRepository.FindById(id);
             if (taskNode == null)
             {
-                //todo: надо бросить 404
-                return PartialView("TaskNodePartial", null);
+                throw _exceptionTaskNotFound;
             }
-            taskNode.Execute();
-            await TaskNodeRepository.SaveAsync();
-            //_taskNodeRepository.EditAsync(taskNode);
-            return PartialView("TaskNodePartial", taskNode);
+
+            if (taskNode.CanBeExecuted())
+            {
+                taskNode.Execute();
+                await TaskNodeRepository.SaveAsync();
+                return PartialView("TaskNodePartial", taskNode);
+            }
+                throw _exceptionCantExecute;
         }
 
         /// <summary>
         /// переводит задачу в статус Suspend
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id задачи</param>
         /// <returns>частичное представление просмотра задачи</returns>
         public async Task<ActionResult> SuspendTask(int id)
         {
             TaskNode taskNode = await TaskNodeRepository.FindById(id);
             if (taskNode == null)
             {
-                //todo: надо бросить 404
-                return PartialView("TaskNodePartial", null);
+                throw _exceptionTaskNotFound;
             }
-            taskNode.Suspend();
-            await TaskNodeRepository.SaveAsync();
-            //_taskNodeRepository.EditAsync(taskNode);
-            return PartialView("TaskNodePartial", taskNode);
+
+            if (taskNode.CanBeSuspended())
+            {
+                taskNode.Suspend();
+                await TaskNodeRepository.SaveAsync();
+                return await ShowTaskNodeDetails(id);
+            }
+            throw _exceptionCantSuspend;
         }
 
         /// <summary>
         /// переводит задачу в статус Complete
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id задачи</param>
         /// <returns>частичное представление просмотра задачи</returns>
         public async Task<ActionResult> CompleteTask(int id)
         {
             TaskNode taskNode = await TaskNodeRepository.FindById(id);
             if (taskNode == null)
             {
-                //todo: надо бросить 404
-                return PartialView("TaskNodePartial", null);
+                throw _exceptionFieldsIsInvalid;
             }
-            taskNode.Complete();
-            await TaskNodeRepository.SaveAsync();
-            //_taskNodeRepository.EditAsync(taskNode);
-            return PartialView("TaskNodePartial", taskNode);
+
+            if (taskNode.CanBeCompleted())
+            {
+                taskNode.Complete();
+                await TaskNodeRepository.SaveAsync();
+                return await ShowTaskNodeDetails(id);
+            }
+            throw _exceptionCantComplete;
         }
 
+        /// <summary>
+        /// удаляет задачу и все её подзадачи
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> RemoveTaskNode(int id)
         {
-            await TaskNodeRepository.Remove(id);
-            //чтобы удалить с области просмотра удалённую задачу
-            return PartialView("TaskNodePartial", null);
+            //если успешно удалили
+            if (await TaskNodeRepository.Remove(id))
+            {
+                //чтобы удалить с области просмотра удалённую задачу
+                return PartialView("TaskNodePartial", null);
+            }
+            throw _exceptionCantRemove;
         }
 
         /// <summary>
@@ -228,7 +259,7 @@ namespace TaskManagement.Controllers
         /// <param name="culture"></param>
         /// <param name="returnUrl"></param>
         /// <returns>обновляет страницу</returns>
-        public IActionResult SetLanguage(string culture, string returnUrl)
+        public async Task<IActionResult> SetLanguage(string culture, int id = default)
         {
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
@@ -236,18 +267,14 @@ namespace TaskManagement.Controllers
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
 
-            return LocalRedirect(returnUrl);
+            //отразить пустоту вместо деталей о задаче
+            //по-хорошему, сюда бы передать id открытой задачи чтоб у неё язык сразу сменился, но я не осилил js
+            return PartialView("TaskNodePartial", await TaskNodeRepository.FindById(id));
         }
 
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

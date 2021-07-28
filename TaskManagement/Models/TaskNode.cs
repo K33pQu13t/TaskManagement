@@ -139,34 +139,9 @@ namespace TaskManagement.Models
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns>true если задача успешно удалена</returns>
-        //public bool Remove(TaskNode node)
-        //{
-        //    if (ChildrenList.Contains(node))
-        //    {
-        //        //зануляем дочерние задачи
-        //        for (int i = 0; i < node.ChildrenList.Count; i++)
-        //        {
-        //            //рекурсивно вызываем этот метод на каждом дочернем объекте
-        //            node.Remove(((List<TaskNode>)node.ChildrenList)[i]);
-        //            node = null;
-        //        }
-        //        node.ChildrenList = new List<TaskNode>();
-
-        //        ((List<TaskNode>)ChildrenList).RemoveAll(node => node == null);
-
-        //        return true;
-        //    }
-        //    else return false;
-        //}
-
-        /// <summary>
         /// добавляет подзадачу к задаче
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="node">подзадача</param>
         /// <returns></returns>
         public void AddSubtask(TaskNode node)
         {
@@ -180,7 +155,7 @@ namespace TaskManagement.Models
         /// <summary>
         /// Переводит объект и все его дочерние объекты в статус Complete, если это возможно
         /// </summary>
-        /// <returns>true если эту задачу можно перевести в состояние Complete (возможно только если все дочерние элементы в состоянии Executing)</returns>
+        /// <returns>true если задача перешла в Complete</returns>
         private bool CompleteTaskAndChildrenIfPossible()
         {
             if (CanBeCompleted())
@@ -196,6 +171,10 @@ namespace TaskManagement.Models
             return false;
         }
 
+        /// <summary>
+        /// получить все подзадачи во всех измерениях
+        /// </summary>
+        /// <returns>список, в который входит эта задача и все подзадачи всех подзадач</returns>
         public List<TaskNode> GetAllDemensions()
         {
             return _GetAllDemensions(this);
@@ -223,27 +202,47 @@ namespace TaskManagement.Models
             return taskNodeListAllDemensions;
         }
 
+        /// <summary>
+        /// true если задача может перейти в Completed
+        /// </summary>
+        /// <returns></returns>
         public bool CanBeCompleted()
         {
             return _GetAllDemensions(this)
                 .All(node => node.TaskState == State.Complete || node.TaskState == State.Executing);
         }
 
+        /// <summary>
+        /// true если задача может перейти в Executed
+        /// </summary>
+        /// <returns></returns>
         public bool CanBeExecuted()
         {
             return this.TaskState == State.Assigned || this.TaskState == State.Suspend;
         }
 
+        /// <summary>
+        /// true если задача может перейти в Suspend
+        /// </summary>
+        /// <returns></returns>
         public bool CanBeSuspended()
         {
             return this.TaskState == State.Executing;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>true если задача Complete</returns>
         public bool IsCompleted()
         {
             return TaskState == State.Complete;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>true если у задачи есть подзадачи</returns>
         public bool IsHavingChildren()
         {
             return ChildrenList.Count > 0;
@@ -279,6 +278,10 @@ namespace TaskManagement.Models
             return _executionTimeActual;
         }
 
+        /// <summary>
+        /// добавляет задаче фактические часы выполнения
+        /// </summary>
+        /// <param name="hours">сколько часов добавить</param>
         public void AddExecutionTimeActual(int hours)
         {
             _executionTimeActual += hours;
