@@ -1,15 +1,7 @@
-﻿const debug = true;
-
-function log(message) {
-    if (!debug) { return }
-    console.log('Degub:', message)
-}
-
-//обновляет дереро
+﻿//обновляет дереро
 function refresh() {
     document.getElementById("refresher").click();
     setId();
-    log("refresh");
 };
 
 function setCollapseListeners() {
@@ -25,7 +17,6 @@ function setCollapseListeners() {
 }
 
 let getId = function () {
-    log("getId");
     if (document.getElementById("taskid")) {
         return document.getElementById("taskid").innerHTML;
     }
@@ -42,5 +33,4 @@ function setId() {
             );
         }
     );
-    log("setId");
 }

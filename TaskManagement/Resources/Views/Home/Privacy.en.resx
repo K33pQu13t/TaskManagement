@@ -117,49 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Assigned" xml:space="preserve">
-    <value>Назначена</value>
-  </data>
-  <data name="Complete" xml:space="preserve">
-    <value>Завершена</value>
-  </data>
-  <data name="CompleteDate" xml:space="preserve">
-    <value>Дата завершения</value>
-  </data>
-  <data name="DeleteWarning" xml:space="preserve">
-    <value>Это действие удалит задачу "{0}" и все её подзадачи. Продолжить?</value>
-  </data>
-  <data name="Executing" xml:space="preserve">
-    <value>Выполняется</value>
-  </data>
-  <data name="Executors" xml:space="preserve">
-    <value>Исполнители</value>
-  </data>
-  <data name="Hour" xml:space="preserve">
-    <value>Час(а)</value>
-  </data>
-  <data name="Hours" xml:space="preserve">
-    <value>Часов</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Сохранить</value>
-  </data>
-  <data name="State" xml:space="preserve">
-    <value>Состояние</value>
-  </data>
-  <data name="Suspend" xml:space="preserve">
-    <value>Приостановлена</value>
-  </data>
-  <data name="ThisTimeActual" xml:space="preserve">
-    <value>Трудоёмкость только этой задачи фактическая</value>
-  </data>
-  <data name="ThisTimePlanned" xml:space="preserve">
-    <value>Трудоёмкость только этой задачи плановая</value>
-  </data>
-  <data name="TimeActual" xml:space="preserve">
-    <value>Полная трудоёмкость фактическая</value>
-  </data>
-  <data name="TimePlanned" xml:space="preserve">
-    <value>Полная трудоёмкость плановая</value>
+  <data name="Privacy" xml:space="preserve">
+    <value>This is a test work to show working with ASP.NET Core</value>
   </data>
 </root>

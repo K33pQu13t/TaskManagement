@@ -324,7 +324,6 @@ C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcorea
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.RazorCoreGenerate.cache
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
-C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
@@ -381,9 +380,6 @@ C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcorea
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\package.json
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\package-lock.json
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Views\web.config
-C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\AspNetCore.Unobtrusive.Ajax.dll
-C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
-C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Embedded.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.csproj.GenerateResource.cache
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\en\TaskManagement.resources.dll
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\ru\TaskManagement.resources.dll
@@ -408,3 +404,8 @@ C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcorea
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.csproj.AssemblyReference.cache
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Controllers.HomeController.en.resources
 C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Controllers.HomeController.ru.resources
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\AspNetCore.Unobtrusive.Ajax.dll
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Views.Home.Privacy.en.resources
+C:\Dirs\My codes\C sharp\GitHub\TaskManagement\TaskManagement\obj\Debug\netcoreapp3.1\TaskManagement.Resources.Views.Home.Privacy.ru.resources

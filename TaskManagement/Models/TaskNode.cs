@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using TaskManagement.Services;
 
 namespace TaskManagement.Models
 {
@@ -66,7 +63,7 @@ namespace TaskManagement.Models
         /// <summary>
         /// дата регистрации задачи в системе
         /// </summary>
-        public DateTime RegisterDate { get; set; }
+        public DateTime RegisterDate { get; private set; }
         /// <summary>
         /// плановая трудоёмкость задачи в часах
         /// </summary>
@@ -180,7 +177,7 @@ namespace TaskManagement.Models
             return _GetAllDemensions(this);
         }
 
-        //этот метод нужен чтобы скрыть его извне, чтоб обращались через обычный GetAllDemensions
+        //этот метод private чтобы скрыть его извне, чтоб обращались через обычный GetAllDemensions
         /// <summary>
         /// получить задачу + все подзадачи всех подзадач
         /// </summary>
