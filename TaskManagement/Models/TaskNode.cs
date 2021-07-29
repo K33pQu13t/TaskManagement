@@ -41,14 +41,12 @@ namespace TaskManagement.Models
                     return;
                 else if (value == State.Suspend)
                 {
-                    //если эта задача выполняется и нет ни одной задачи среди её дочерних, которая была бы не на паузе
+                    //если можем поставить на паузу
                     if (CanBeSuspended())
                         _taskState = value;
-                    //todo: else exception
                 }
                 else if (value == State.Complete)
                 {
-                    //если можем завершить, то ставить дату завершения
                     CompleteTaskAndChildrenIfPossible();
                 }
                 else if (value == State.Executing)
@@ -157,7 +155,7 @@ namespace TaskManagement.Models
         {
             if (CanBeCompleted())
             {
-                var allSubtaskList = _GetAllDemensions(this);
+                var allSubtaskList = GetAllDemensions(this);
                 foreach (var node in allSubtaskList)
                 {
                     node._taskState = State.Complete;
@@ -174,17 +172,17 @@ namespace TaskManagement.Models
         /// <returns>список, в который входит эта задача и все подзадачи всех подзадач</returns>
         public List<TaskNode> GetAllDemensions()
         {
-            return _GetAllDemensions(this);
+            return GetAllDemensions(this);
         }
 
-        //этот метод private чтобы скрыть его извне, чтоб обращались через обычный GetAllDemensions
+        //этот метод private чтобы скрыть его извне, чтоб обращались через публичный GetAllDemensions
         /// <summary>
         /// получить задачу + все подзадачи всех подзадач
         /// </summary>
         /// <param name="taskNode"></param>
         /// <param name="taskNodeListAllDemensions"></param>
         /// <returns>список задач, который состоит из исходной задачи и всех её подзадач во всех измерениях</returns>
-        private List<TaskNode> _GetAllDemensions(TaskNode taskNode, List<TaskNode> taskNodeListAllDemensions = null)
+        private List<TaskNode> GetAllDemensions(TaskNode taskNode, List<TaskNode> taskNodeListAllDemensions = null)
         {
             if (taskNodeListAllDemensions == null)
                 taskNodeListAllDemensions = new List<TaskNode>();
@@ -193,7 +191,7 @@ namespace TaskManagement.Models
 
             foreach (TaskNode node in taskNode.ChildrenList)
             {
-                _GetAllDemensions(node, taskNodeListAllDemensions);
+                GetAllDemensions(node, taskNodeListAllDemensions);
             }
            
             return taskNodeListAllDemensions;
@@ -205,30 +203,30 @@ namespace TaskManagement.Models
         /// <returns></returns>
         public bool CanBeCompleted()
         {
-            return _GetAllDemensions(this)
+            return GetAllDemensions(this)
                 .All(node => node.TaskState == State.Complete || node.TaskState == State.Executing);
         }
 
         /// <summary>
-        /// true если задача может перейти в Executed
+        /// проверяет можно ли поставить задачу на выполнение
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true если задача может перейти в Executed</returns>
         public bool CanBeExecuted()
         {
             return this.TaskState == State.Assigned || this.TaskState == State.Suspend;
         }
 
         /// <summary>
-        /// true если задача может перейти в Suspend
+        /// проверяет можно ли поставить задачу на паузу
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true если задача может перейти в Suspend</returns>
         public bool CanBeSuspended()
         {
             return this.TaskState == State.Executing;
         }
 
         /// <summary>
-        /// 
+        /// проверяет завершена ли задача
         /// </summary>
         /// <returns>true если задача Complete</returns>
         public bool IsCompleted()
@@ -237,7 +235,7 @@ namespace TaskManagement.Models
         }
 
         /// <summary>
-        /// 
+        /// проверяет есть ли у задачи подзадачи
         /// </summary>
         /// <returns>true если у задачи есть подзадачи</returns>
         public bool IsHavingChildren()
@@ -246,14 +244,14 @@ namespace TaskManagement.Models
         }
 
         /// <summary>
-        /// 
+        /// проверяет можно ли удалить задачу
         /// </summary>
         /// <returns>true если задачу можно удалить</returns>
         public bool CanBeDeleted()
         {
             //удалить можно только терминальную задачу
             //false если хоть одна задача не Complete
-            return _GetAllDemensions(this)
+            return GetAllDemensions(this)
                 .All(node => node.TaskState == State.Complete);
         }
 

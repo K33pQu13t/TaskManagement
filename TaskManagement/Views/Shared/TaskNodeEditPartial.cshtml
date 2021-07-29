@@ -6,7 +6,7 @@
     //возвращает строку hours или hour (часы и час(а) для русской локали) в зависимости от того сколько часов
     string GetHoursString(int hours)
     {
-        string culture = Localizer["Hours"].Value == "hours" ? "en" : "ru";
+        var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 
         if (culture == "en")
         {
